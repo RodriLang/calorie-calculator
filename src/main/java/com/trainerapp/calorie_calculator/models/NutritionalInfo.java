@@ -1,0 +1,53 @@
+package com.trainerapp.calorie_calculator.models;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Embeddable
+public class NutritionalInfo {
+
+    @NotNull
+    @Min(0)
+    @Column(name = "calories")
+    private Double calories = 0.0; // kcal
+
+    @NotNull
+    @Min(0)
+    @Column(name = "carbohydrates")
+    private Double carbohydrates = 0.0; // g
+
+    @NotNull
+    @Min(0)
+    @Column(name = "sugars")
+    private Double sugars = 0.0; // g
+
+    @NotNull
+    @Min(0)
+    @Column(name = "protein")
+    private Double protein = 0.0; // g
+
+    @NotNull
+    @Min(0)
+    @Column(name = "total_fat")
+    private Double totalFat = 0.0; // g
+
+    @NotNull
+    @Min(0)
+    @Column(name = "saturated_fat")
+    private Double saturatedFat = 0.0; // g
+
+    @NotNull
+    @Min(0)
+    @Column(name = "fiber")
+    private Double fiber = 0.0; // g
+}

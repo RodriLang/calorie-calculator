@@ -1,0 +1,23 @@
+package com.trainerapp.calorie_calculator.models;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinColumn;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Embeddable
+public class MicronutrientContent {
+
+    @ManyToOne
+    @JoinColumn(name = "micronutrient_id", nullable = false)
+    private Micronutrient micronutrient;
+
+    @Column
+    private Double amountPerGram; // Cantidad del micronutriente por gramo
+}

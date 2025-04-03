@@ -1,0 +1,105 @@
+@startuml
+
+class Recipe {
+    - id: Long
+    - name: String
+    - ingredients: List<Ingredient>
+    - shortDescription: String
+    - instructions: String
+    - preparationTime: String
+    - difficulty: difficultyType
+}
+
+class Ingredient {
+    - id: Long
+    - food: Food
+    - amount: Double
+    - unit: MeasurementUnit
+    - customLabel: String
+}
+
+class Food {
+    - id: Long
+    - name: String
+    - nutritionalInfo: NutritionalInfo
+    - micronutrients: List<MicronutrientContent>
+    - measurementUnits: List<MeasurementUnit>
+    - foodOrigin: FoodOriginType
+    - nutritionalFunctions: List<NutritionalFunctionType>
+}
+
+class NutritionalInfo {
+    - calories: Double
+    - carbohydrates: Double
+    - sugars: Double
+    - proteins: Double
+    - totalFats: Double
+    - saturatedFats: Double
+    - fiber: Double
+}
+
+class MicronutrientContent {
+    - micronutrient: Micronutrient
+    - amountPerGram: Double
+    - unit: UnitType
+}
+
+class Micronutrient {
+    - id: Long
+    - name: String
+    - dailyAmount: Double
+    - unit: UnitType
+}
+
+class MeasurementUnit {
+    - id: Long
+    - unit: UnitType
+    - gramsPerUnit: Double
+}
+
+enum UnitType {
+    GRAMS
+    MILLIGRAMS
+    KILOGRAMS
+    MICROGRAMS
+    UNIT
+    TABLESPOON
+    TEASPOON
+}
+
+enum FoodOriginType {
+    GRAIN
+    VEGETABLE
+    FRUIT
+    DAIRY
+    PROTEIN
+}
+
+enum NutritionalFunctionType {
+    ENERGY_FOOD
+    REGULATORY_FOOD
+    BUILDER_FOOD
+}
+
+enum DifficultyType {
+    EASY
+    INTERMEDIATE
+    HARD
+}
+
+
+Ingredient "1" o-- "1" Food : has
+Food "1" *-- "1" NutritionalInfo : contains
+Food "1" o-- "1" FoodOriginType : has
+Food "1" *-- "*" MeasurementUnit : contains
+
+MicronutrientContent "1" *-- "1" Micronutrient : contains
+MicronutrientContent "1" *-- "1" Food : belongs to
+Recipe "1" *-- "*" Ingredient : contains
+
+
+Recipe "1" o-- "1" DifficultyType : has
+Ingredient "1" o-- "1" MeasurementUnit
+Food "1" o-- "*" NutritionalFunctionType : has
+MeasurementUnit "1" o--"1" UnitType
+@enduml

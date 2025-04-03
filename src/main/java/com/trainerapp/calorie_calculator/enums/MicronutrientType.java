@@ -1,0 +1,45 @@
+package com.trainerapp.calorie_calculator.enums;
+
+public enum MicronutrientType {
+    VITAMIN_A("Vitamina A"),
+    VITAMIN_B1("Vitamina B1 (Tiamina)"),
+    VITAMIN_B2("Vitamina B2 (Riboflavina)"),
+    VITAMIN_B3("Vitamina B3 (Niacina)"),
+    VITAMIN_B5("Vitamina B5 (Ácido pantoténico)"),
+    VITAMIN_B6("Vitamina B6 (Piridoxina)"),
+    VITAMIN_B7("Vitamina B7 (Biotina)"),
+    VITAMIN_B9("Vitamina B9 (Ácido fólico)"),
+    VITAMIN_B12("Vitamina B12 (Cobalamina)"),
+    VITAMIN_C("Vitamina C"),
+    VITAMIN_D("Vitamina D"),
+    VITAMIN_E("Vitamina E"),
+    VITAMIN_K("Vitamina K"),
+    CALCIUM("Calcio"),
+    IRON("Hierro"),
+    MAGNESIUM("Magnesio"),
+    PHOSPHORUS("Fósforo"),
+    POTASSIUM("Potasio"),
+    SODIUM("Sodio"),
+    ZINC("Zinc"),
+    COPPER("Cobre"),
+    MANGANESE("Manganeso"),
+    SELENIUM("Selenio"),
+    IODINE("Yodo"),
+    CHROMIUM("Cromo"),
+    MOLYBDENUM("Molibdeno"),
+    CHLORIDE("Cloruro"),
+    FLUORIDE("Flúor"),
+    CHOLINE("Colina"),
+    OMEGA_3("Omega-3"),
+    OMEGA_6("Omega-6");
+
+    private final String description;
+
+    MicronutrientType(String description) {
+        this.description = description;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+}
