@@ -1,0 +1,86 @@
+[
+  {
+    "id": 19,
+    "name": "CREMA",
+    "foodOrigin": "DAIRY",
+    "nutritionalFunctions": [],
+    "measurementUnits": [],
+    "nutritionalInfo": {
+      "calories": 345.0,
+      "carbohydrates": 3.0,
+      "sugars": 0.5,
+      "protein": 2.0,
+      "totalFat": 36.0,
+      "saturatedFat": 34.0,
+      "fiber": 0.0
+    },
+    "micronutrients": []
+  },
+  {
+    "id": 39,
+    "name": "PALTA",
+    "foodOrigin": "FRUIT",
+    "nutritionalFunctions": [
+      "ENERGY_FOOD"
+    ],
+    "measurementUnits": [
+      {
+        "id": 1,
+        "unit": "GRAMS",
+        "gramsPerUnit": 100.0
+      },
+      {
+        "id": 2,
+        "unit": "UNIT",
+        "gramsPerUnit": 170.0
+      }
+    ],
+    "nutritionalInfo": {
+      "calories": 160.0,
+      "carbohydrates": 8.53,
+      "sugars": 0.7,
+      "protein": 2.0,
+      "totalFat": 14.66,
+      "saturatedFat": 0.0,
+      "fiber": 6.7
+    },
+    "micronutrients": [
+      {
+        "micronutrient": {
+          "id": 132,
+          "name": "VITAMIN_B9",
+          "dailyAmount": 400.0,
+          "unit": "MICROGRAMS"
+        },
+        "amountPerGram": 10.0
+      },
+      {
+        "micronutrient": {
+          "id": 134,
+          "name": "VITAMIN_C",
+          "dailyAmount": 900.0,
+          "unit": "MILLIGRAMS"
+        },
+        "amountPerGram": 81.0
+      },
+      {
+        "micronutrient": {
+          "id": 142,
+          "name": "POTASSIUM",
+          "dailyAmount": 3400.0,
+          "unit": "MILLIGRAMS"
+        },
+        "amountPerGram": 485.0
+      },
+      {
+        "micronutrient": {
+          "id": 140,
+          "name": "MAGNESIUM",
+          "dailyAmount": 400.0,
+          "unit": "MILLIGRAMS"
+        },
+        "amountPerGram": 29.0
+      }
+    ]
+  }
+]
