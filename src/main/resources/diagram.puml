@@ -1,15 +1,24 @@
 @startuml
 
-class Recipe {
+class Meal {
     - id: Long
     - name: String
-    - ingredients: List<Ingredient>
     - shortDescription: String
-    - instructions: String
     - imageUrl: String
+    - recipes: List<Recipe>
+
+}
+
+class Recipe {
+    - id: Long
+    - title: String
+    - ingredients: List<Ingredient>
+    - customIngredients: List<CustomIngredient>
+    - steps: List<String>
     - preparationTime: String
     - difficulty: DifficultyType
 }
+
 
 class Ingredient {
     - id: Long
@@ -18,6 +27,15 @@ class Ingredient {
     - unit: MeasurementUnit
     - customLabel: String
 }
+
+
+class CustomIngredient {
+    - name: String
+    - amount: Double
+    - unit: MeasurementUnit
+    - note: String
+}
+
 
 class Food {
     - id: Long
@@ -28,6 +46,7 @@ class Food {
     - foodOrigin: FoodOriginType
     - nutritionalFunctions: List<NutritionalFunctionType>
 }
+
 
 class NutritionalInfo {
     - calories: Double
@@ -81,6 +100,14 @@ enum UnitType {
     TABLESPOON
     TEASPOON
     PERCENTAGE
+    AS_NEEDED
+    TO_TASTE
+    SLICE
+    PIECE
+    PINCH
+    HANDFUL
+    DASH
+    DROP
 }
 
 enum FoodOriginType {
