@@ -12,7 +12,10 @@ public enum UnitType {
     MILLILITERS("ml"),
     UNIT("u"),
     TABLESPOON("cda"),  // Cucharada sopera
-    TEASPOON("cdta");   // Cucharada de té
+    TEASPOON("cdta"),   // Cucharada de té
+    PERCENTAGE("%"),
+    CUP("taza"),
+    KILOCALORIES("kcal");
 
     private final String abbreviation;
 

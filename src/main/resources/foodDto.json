@@ -1,0 +1,59 @@
+{
+  "name": "PALTA",
+  "foodOrigin": "FRUIT",
+  "nutritionalFunctions": [
+    "ENERGY_FOOD"
+  ],
+  "nutritionalInfo": {
+    "calories": {
+      "value": 160.0,
+      "unit": "kcal"
+    },
+    "carbohydrates": {
+      "value": 8.53,
+      "unit": "g"
+    },
+    "sugars": {
+      "value": 0.7,
+      "unit": "g"
+    },
+    "protein": {
+      "value": 2.0,
+      "unit": "g"
+    },
+    "totalFat": {
+      "value": 14.66,
+      "unit": "g"
+    },
+    "saturatedFat": {
+      "value": 0.0,
+      "unit": "g"
+    },
+    "fiber": {
+      "value": 6.7,
+      "unit": "g"
+    }
+  },
+  "micronutrients": [
+    {
+      "micronutrientName": "Vitamina B9 (Ácido fólico)",
+      "dailyPercentage": 3.0,
+      "unit": "%"
+    },
+    {
+      "micronutrientName": "Vitamina C",
+      "dailyPercentage": 9.0,
+      "unit": "%"
+    },
+    {
+      "micronutrientName": "Potasio",
+      "dailyPercentage": 14.0,
+      "unit": "%"
+    },
+    {
+      "micronutrientName": "Magnesio",
+      "dailyPercentage": 7.0,
+      "unit": "%"
+    }
+  ]
+}

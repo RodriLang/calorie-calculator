@@ -6,8 +6,9 @@ class Recipe {
     - ingredients: List<Ingredient>
     - shortDescription: String
     - instructions: String
+    - imageUrl: String
     - preparationTime: String
-    - difficulty: difficultyType
+    - difficulty: DifficultyType
 }
 
 class Ingredient {
@@ -41,7 +42,6 @@ class NutritionalInfo {
 class MicronutrientContent {
     - micronutrient: Micronutrient
     - amountPerGram: Double
-    - unit: UnitType
 }
 
 class Micronutrient {
@@ -57,14 +57,30 @@ class MeasurementUnit {
     - gramsPerUnit: Double
 }
 
+
+Ingredient "1" *-- "1" Food
+Ingredient "1" o-- "1" MeasurementUnit
+
+Recipe "1" *-- "*" Ingredient
+
+Food "1" *-- "1" NutritionalInfo
+Food "1" *-- "*" MeasurementUnit
+Food "1" *-- "*" MicronutrientContent
+
+MicronutrientContent "1" *-- "1" Micronutrient
+
+
+
 enum UnitType {
     GRAMS
     MILLIGRAMS
     KILOGRAMS
     MICROGRAMS
+    MILLILITERS
     UNIT
     TABLESPOON
     TEASPOON
+    PERCENTAGE
 }
 
 enum FoodOriginType {
@@ -87,19 +103,4 @@ enum DifficultyType {
     HARD
 }
 
-
-Ingredient "1" o-- "1" Food : has
-Food "1" *-- "1" NutritionalInfo : contains
-Food "1" o-- "1" FoodOriginType : has
-Food "1" *-- "*" MeasurementUnit : contains
-
-MicronutrientContent "1" *-- "1" Micronutrient : contains
-MicronutrientContent "1" *-- "1" Food : belongs to
-Recipe "1" *-- "*" Ingredient : contains
-
-
-Recipe "1" o-- "1" DifficultyType : has
-Ingredient "1" o-- "1" MeasurementUnit
-Food "1" o-- "*" NutritionalFunctionType : has
-MeasurementUnit "1" o--"1" UnitType
 @enduml
