@@ -6,6 +6,7 @@ class Meal {
     - shortDescription: String
     - imageUrl: String
     - recipes: List<Recipe>
+    - tags: List<Tag>
 
 }
 
@@ -45,6 +46,7 @@ class Food {
     - measurementUnits: List<MeasurementUnit>
     - foodOrigin: FoodOriginType
     - nutritionalFunctions: List<NutritionalFunctionType>
+    - tags: List<Tag>
 }
 
 
@@ -76,15 +78,25 @@ class MeasurementUnit {
     - gramsPerUnit: Double
 }
 
+class Tag {
+    - id: Long
+    - label: String
+}
+
 
 Ingredient "1" *-- "1" Food
 Ingredient "1" o-- "1" MeasurementUnit
 
 Recipe "1" *-- "*" Ingredient
+Recipe "1" *-- "*" CustomIngredient
+
+Meal "1" *-- "*" Recipe
+Meal "1" *-- "*" Tag
 
 Food "1" *-- "1" NutritionalInfo
 Food "1" *-- "*" MeasurementUnit
 Food "1" *-- "*" MicronutrientContent
+Food "1" *-- "*" Tag
 
 MicronutrientContent "1" *-- "1" Micronutrient
 
