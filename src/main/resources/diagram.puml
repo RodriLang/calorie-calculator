@@ -1,15 +1,25 @@
 @startuml
 
-class Recipe {
+class Meal {
     - id: Long
     - name: String
-    - ingredients: List<Ingredient>
     - shortDescription: String
-    - instructions: String
     - imageUrl: String
+    - recipes: List<Recipe>
+    - tags: List<Tag>
+
+}
+
+class Recipe {
+    - id: Long
+    - title: String
+    - ingredients: List<Ingredient>
+    - customIngredients: List<CustomIngredient>
+    - steps: List<String>
     - preparationTime: String
     - difficulty: DifficultyType
 }
+
 
 class Ingredient {
     - id: Long
@@ -19,6 +29,15 @@ class Ingredient {
     - customLabel: String
 }
 
+
+class CustomIngredient {
+    - name: String
+    - amount: Double
+    - unit: MeasurementUnit
+    - note: String
+}
+
+
 class Food {
     - id: Long
     - name: String
@@ -27,7 +46,9 @@ class Food {
     - measurementUnits: List<MeasurementUnit>
     - foodOrigin: FoodOriginType
     - nutritionalFunctions: List<NutritionalFunctionType>
+    - tags: List<Tag>
 }
+
 
 class NutritionalInfo {
     - calories: Double
@@ -57,15 +78,26 @@ class MeasurementUnit {
     - gramsPerUnit: Double
 }
 
+class Tag {
+    - id: Long
+    - label: String
+    - category: TagType
+}
+
 
 Ingredient "1" *-- "1" Food
 Ingredient "1" o-- "1" MeasurementUnit
 
 Recipe "1" *-- "*" Ingredient
+Recipe "1" *-- "*" CustomIngredient
+
+Meal "1" *-- "*" Recipe
+Meal "1" *-- "*" Tag
 
 Food "1" *-- "1" NutritionalInfo
 Food "1" *-- "*" MeasurementUnit
 Food "1" *-- "*" MicronutrientContent
+Food "1" *-- "*" Tag
 
 MicronutrientContent "1" *-- "1" Micronutrient
 
@@ -81,6 +113,14 @@ enum UnitType {
     TABLESPOON
     TEASPOON
     PERCENTAGE
+    AS_NEEDED
+    TO_TASTE
+    SLICE
+    PIECE
+    PINCH
+    HANDFUL
+    DASH
+    DROP
 }
 
 enum FoodOriginType {
@@ -101,6 +141,14 @@ enum DifficultyType {
     EASY
     INTERMEDIATE
     HARD
+}
+
+enum TagType {
+    DIET
+    HEALTH
+    MEAL_TYPE
+    CUISINE
+    OCCASION
 }
 
 @enduml
