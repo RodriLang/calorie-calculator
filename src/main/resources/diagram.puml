@@ -81,6 +81,7 @@ class MeasurementUnit {
 class Tag {
     - id: Long
     - label: String
+    - category: TagType
 }
 
 
@@ -140,6 +141,14 @@ enum DifficultyType {
     EASY
     INTERMEDIATE
     HARD
+}
+
+enum TagType {
+    DIET
+    HEALTH
+    MEAL_TYPE
+    CUISINE
+    OCCASION
 }
 
 @enduml
