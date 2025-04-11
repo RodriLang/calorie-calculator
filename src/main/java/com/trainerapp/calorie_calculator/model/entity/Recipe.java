@@ -36,6 +36,10 @@ public class Recipe {
     )
     private List<Ingredient> ingredients;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "recipe_id")
+    private List<CustomIngredient> customIngredients;
+
     @Column
     private String shortDescription;
 

@@ -40,4 +40,11 @@ public class Food {
     @ElementCollection
     @CollectionTable(name = "micronutrient_content", joinColumns = @JoinColumn(name = "food_id"))
     private List<MicronutrientContent> micronutrients = new ArrayList<>(); // Inicializado
+
+    @ManyToMany
+    @JoinTable(
+    name = "food_tags",  // Nombre de la tabla intermedia
+    joinColumns = @JoinColumn(name = "food_id"),  // Columna de Recipe
+    inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private List<Tag> tags = new ArrayList<>();
 }
