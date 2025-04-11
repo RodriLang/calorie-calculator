@@ -29,9 +29,10 @@ public class FoodMapper {
                 / micronutrientContent.getMicronutrient().getDailyAmount()*100);
 
         return new MicronutrientContentDto(
-                micronutrientContent.getMicronutrient().getName().getDescription(),
+                micronutrientContent.getMicronutrient().getName(),
                 dailyPercentage,
-                UnitType.PERCENTAGE.getAbbreviation());
+                UnitType.PERCENTAGE.getAbbreviation(),
+                micronutrientContent.getMicronutrient().getType());
     }
 
     public static NutritionalInfoDto mapToDto(NutritionalInfo info) {

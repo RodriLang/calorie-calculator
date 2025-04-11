@@ -10,21 +10,24 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity@Table(name = "micronutrients") // Especifica el nombre de la tabla
+@Entity
+@Table(name = "micronutrients") // Especifica el nombre de la tabla
 public class Micronutrient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
     @Column(nullable = false, unique = true)
-    private MicronutrientType name;
+    private String name;
 
     @Column
     private Double dailyAmount;
 
     @Enumerated(EnumType.STRING)
     private UnitType unit;
+
+    @Enumerated(EnumType.STRING)
+    private MicronutrientType type;
 
 }
