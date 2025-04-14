@@ -1,0 +1,64 @@
+public record CreateCustomIngredientDto(
+        String food,
+        Double quantity,
+        CreateMeasurementUnitDto unit,
+        String note) {
+}
+
+public record CreateFoodDto(
+        String name,
+        FoodOriginType foodOrigin,
+        List<NutritionalFunctionType> nutritionalFunctions,
+        CreateNutritionalInfoDto nutritionalInfo,
+        List<CreateMicronutrientContentDto> micronutrients,
+        List<Long> tagIds) {
+}
+
+public record CreateIngredientDto(
+        Long foodId,
+        Double quantity,
+        CreateMeasurementUnitDto unit) {
+}
+
+public record CreateMealDto(
+        String name,
+        String shortDescription,
+        String url,
+        List<Long> recipeIds,
+        List<Long> tagIds) {
+}
+
+public record CreateMeasurementUnitDto(
+        UnitType unit,
+        Double gramsPerUnit) {
+}
+
+public record CreateMicronutrientContentDto(
+        Long micronutrientId,
+        Double dailyAmount) {
+}
+
+public record CreateNutritionalInfoDto(
+        Double energy,
+        Double carbohydrates,
+        Double sugars,
+        Double protein,
+        Double totalFat,
+        Double saturatedFat,
+        Double fiber) {
+}
+
+public record CreateRecipeDto(
+        String name,
+        List<CreateIngredientDto> ingredients,
+        List<CreateCustomIngredientDto> customIngredients,
+        String shortDescription,
+        List<String> steps,
+        String preparationTime,
+        DifficultyType difficulty) {
+}
+
+public record CreateTagDto(
+        String label,
+        TagType type) {
+}

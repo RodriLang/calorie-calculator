@@ -33,7 +33,7 @@ class Ingredient {
 class CustomIngredient {
     - name: String
     - amount: Double
-    - unit: MeasurementUnit
+    - unit: UnitType
     - note: String
 }
 

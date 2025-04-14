@@ -1,4 +1,4 @@
-package com.trainerapp.calorie_calculator.model.dto;
+package com.trainerapp.calorie_calculator.model.dto.create;
 
 import com.trainerapp.calorie_calculator.enums.FoodOriginType;
 import com.trainerapp.calorie_calculator.enums.NutritionalFunctionType;
@@ -10,5 +10,6 @@ public record CreateFoodDto(
         FoodOriginType foodOrigin,
         List<NutritionalFunctionType> nutritionalFunctions,
         CreateNutritionalInfoDto nutritionalInfo,
-        List<CreateMicronutrientDto> micronutrients
-) {}
+        List<CreateMicronutrientContentDto> micronutrients,
+        List<Long> tagIds) {
+}
