@@ -1,6 +1,6 @@
 package com.trainerapp.calorie_calculator.model.dto.create;
 
-public record CreateMicronutrientContentDto(
+public record MicronutrientContentDataDto(
         Long micronutrientId,
         Double amountPerunit) {
 }

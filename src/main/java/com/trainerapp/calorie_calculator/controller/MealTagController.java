@@ -1,8 +1,8 @@
 package com.trainerapp.calorie_calculator.controller;
 
-import com.trainerapp.calorie_calculator.model.dto.FoodDto;
+import com.trainerapp.calorie_calculator.model.dto.MealDto;
 import com.trainerapp.calorie_calculator.model.dto.create.TagDataDto;
-import com.trainerapp.calorie_calculator.service.FoodService;
+import com.trainerapp.calorie_calculator.service.MealService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,22 +11,20 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/calorie-calculator/foods")
-public class FoodTagController {
+@RequestMapping("/api/calorie-calculator/meals")
 
-    private final FoodService foodService;
+public class MealTagController {
 
-    @PutMapping("/{foodId}/tags")
-    public ResponseEntity<FoodDto> addTags(
-            @PathVariable Long foodId,
-            @RequestBody List<TagDataDto> tags) {
-        return ResponseEntity.ok(foodService.addTags(foodId, tags));
+    private final MealService mealService;
+
+    @PutMapping("/{mealId}/tags")
+    public ResponseEntity<MealDto> addTags(@PathVariable Long mealId, @RequestBody List<TagDataDto> tags) {
+        return ResponseEntity.ok(mealService.addTags(mealId, tags));
     }
 
-    @DeleteMapping("/{foodId}/tags")
-    public ResponseEntity<FoodDto> removeTags(
-            @PathVariable Long foodId,
-            @RequestBody List<Long> tagIds) {
-        return ResponseEntity.ok(foodService.removeTags(foodId, tagIds));
+    @DeleteMapping("/{mealId}/tags")
+    public ResponseEntity<MealDto> removeTags(@PathVariable Long mealId, @RequestBody List<Long> tagIds) {
+        return ResponseEntity.ok(mealService.removeTags(mealId, tagIds));
     }
 }
+

@@ -1,4 +1,10 @@
 package com.trainerapp.calorie_calculator.model.dto;
 
-public class MealDto {
+import com.trainerapp.calorie_calculator.enums.UnitType;
+
+public record MeasurementUnitDto(
+        Long id,
+        Long foodId,
+        UnitType unit,
+        Double gramsPerUnit) {
 }

@@ -1,4 +1,6 @@
 package com.trainerapp.calorie_calculator.model.dto;
 
-public class Tagdto {
+public record TagDto(
+        Long id,
+        String label) {
 }

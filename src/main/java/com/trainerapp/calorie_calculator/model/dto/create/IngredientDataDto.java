@@ -1,8 +1,8 @@
 package com.trainerapp.calorie_calculator.model.dto.create;
 
-public record CreateIngredientDto(
+public record IngredientDataDto(
         Long foodId,
         Double quantity,
-        CreateMeasurementUnitDto unit) {
+        Long measurementUnitId) {
 }
 

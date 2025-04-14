@@ -1,21 +1,40 @@
 package com.trainerapp.calorie_calculator.service;
 
+import com.trainerapp.calorie_calculator.mapper.IngredientMapper;
+import com.trainerapp.calorie_calculator.model.dto.create.IngredientDataDto;
+import com.trainerapp.calorie_calculator.model.entity.Food;
 import com.trainerapp.calorie_calculator.model.entity.Ingredient;
+import com.trainerapp.calorie_calculator.model.entity.MeasurementUnit;
 import com.trainerapp.calorie_calculator.repository.IngredientRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
+@RequiredArgsConstructor
 @Service
 public class IngredientService {
+    private final FoodService foodService;
+    private final MeasurementUnitService measurementUnitService;
 
-    private final IngredientRepository ingredientRepository;
 
-    public IngredientService(IngredientRepository ingredientRepository) {
-        this.ingredientRepository = ingredientRepository;
+    public Ingredient create(IngredientDataDto ingredientDataDto) {
+
+        return Ingredient.builder()
+                .food(foodService.findEntityById(ingredientDataDto.foodId()))
+                .unit(measurementUnitService.findEntityById(ingredientDataDto.measurementUnitId()))
+                .quantity(ingredientDataDto.quantity())
+                .build();
     }
 
-    public List<Ingredient> getAll(){
-        return ingredientRepository.findAll();
+    public void update(Ingredient ingredient, IngredientDataDto data) {
+        Food food = foodService.findEntityById(data.foodId());
+        MeasurementUnit unit = measurementUnitService.findEntityById(data.measurementUnitId());
+
+        ingredient.setFood(food);
+        ingredient.setQuantity(data.quantity());
+        ingredient.setUnit(unit);
     }
+
+
 }
+

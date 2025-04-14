@@ -1,8 +1,7 @@
 package com.trainerapp.calorie_calculator.controller;
 
 import com.trainerapp.calorie_calculator.model.dto.FoodDto;
-import com.trainerapp.calorie_calculator.model.dto.create.MeasurementUnitDataDto;
-import com.trainerapp.calorie_calculator.model.dto.create.MicronutrientContentDataDto;
+import com.trainerapp.calorie_calculator.model.dto.create.TagDataDto;
 import com.trainerapp.calorie_calculator.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,23 +12,21 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/calorie-calculator/foods")
-public class FoodMeasurementUnitController {
+public class FoodTagController {
 
     private final FoodService foodService;
 
-
-    @PutMapping("/{foodId}/measurement-unit")
-    public ResponseEntity<FoodDto> addMeasurementUnit(
+    @PutMapping("/{foodId}/tags")
+    public ResponseEntity<FoodDto> addTags(
             @PathVariable Long foodId,
-            @RequestBody MeasurementUnitDataDto measurementUnit) {
-        return ResponseEntity.ok(foodService.addMeasurementUnit(foodId, measurementUnit));
+            @RequestBody List<TagDataDto> tags) {
+        return ResponseEntity.ok(foodService.addTags(foodId, tags));
     }
 
-
-    @DeleteMapping("/{foodId}/measurement-unit")
-    public ResponseEntity<FoodDto> removeMeasurementUnit(
+    @DeleteMapping("/{foodId}/tags")
+    public ResponseEntity<FoodDto> removeTags(
             @PathVariable Long foodId,
-            @RequestBody Long measurementUnitId) {
-        return ResponseEntity.ok(foodService.removeMeasurementUnit(foodId, measurementUnitId));
+            @RequestBody List<Long> tagIds) {
+        return ResponseEntity.ok(foodService.removeTags(foodId, tagIds));
     }
 }

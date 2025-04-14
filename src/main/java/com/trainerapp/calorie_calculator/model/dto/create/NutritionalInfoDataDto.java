@@ -1,6 +1,6 @@
 package com.trainerapp.calorie_calculator.model.dto.create;
 
-public record CreateNutritionalInfoDto(
+public record NutritionalInfoDataDto(
         Double energy,
         Double carbohydrates,
         Double sugars,

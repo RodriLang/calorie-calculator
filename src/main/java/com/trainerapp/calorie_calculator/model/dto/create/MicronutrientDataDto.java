@@ -1,10 +1,11 @@
 package com.trainerapp.calorie_calculator.model.dto.create;
 
 import com.trainerapp.calorie_calculator.enums.MicronutrientType;
+import com.trainerapp.calorie_calculator.enums.UnitType;
 
-public record CreateMicronutrientDto(
+public record MicronutrientDataDto(
         String name,
         Double dailyAmount,
-        String unit,
+        UnitType unit,
         MicronutrientType type) {
 }

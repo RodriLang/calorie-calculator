@@ -1,4 +1,10 @@
 package com.trainerapp.calorie_calculator.model.dto;
 
-public class MealDto {
+import java.util.List;
+
+public record IngredientDto(
+        FoodDto food,
+        Double quantity,
+        MeasurementUnitDto unit,
+        List<RecipeDto> recipes) {
 }

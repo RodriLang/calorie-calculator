@@ -1,8 +1,7 @@
 package com.trainerapp.calorie_calculator.exception.handler;
 
-import com.trainerapp.calorie_calculator.exception.FoodNotFoundException;
+import com.trainerapp.calorie_calculator.exception.*;
 import com.trainerapp.calorie_calculator.model.response.ErrorResponse;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,61 +10,59 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.stream.Collectors;
-
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(FoodNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleFoodNotFound(FoodNotFoundException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
-        return buildErrorResponse(e, status, request);
+    // Excepciones de tipo "NO ENCONTRADO"
+    @ExceptionHandler({
+            CustomIngredientNotFoundException.class,
+            FoodNotFoundException.class,
+            IngredientNotFoundException.class,
+            MealNotFoundException.class,
+            MeasurementUnitNotFoundException.class,
+            MicronutrientContentNotFoundException.class,
+            MicronutrientNotFoundException.class,
+            RecipeNotFoundException.class,
+            StepNotFoundException.class
+    })
+    public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException e, HttpServletRequest request) {
+        return buildErrorResponse(e, HttpStatus.NOT_FOUND, request);
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleEntityNotFound(EntityNotFoundException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
-        return buildErrorResponse(e, status, request);
+    // Excepciones de negocio: datos duplicados o reglas incumplidas
+    @ExceptionHandler(DuplicatedMicronutrientContentException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicatedData(RuntimeException e, HttpServletRequest request) {
+        return buildErrorResponse(e, HttpStatus.BAD_REQUEST, request);
     }
 
+    // Errores de validación de DTO (@Valid fallidos)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException e, HttpServletRequest request) {
-        String message = e.getBindingResult().getFieldErrors().stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .collect(Collectors.joining("; "));
-
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        return new ResponseEntity<>(new ErrorResponse(
-                status.value(),
-                status.getReasonPhrase(),
-                message,
-                request.getRequestURI()
-        ), status);
+        return buildErrorResponse(e, HttpStatus.BAD_REQUEST, request);
     }
 
+    // JSON mal formado o tipo de datos incompatible en el request
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<ErrorResponse> handleInvalidJson(HttpMessageNotReadableException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        return buildErrorResponse(e, status, request);
+        return buildErrorResponse(e, HttpStatus.BAD_REQUEST, request);
     }
 
+    // IllegalArgument o IllegalState: cuando el flujo de la lógica falla
     @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
-    public ResponseEntity<ErrorResponse> handleBadRequest(RuntimeException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.BAD_REQUEST;
-        return buildErrorResponse(e, status, request);
+    public ResponseEntity<ErrorResponse> handleIllegalArgument(RuntimeException e, HttpServletRequest request) {
+        return buildErrorResponse(e, HttpStatus.BAD_REQUEST, request);
     }
 
+    // NullPointer: bug interno
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<ErrorResponse> handleNullPointer(NullPointerException e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        return buildErrorResponse(e, status, request);
+        return buildErrorResponse(e, HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
+    // Catch-All: para cualquier otra excepción no controlada
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAllOtherExceptions(Exception e, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-        return buildErrorResponse(e, status, request);
+        return buildErrorResponse(e, HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     private ResponseEntity<ErrorResponse> buildErrorResponse(Exception e, HttpStatus status, HttpServletRequest request) {

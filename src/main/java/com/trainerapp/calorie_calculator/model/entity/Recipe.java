@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.Duration;
 import java.util.List;
 
 @Data
@@ -40,14 +41,16 @@ public class Recipe {
     @JoinColumn(name = "recipe_id")
     private List<CustomIngredient> customIngredients;
 
-    @Column
+    @Column(name = "short_description")
     private String shortDescription;
 
-    @Column
-    private String instructions;
+    @ElementCollection
+    @CollectionTable(name = "recipe_steps", joinColumns = @JoinColumn(name = "recipe_id"))
+    @Column(name = "step")
+    private List<String> steps;
 
-    @Column
-    private String preparationTime;
+    @Column(name = "preparation_time")
+    Duration preparationTime;
 
     @Enumerated(EnumType.STRING)
     private DifficultyType difficulty;

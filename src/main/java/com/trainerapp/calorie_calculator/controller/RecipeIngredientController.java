@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/recipes/{recipeId}/ingredients")
 @RequiredArgsConstructor
-public class IngredientController {
+public class RecipeIngredientController {
 
     private final RecipeService recipeService;
 

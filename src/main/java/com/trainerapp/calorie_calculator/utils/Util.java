@@ -1,4 +1,4 @@
-package com.trainerapp.calorie_calculator.utils.mapper;
+package com.trainerapp.calorie_calculator.utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

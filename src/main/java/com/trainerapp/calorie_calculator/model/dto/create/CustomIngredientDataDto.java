@@ -1,8 +1,10 @@
 package com.trainerapp.calorie_calculator.model.dto.create;
 
-public record CreateCustomIngredientDto(
+import com.trainerapp.calorie_calculator.enums.UnitType;
+
+public record CustomIngredientDataDto(
         String food,
         Double quantity,
-        CreateMeasurementUnitDto unit,
+        UnitType unit,
         String note) {
 }

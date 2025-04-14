@@ -7,5 +7,5 @@ public record NutritionalInfoDto(
         NutrientValueDto protein,
         NutrientValueDto totalFat,
         NutrientValueDto saturatedFat,
-        NutrientValueDto fiber
-) {}
+        NutrientValueDto fiber) {
+}

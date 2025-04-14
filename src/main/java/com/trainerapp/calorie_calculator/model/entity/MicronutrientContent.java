@@ -19,5 +19,5 @@ public class MicronutrientContent {
     private Micronutrient micronutrient;
 
     @Column
-    private Double amountPerGram; // Cantidad del micronutriente por gramo
+    private Double amountPerUnit; // Cantidad del micronutriente por unidad (gramo o microgramo)
 }

@@ -18,6 +18,10 @@ public class MeasurementUnit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "food_id", nullable = false)
+    private Food food;
+
     @Enumerated(EnumType.STRING)
     private UnitType unit;
 

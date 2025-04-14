@@ -1,14 +1,19 @@
 package com.trainerapp.calorie_calculator.mapper;
 
-import com.trainerapp.calorie_calculator.model.dto.FoodDto;
-import com.trainerapp.calorie_calculator.model.entity.Food;
+import com.trainerapp.calorie_calculator.model.dto.MealDto;
+import com.trainerapp.calorie_calculator.model.dto.create.MealDataDto;
+import com.trainerapp.calorie_calculator.model.entity.Meal;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
-public interface FoodMapper {
-    // Método para mapear de Food a FoodDto
-    FoodDto foodToFoodDto(Food food);
+@Mapper(componentModel = "spring", uses = {
+        IngredientMapper.class,
+        NutrientValueMapper.class
+})
+public interface MealMapper {
 
-    // Método para mapear de FoodDto a Food
-    Food foodDtoToFood(FoodDto foodDto);
+    MealDto toDto(Meal meal);
+
+    Meal fromDto(MealDto mealDto);
+
+    Meal fromDataDto(MealDataDto mealDataDto);
 }

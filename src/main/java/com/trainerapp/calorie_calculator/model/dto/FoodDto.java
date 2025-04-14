@@ -6,14 +6,11 @@ import com.trainerapp.calorie_calculator.enums.NutritionalFunctionType;
 import java.util.List;
 
 public record FoodDto(
-
+        Long id,
         String name,
-
         FoodOriginType foodOrigin,
-
         List<NutritionalFunctionType> nutritionalFunctions,
-
         NutritionalInfoDto nutritionalInfo,
-
-        List<MicronutrientContentDto> micronutrients) {
+        List<MicronutrientContentDto> micronutrients,
+        List<TagDto> tags) {
 }
