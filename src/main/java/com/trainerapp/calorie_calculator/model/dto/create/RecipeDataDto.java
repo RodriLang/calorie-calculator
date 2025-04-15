@@ -16,7 +16,6 @@ public record RecipeDataDto(
         @Size (min = 1, message = "Debe contener al menos un ingrediente.")
         List<IngredientDataDto> ingredients,
 
-        @NotNull(message = "La lista de ingredientes personalizados no puede ser nula.")
         List<CustomIngredientDataDto> customIngredients,
 
         @NotBlank(message = "La descripción no puede estar vacía.")
