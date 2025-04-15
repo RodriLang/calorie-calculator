@@ -16,8 +16,11 @@ public class MicronutrientContentMapperImplementation implements MicronutrientCo
     private final MicronutrientService micronutrientService;
 
     public MicronutrientContentDto toDto(MicronutrientContent micronutrientContent) {
-        Double dailyPercentage = micronutrientContent.getAmountPerUnit()
-                / micronutrientContent.getMicronutrient().getDailyAmount() * 100;
+        Double amountPerUnit = micronutrientContent.getAmountPerUnit();
+
+        Double dailyPercentage = amountPerUnit
+                    / micronutrientContent.getMicronutrient().getDailyAmount() * 100;
+
 
         return MicronutrientContentDto.builder()
                 .name(micronutrientContent.getMicronutrient().getName())
