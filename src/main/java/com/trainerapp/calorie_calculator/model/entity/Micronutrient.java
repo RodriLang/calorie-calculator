@@ -4,12 +4,14 @@ import com.trainerapp.calorie_calculator.enums.MicronutrientType;
 import com.trainerapp.calorie_calculator.enums.UnitType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "micronutrients") // Especifica el nombre de la tabla
 public class Micronutrient {

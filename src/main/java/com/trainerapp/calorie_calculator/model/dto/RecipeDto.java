@@ -1,10 +1,12 @@
 package com.trainerapp.calorie_calculator.model.dto;
 
 import com.trainerapp.calorie_calculator.enums.DifficultyType;
+import lombok.Builder;
 
 import java.time.Duration;
 import java.util.List;
 
+@Builder
 public record RecipeDto(
         Long id,
         String name,

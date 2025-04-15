@@ -4,10 +4,7 @@ import com.trainerapp.calorie_calculator.enums.DifficultyType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.Duration;
 import java.util.List;
@@ -15,7 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@Builder
 @Entity
 @Table(name = "recipes")
 public class Recipe {

@@ -2,9 +2,11 @@ package com.trainerapp.calorie_calculator.model.dto;
 
 import com.trainerapp.calorie_calculator.enums.FoodOriginType;
 import com.trainerapp.calorie_calculator.enums.NutritionalFunctionType;
+import lombok.Builder;
 
 import java.util.List;
 
+@Builder
 public record FoodDto(
         Long id,
         String name,

@@ -23,7 +23,7 @@ public class MeasurementUnitService {
 
 
     public MeasurementUnit findOrCreateByDataDto(Long foodId, MeasurementUnitDataDto measurementUnit) {
-        return measurementUnitRepository.findByUnitAndFood(foodId, measurementUnit.unit())
+        return measurementUnitRepository.findByUnitAndFood_Id(measurementUnit.unit(), foodId)
                 .orElseGet(() -> measurementUnitRepository
                         .save(measurementUnitMapper.fromDataDto(measurementUnit)));
     }
@@ -40,7 +40,7 @@ public class MeasurementUnitService {
     }
 
     public List<MeasurementUnitDto> findByFood(Long foodId) {
-        return measurementUnitRepository.findByFood(foodId)
+        return measurementUnitRepository.findByFood_Id(foodId)
                 .stream()
                 .map(measurementUnitMapper::toDto)
                 .toList();

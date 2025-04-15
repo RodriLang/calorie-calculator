@@ -11,8 +11,8 @@ import java.util.Optional;
 @Repository
 public interface MeasurementUnitRepository extends JpaRepository<MeasurementUnit, Long> {
 
-    public Optional<MeasurementUnit> findByUnitAndFood(Long foodId, UnitType unit);
+    public Optional<MeasurementUnit> findByUnitAndFood_Id(UnitType unit, Long foodId);
 
-    public List<MeasurementUnit> findByFood(Long foodId);
-
+    public List<MeasurementUnit> findByFood_Id(Long foodId);
 }
+

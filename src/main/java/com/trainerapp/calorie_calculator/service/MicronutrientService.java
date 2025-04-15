@@ -2,6 +2,7 @@ package com.trainerapp.calorie_calculator.service;
 
 import com.trainerapp.calorie_calculator.exception.MicronutrientNotFoundException;
 import com.trainerapp.calorie_calculator.mapper.MicronutrientMapper;
+import com.trainerapp.calorie_calculator.model.dto.MicronutrientContentDto;
 import com.trainerapp.calorie_calculator.model.dto.MicronutrientDto;
 import com.trainerapp.calorie_calculator.model.dto.create.MicronutrientDataDto;
 import com.trainerapp.calorie_calculator.model.entity.Micronutrient;
@@ -18,6 +19,10 @@ public class MicronutrientService {
     private final MicronutrientRepository micronutrientRepository;
     private final MicronutrientMapper micronutrientMapper;
 
+    public Micronutrient getByName(String name) {
+        return micronutrientRepository.findByName(name).orElseThrow(()->new MicronutrientNotFoundException(name));
+    }
+
     public List<Micronutrient> getMicronutrients() {
         return micronutrientRepository.findAll();
     }
@@ -32,6 +37,11 @@ public class MicronutrientService {
     public MicronutrientDto getMicronutrientById(Long id) {
         return micronutrientMapper.toDto(micronutrientRepository.findById(id)
                 .orElseThrow(() -> new MicronutrientNotFoundException(id)));
+    }
+
+    public Micronutrient getEntityById(Long id) {
+        return micronutrientRepository.findById(id)
+                .orElseThrow(() -> new MicronutrientNotFoundException(id));
     }
 
     public List<MicronutrientDto> getAllMicronutrients() {

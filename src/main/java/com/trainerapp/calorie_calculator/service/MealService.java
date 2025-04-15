@@ -107,17 +107,17 @@ public class MealService {
     public List<MealCardDto> filterMealCardsByTags(List<Tag> tags) {
         return mealRepository.findByTagListIn(tags)
                 .stream()
-                .map(this::toMealCardDto)
+                .map(mealMapper::toCardDto)
                 .toList();
     }
 
     public List<MealCardDto> getAllMealCards() {
         return mealRepository.findAll()
                 .stream()
-                .map(this::toMealCardDto)
+                .map(mealMapper::toCardDto)
                 .toList();
     }
-
+/*
     private MealCardDto toMealCardDto(Meal meal) {
 
         String difficulty = meal.getRecipeList().stream()
@@ -139,7 +139,7 @@ public class MealService {
                 preparationTime
         );
     }
-
+*/
     public MealDto addRecipeToMeal(Long mealId, Long recipeId) {
         Meal meal = mealRepository.findById(mealId)
                 .orElseThrow(() -> new MealNotFoundException(mealId));
@@ -193,12 +193,12 @@ public class MealService {
     //Métodos con paginación
     public Page<MealCardDto> getAllMealCards(Pageable pageable) {
         return mealRepository.findAll(pageable)
-                .map(this::toMealCardDto);
+                .map(mealMapper::toCardDto);
     }
 
     public Page<MealCardDto> filterMealCardsByTags(List<Tag> tags, Pageable pageable) {
         return mealRepository.findByTagListIn(tags, pageable)
-                .map(this::toMealCardDto);
+                .map(mealMapper::toCardDto);
     }
 
     //Métodos privados
