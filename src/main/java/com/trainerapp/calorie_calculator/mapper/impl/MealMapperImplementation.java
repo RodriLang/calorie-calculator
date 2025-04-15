@@ -1,6 +1,7 @@
 package com.trainerapp.calorie_calculator.mapper.impl;
 
 import com.trainerapp.calorie_calculator.enums.DifficultyType;
+import com.trainerapp.calorie_calculator.enums.DurationType;
 import com.trainerapp.calorie_calculator.mapper.MealMapper;
 import com.trainerapp.calorie_calculator.mapper.RecipeMapper;
 import com.trainerapp.calorie_calculator.mapper.TagMapper;
@@ -13,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -32,10 +35,11 @@ public class MealMapperImplementation implements MealMapper {
                         .stream()
                         .map(recipeMapper::toDto)
                         .toList())
-                .tagList(meal.getTagList()
-                        .stream()
-                        .map(tagMapper::toDto)
-                        .toList())
+                .tagList(Optional.ofNullable(meal.getTagList())
+                                .orElse(Collections.emptyList())
+                                .stream()
+                                .map(tagMapper::toDto)
+                                .toList())
                 .build();
     }
 
@@ -55,12 +59,33 @@ public class MealMapperImplementation implements MealMapper {
                 .map(Recipe::getPreparationTime)
                 .reduce(Duration.ZERO, Duration::plus);
 
+        String formattedTime;
+        long hours = totalPreparationTime.toHours();
+        int minutes = totalPreparationTime.toMinutesPart();
+
+        if (hours > 0 && minutes > 0) {
+            formattedTime = String.format("%d %s, %d %s",
+                    hours, DurationType.HOUR.getAbbreviationBasedOnQuantity(hours),
+                    minutes, DurationType.MINUTE.getAbbreviationBasedOnQuantity(minutes));
+        } else if (hours > 0) {
+            formattedTime = String.format("%d %s",
+                    hours, DurationType.HOUR.getAbbreviationBasedOnQuantity(hours));
+        } else {
+            formattedTime = String.format("%d %s",
+                    minutes, DurationType.MINUTE.getAbbreviationBasedOnQuantity(minutes));
+        }
+
+
         return MealCardDto.builder()
                 .id(meal.getId())
                 .name(meal.getName())
                 .url(meal.getUrl())
                 .difficulty(String.valueOf(maxDifficulty))
-                .preparationTime(totalPreparationTime.toString()) // o formateado si querés
+                .preparationTime(formattedTime)
+                .tags(meal.getTagList()
+                        .stream()
+                        .map(tagMapper::toDto)
+                        .toList())
                 .build();
     }
 

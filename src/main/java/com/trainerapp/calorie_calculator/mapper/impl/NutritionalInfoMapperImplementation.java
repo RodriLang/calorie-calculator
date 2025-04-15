@@ -1,16 +1,22 @@
 package com.trainerapp.calorie_calculator.mapper.impl;
 
+import com.trainerapp.calorie_calculator.enums.NutrientType;
 import com.trainerapp.calorie_calculator.enums.UnitType;
+import com.trainerapp.calorie_calculator.mapper.NutrientValueMapper;
 import com.trainerapp.calorie_calculator.mapper.NutritionalInfoMapper;
 import com.trainerapp.calorie_calculator.model.dto.NutrientValueDto;
 import com.trainerapp.calorie_calculator.model.dto.NutritionalInfoDto;
 import com.trainerapp.calorie_calculator.model.dto.create.NutritionalInfoDataDto;
 import com.trainerapp.calorie_calculator.model.entity.NutritionalInfo;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 
 @Component
+@RequiredArgsConstructor
 public class NutritionalInfoMapperImplementation implements NutritionalInfoMapper {
+
+    private final NutrientValueMapper nutrientValueMapper;
 
     public NutritionalInfo toEntity(NutritionalInfoDto dto) {
         return NutritionalInfo.builder()
@@ -26,13 +32,13 @@ public class NutritionalInfoMapperImplementation implements NutritionalInfoMappe
 
     public NutritionalInfoDto toDto(NutritionalInfo entity) {
         return NutritionalInfoDto.builder()
-                .energy(mapEnergy(entity.getEnergyValue()))
-                .carbohydrates(mapGrams(entity.getCarbohydrates()))
-                .sugars(mapGrams(entity.getSugars()))
-                .protein(mapGrams(entity.getProtein()))
-                .totalFat(mapGrams(entity.getTotalFat()))
-                .saturatedFat(mapGrams(entity.getSaturatedFat()))
-                .fiber(mapGrams(entity.getFiber()))
+                .energy(nutrientValueMapper.map(entity.getEnergyValue(), NutrientType.ENERGY))
+                .carbohydrates(nutrientValueMapper.map(entity.getCarbohydrates(), NutrientType.CARBOHYDRATES))
+                .sugars(nutrientValueMapper.map(entity.getSugars(), NutrientType.SUGARS))
+                .protein(nutrientValueMapper.map(entity.getProtein(), NutrientType.PROTEIN))
+                .totalFat(nutrientValueMapper.map(entity.getTotalFat(),NutrientType.TOTAL_FAT))
+                .saturatedFat(nutrientValueMapper.map(entity.getSaturatedFat(), NutrientType.SATURATED_FAT))
+                .fiber(nutrientValueMapper.map(entity.getFiber(), NutrientType.FIBER))
                 .build();
     }
 
@@ -49,12 +55,12 @@ public class NutritionalInfoMapperImplementation implements NutritionalInfoMappe
                 .build();
     }
 
-    private NutrientValueDto mapEnergy(Double value) {
+   /* private NutrientValueDto mapEnergy(Double value) {
         return value != null ? new NutrientValueDto(value, UnitType.KILOCALORIES.getAbbreviation()) : null;
     }
 
     private NutrientValueDto mapGrams(Double value) {
         return value != null ? new NutrientValueDto(value, UnitType.GRAMS.getAbbreviation()) : null;
     }
-
+*/
 }

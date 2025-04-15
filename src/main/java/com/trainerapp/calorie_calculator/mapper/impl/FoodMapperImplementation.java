@@ -9,6 +9,9 @@ import com.trainerapp.calorie_calculator.model.entity.Food;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.Optional;
+
 @Component
 @RequiredArgsConstructor
 public class FoodMapperImplementation implements com.trainerapp.calorie_calculator.mapper.FoodMapper {
@@ -24,11 +27,14 @@ public class FoodMapperImplementation implements com.trainerapp.calorie_calculat
                 .foodOrigin(food.getFoodOrigin())
                 .nutritionalFunctions(food.getNutritionalFunctions())
                 .nutritionalInfo(nutritionalInfoMapper.toDto(food.getNutritionalInfo()))
-                .micronutrients(food.getMicronutrients()
-                        .stream()
-                        .map(micronutrientContentMapper::toDto)
-                        .toList())
-                .tags(food.getTags()
+                .micronutrients(
+                        Optional.ofNullable(food.getMicronutrients())
+                                .orElse(Collections.emptyList())
+                                .stream()
+                                .map(micronutrientContentMapper::toDto)
+                                .toList())
+                .tags(Optional.ofNullable(food.getTags())
+                        .orElse(Collections.emptyList())
                         .stream()
                         .map(tagMapper::toDto)
                         .toList())
@@ -50,16 +56,17 @@ public class FoodMapperImplementation implements com.trainerapp.calorie_calculat
                         nutritionalInfoMapper.fromDataDto(foodDataDto.nutritionalInfo())
                 )
                 .micronutrients(
-                        foodDataDto.micronutrients()
+                        Optional.ofNullable(foodDataDto.micronutrients())
+                                .orElse(Collections.emptyList())
                                 .stream()
                                 .map(micronutrientContentMapper::fromDataDto)
                                 .toList()
                 )
-                .tags(
-                        foodDataDto.tags()
-                                .stream()
-                                .map(tagMapper::fromDataDto) // asumiendo que este método existe
-                                .toList()
+                .tags(Optional.ofNullable(foodDataDto.tags())
+                        .orElse(Collections.emptyList())
+                        .stream()
+                        .map(tagMapper::fromDataDto)
+                        .toList()
                 )
                 .build();
     }

@@ -6,9 +6,11 @@ import com.trainerapp.calorie_calculator.mapper.RecipeMapper;
 import com.trainerapp.calorie_calculator.model.dto.RecipeDto;
 import com.trainerapp.calorie_calculator.model.dto.create.RecipeDataDto;
 import com.trainerapp.calorie_calculator.model.entity.Recipe;
-import com.trainerapp.calorie_calculator.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+
+import java.util.Collections;
+import java.util.Optional;
 
 
 @Component
@@ -31,6 +33,11 @@ public class RecipeMapperImplementation implements RecipeMapper {
                         .stream()
                         .map(ingredientMapper::fromDto)
                         .toList())
+                .customIngredients(Optional.ofNullable(recipeDto.customIngredients())
+                        .orElse(Collections.emptyList())
+                        .stream()
+                        .map(customIngredientMapper::fromDto)
+                        .toList())
                 .difficulty(recipeDto.difficulty())
                 .preparationTime(recipeDto.preparationTime())
                 .build();
@@ -48,10 +55,12 @@ public class RecipeMapperImplementation implements RecipeMapper {
                         .map(ingredientMapper::toDto)
                         .toList())
                 .shortDescription(recipe.getShortDescription())
-                .customIngredients(recipe.getCustomIngredients()
-                        .stream()
-                        .map(customIngredientMapper::toDto)
-                        .toList())
+                .customIngredients(
+                        Optional.ofNullable(recipe.getCustomIngredients())
+                                .orElse(Collections.emptyList())
+                                .stream()
+                                .map(customIngredientMapper::toDto)
+                                .toList())
                 .difficulty(recipe.getDifficulty())
                 .preparationTime(recipe.getPreparationTime())
                 .steps(recipe.getSteps())
@@ -69,6 +78,11 @@ public class RecipeMapperImplementation implements RecipeMapper {
                 .ingredients(recipeDataDto.ingredients()
                         .stream()
                         .map(ingredientMapper::fromDataDto)
+                        .toList())
+                .customIngredients(Optional.ofNullable(recipeDataDto.customIngredients())
+                        .orElse(Collections.emptyList())
+                        .stream()
+                        .map(customIngredientMapper::fromDataDto)
                         .toList())
                 .difficulty(recipeDataDto.difficulty())
                 .preparationTime(recipeDataDto.preparationTime())
