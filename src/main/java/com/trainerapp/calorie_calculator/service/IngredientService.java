@@ -1,9 +1,8 @@
 package com.trainerapp.calorie_calculator.service;
 
 import com.trainerapp.calorie_calculator.exception.IngredientNotFoundException;
-import com.trainerapp.calorie_calculator.mapper.IngredientMapper;
+import com.trainerapp.calorie_calculator.mapper.FoodMapper;
 import com.trainerapp.calorie_calculator.model.dto.create.IngredientDataDto;
-import com.trainerapp.calorie_calculator.model.entity.Food;
 import com.trainerapp.calorie_calculator.model.entity.Ingredient;
 import com.trainerapp.calorie_calculator.model.entity.MeasurementUnit;
 import com.trainerapp.calorie_calculator.repository.IngredientRepository;
@@ -15,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class IngredientService {
     private final IngredientRepository ingredientRepository;
-    private final IngredientMapper ingredientMapper;
+    private final FoodMapper foodMapper;
     private final FoodService foodService;
     private final MeasurementUnitService measurementUnitService;
 
@@ -23,7 +22,7 @@ public class IngredientService {
     public Ingredient create(IngredientDataDto ingredientDataDto) {
 
         return Ingredient.builder()
-                .food(foodService.findEntityById(ingredientDataDto.foodId()))
+                .food(foodMapper.fromDto(ingredientDataDto.food()))
                 .unit(measurementUnitService.findEntityById(ingredientDataDto.measurementUnitId()))
                 .quantity(ingredientDataDto.quantity())
                 .build();
@@ -34,10 +33,9 @@ public class IngredientService {
     }
 
     public void update(Ingredient ingredient, IngredientDataDto data) {
-        Food food = foodService.findEntityById(data.foodId());
         MeasurementUnit unit = measurementUnitService.findEntityById(data.measurementUnitId());
 
-        ingredient.setFood(food);
+        ingredient.setFood(foodMapper.fromDto(data.food()));
         ingredient.setQuantity(data.quantity());
         ingredient.setUnit(unit);
     }
