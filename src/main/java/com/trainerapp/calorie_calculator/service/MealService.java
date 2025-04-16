@@ -2,8 +2,10 @@ package com.trainerapp.calorie_calculator.service;
 
 import com.trainerapp.calorie_calculator.exception.MealNotFoundException;
 import com.trainerapp.calorie_calculator.mapper.MealMapper;
+import com.trainerapp.calorie_calculator.mapper.RecipeMapper;
 import com.trainerapp.calorie_calculator.model.dto.MealCardDto;
 import com.trainerapp.calorie_calculator.model.dto.MealDto;
+import com.trainerapp.calorie_calculator.model.dto.RecipeDto;
 import com.trainerapp.calorie_calculator.model.dto.create.MealDataDto;
 import com.trainerapp.calorie_calculator.model.dto.create.TagDataDto;
 import com.trainerapp.calorie_calculator.model.entity.Meal;
@@ -17,7 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class MealService {
 
     private final MealRepository mealRepository;
     private final MealMapper mealMapper;
-    private final RecipeService recipeService;
+    private final RecipeMapper recipeMapper;
     private final TagService tagService;
 
 
@@ -54,10 +55,10 @@ public class MealService {
                 .name(mealDataDto.name())
                 .url(mealDataDto.url())
                 .recipeList(
-                        Optional.ofNullable(mealDataDto.recipeIds())
+                        Optional.ofNullable(mealDataDto.recipes())
                                 .orElse(Collections.emptyList())
                                 .stream()
-                                .map(recipeService::findEntityById)
+                                .map(recipeMapper::fromDto)
                                 .toList())
                 .shortDescription(mealDataDto.shortDescription())
                 .tagList(
@@ -80,10 +81,10 @@ public class MealService {
         meal.setShortDescription(mealDataDto.shortDescription());
 
         // Actualizar recetas asociadas
-        List<Recipe> recipes = Optional.ofNullable(mealDataDto.recipeIds())
+        List<Recipe> recipes = Optional.ofNullable(mealDataDto.recipes())
                 .orElse(Collections.emptyList())
                 .stream()
-                .map(recipeService::findEntityById)
+                .map(recipeMapper::fromDto)
                 .toList();
         meal.setRecipeList(recipes);
 
@@ -140,17 +141,9 @@ public class MealService {
         );
     }
 */
-    public MealDto addRecipeToMeal(Long mealId, Long recipeId) {
+    public MealDto addRecipeToMeal(Long mealId, RecipeDto recipeDto) {
         Meal meal = mealRepository.findById(mealId)
                 .orElseThrow(() -> new MealNotFoundException(mealId));
-
-        Recipe recipe = recipeService.findEntityById(recipeId);
-
-        if (!meal.getRecipeList().contains(recipe)) {
-            meal.getRecipeList().add(recipe);
-            mealRepository.save(meal);
-        }
-
         return mealMapper.toDto(meal);
     }
 
