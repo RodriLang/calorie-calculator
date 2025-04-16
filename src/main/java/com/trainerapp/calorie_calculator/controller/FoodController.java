@@ -40,11 +40,11 @@ public class FoodController {
         return ResponseEntity.ok(foodService.findByFoodOrigin(origin));
     }
 
-    @GetMapping("/calories-between")
+    @GetMapping("/calories")
     public ResponseEntity<List<FoodDto>> getByCaloriesBetween(
-            @RequestParam int minCalories,
-            @RequestParam int maxCalories) {
-        return ResponseEntity.ok(foodService.findByCaloriesBetween(minCalories, maxCalories));
+            @RequestParam int min,
+            @RequestParam int max) {
+        return ResponseEntity.ok(foodService.findByCaloriesBetween(min, max));
     }
 
     @PutMapping("/{id}")

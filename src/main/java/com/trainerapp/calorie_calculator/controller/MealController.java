@@ -2,6 +2,7 @@ package com.trainerapp.calorie_calculator.controller;
 
 import com.trainerapp.calorie_calculator.model.dto.MealCardDto;
 import com.trainerapp.calorie_calculator.model.dto.MealDto;
+import com.trainerapp.calorie_calculator.model.dto.RecipeDto;
 import com.trainerapp.calorie_calculator.model.dto.create.MealDataDto;
 import com.trainerapp.calorie_calculator.service.MealService;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +49,8 @@ public class MealController {
     }
 
     @PostMapping("/{mealId}/recipes/{recipeId}")
-    public ResponseEntity<MealDto> addRecipeToMeal(@PathVariable Long mealId, @PathVariable Long recipeId) {
-        return ResponseEntity.ok(mealService.addRecipeToMeal(mealId, recipeId));
+    public ResponseEntity<MealDto> addRecipeToMeal(@PathVariable Long mealId, @RequestBody RecipeDto recipeDto) {
+        return ResponseEntity.ok(mealService.addRecipeToMeal(mealId, recipeDto));
     }
 
     @DeleteMapping("/{mealId}/recipes/{recipeId}")
