@@ -5,7 +5,6 @@ import com.trainerapp.calorie_calculator.mapper.IngredientMapper;
 import com.trainerapp.calorie_calculator.mapper.MeasurementUnitMapper;
 import com.trainerapp.calorie_calculator.model.dto.IngredientDto;
 import com.trainerapp.calorie_calculator.model.dto.create.IngredientDataDto;
-import com.trainerapp.calorie_calculator.model.entity.Food;
 import com.trainerapp.calorie_calculator.model.entity.Ingredient;
 import com.trainerapp.calorie_calculator.model.entity.MeasurementUnit;
 import com.trainerapp.calorie_calculator.service.FoodService;
@@ -45,10 +44,9 @@ public class IngredientMapperImplementation implements IngredientMapper {
 
     public Ingredient fromDataDto(IngredientDataDto ingredientDataDto) {
         if (ingredientDataDto == null) return null;
-        Food food = foodService.findEntityById(ingredientDataDto.foodId());
         MeasurementUnit measurementUnit = measurementUnitService.findEntityById(ingredientDataDto.measurementUnitId());
         return Ingredient.builder()
-                .food(food)
+                .food(foodMapper.fromDto(ingredientDataDto.food()))
                 .quantity(ingredientDataDto.quantity())
                 .unit(measurementUnit)
                 .build();
