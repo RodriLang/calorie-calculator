@@ -22,7 +22,7 @@ class RecipeSection {
 }
 RecipeSection "1" *-- "1...*" Step : steps
 RecipeSection "1" *-- "1...*" Ingredient : Ingredients
-RecipeSection "1" *-- "0...*" CustomIngredient : otherIngredients
+RecipeSection "1" *-- "0...*" CustomIngredient : seasonings
 
 class Step {
     - label: String
