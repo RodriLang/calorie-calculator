@@ -1,6 +1,5 @@
 package com.trainerapp.calorie_calculator.model.entity;
 
-import com.trainerapp.calorie_calculator.enums.DifficultyType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -13,8 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "recipes")
-public class Recipe {
+@Table(name = "recipe_sections")
+public class RecipeSection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,28 +21,21 @@ public class Recipe {
 
     @NotNull
     @Size(max = 100)
-    @Column(name = "name", nullable = false, length = 100)
-    private String name;
+    @Column(name = "title", nullable = false, length = 100)
+    private String title;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "recipe_ingredients",  // Nombre de la tabla intermedia
-            joinColumns = @JoinColumn(name = "recipe_id"),  // Columna de Recipe
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id")  // Columna de Ingredient
-    )
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipe_id", nullable = false)
+    private Recipe recipe;
+
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Ingredient> ingredients;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "recipe_id")
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Seasoning> seasonings;
 
-    @Column(name = "short_description")
-    private String description;
-
     @ElementCollection
-    @CollectionTable(name = "recipe_steps", joinColumns = @JoinColumn(name = "recipe_id"))
+    @CollectionTable(name = "recipe_steps", joinColumns = @JoinColumn(name = "section_id"))
     @Column(name = "step")
     private List<String> steps;
-
-
 }

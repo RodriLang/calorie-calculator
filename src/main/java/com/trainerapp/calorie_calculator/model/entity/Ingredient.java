@@ -1,31 +1,34 @@
 package com.trainerapp.calorie_calculator.model.entity;
 
-import com.trainerapp.calorie_calculator.enums.UnitType;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
+@Entity
+@Table(name = "ingredients")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "ingredients") // Especifica el nombre de la tabla
 public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    private Double quantity;
+
+    private String label;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_id")
     private Food food;
 
-    private Double quantity; //2 unidades, 100 ml, 3 cucharadas.
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "unit_id")
     private MeasurementUnit unit;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "section_id", nullable = false)
+    private RecipeSection section;
 }
+

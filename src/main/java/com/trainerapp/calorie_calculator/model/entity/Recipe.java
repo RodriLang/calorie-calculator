@@ -8,46 +8,41 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+@Entity
+@Table(name = "recipes")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Entity
-@Table(name = "meals")
-public class Meal {
+public class Recipe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
-    @Column
+
     private String description;
-    @Column
+
     private String url;
-    @Column
-    private DifficultyType difficultyType;
 
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RecipeSection> sections;
 
-    @ManyToMany
-    @JoinTable(
-            name = "meal_recipe",
-            joinColumns = @JoinColumn(name = "meal_id"),
-            inverseJoinColumns = @JoinColumn(name = "recipe_id")
-    )
-    private List<RecipeSection> recipeSectionList;
-
-    @ManyToMany
-    @JoinTable(
-            name = "meal_tag",
-            joinColumns = @JoinColumn(name = "meal_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    private List<Tag> tagList;
-
-    @Column(name = "preparation_time")
-    String preparationTime;
+    @Column(nullable = false)
+    private String preparationTime;
 
     @Enumerated(EnumType.STRING)
-    private DifficultyType difficulty;
+    @Column(nullable = false)
+    private DifficultyType difficultyType;
 
+    @ManyToMany
+    @JoinTable(
+            name = "recipe_tag",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tags;
 }
+
+
