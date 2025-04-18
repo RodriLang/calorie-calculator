@@ -5,19 +5,24 @@ class Recipe {
     - name: String
     - description: String
     - imageUrl: String
-    - sections: List<RecipeSection>
     - preparationTime: String
     - difficulty: DifficultyType
-    - tags: List<Tag>
+}
+Recipe "1" *-- "1...*" RecipeSection : sections
+Recipe "1" *-- "0...*" Tag : tags
+
+class Tag {
+    - id: Long
+    - label: String
 }
 
 class RecipeSection {
     - id: Long
     - title: String
-    - ingredients: List<Ingredient>
-    - otherIngredients: List<CustomIngredient>
-    - steps: List<Step>
 }
+RecipeSection "1" *-- "1...*" Step : steps
+RecipeSection "1" *-- "1...*" Ingredient : Ingredients
+RecipeSection "1" *-- "0...*" CustomIngredient : otherIngredients
 
 class Step {
     - label: String
@@ -26,34 +31,31 @@ class Step {
 
 class Ingredient {
     - id: Long
-    - food: Food
     - amount: Double
-    - unit: MeasurementUnit
     - customLabel: String
 }
+Ingredient "1" *-- "1" Food : food
+Ingredient "1" o-- "1" MeasurementUnit : unit
 
-
-class CustomIngredient {
+class Seasoning {
     - name: String
     - amount: Double
     - unit: UnitType
-    - note: String
+    - label: String
 }
-
 
 class Food {
     - id: Long
     - name: String
-    - nutritionalInfo: NutritionalInfo
-    - micronutrients: List<MicronutrientContent>
-    - supportedUnits: List<MeasurementUnit>
     - foodOrigin: FoodOriginType
     - nutritionalFunctions: List<NutritionalFunctionType>
 }
-
+Food "1" *-- "1" NutritionalInfo : nutritionalInfo
+Food "1" *-- "1...*" MeasurementUnit : supportedUnits
+Food "1" *-- "0...*" MicronutrientContent : micronutrients
 
 class NutritionalInfo {
-    - calories: Double
+    - energy: Double
     - carbohydrates: Double
     - sugars: Double
     - proteins: Double
@@ -63,14 +65,15 @@ class NutritionalInfo {
 }
 
 class MicronutrientContent {
-    - micronutrient: Micronutrient
     - amountPerGram: Double
 }
+MicronutrientContent "1" *-- "1" Micronutrient : micronutrients
 
 class Micronutrient {
     - id: Long
     - name: String
-    - dailyAmount: Double
+    - rda: Double
+        ' recommendedDietaryAllowance
     - unit: UnitType
 }
 
@@ -79,29 +82,6 @@ class MeasurementUnit {
     - unit: UnitType
     - gramsPerUnit: Double
 }
-
-class Tag {
-    - id: Long
-    - label: String
-}
-
-
-Recipe "1" *-- "*" RecipeSection
-Recipe "1" *-- "*" Tag
-
-RecipeSection "1" *-- "*" step
-RecipeSection "1" *-- "*" Ingredient
-RecipeSection "1" *-- "*" CustomIngredient
-
-Ingredient "1" *-- "1" Food
-Ingredient "1" o-- "1" MeasurementUnit
-
-Food "1" *-- "1" NutritionalInfo
-Food "1" *-- "*" MeasurementUnit
-Food "1" *-- "*" MicronutrientContent
-
-MicronutrientContent "1" *-- "1" Micronutrient
-
 
 enum UnitType {
     GRAMS
