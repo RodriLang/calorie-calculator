@@ -22,22 +22,22 @@ class RecipeSection {
 }
 RecipeSection "1" *-- "1...*" Step : steps
 RecipeSection "1" *-- "1...*" Ingredient : Ingredients
-RecipeSection "1" *-- "0...*" CustomIngredient : otherIngredients
+RecipeSection "1" *-- "0...*" Seasoning : seasonings
 
 class Step {
-    - label: String
     - instructions: String
 }
 
 class Ingredient {
     - id: Long
     - amount: Double
-    - customLabel: String
+    - Label: String
 }
 Ingredient "1" *-- "1" Food : food
 Ingredient "1" o-- "1" MeasurementUnit : unit
 
 class Seasoning {
+    - id: Long
     - name: String
     - amount: Double
     - unit: UnitType
@@ -51,7 +51,7 @@ class Food {
     - nutritionalFunctions: List<NutritionalFunctionType>
 }
 Food "1" *-- "1" NutritionalInfo : nutritionalInfo
-Food "1" *-- "1...*" MeasurementUnit : supportedUnits
+Food "1" *-- "1...*" MeasurementUnit : allowedUnits
 Food "1" *-- "0...*" MicronutrientContent : micronutrients
 
 class NutritionalInfo {
@@ -65,6 +65,7 @@ class NutritionalInfo {
 }
 
 class MicronutrientContent {
+    - id: Long
     - amountPerGram: Double
 }
 MicronutrientContent "1" *-- "1" Micronutrient : micronutrients
@@ -72,8 +73,8 @@ MicronutrientContent "1" *-- "1" Micronutrient : micronutrients
 class Micronutrient {
     - id: Long
     - name: String
+    ' recommendedDietaryAllowance
     - rda: Double
-        ' recommendedDietaryAllowance
     - unit: UnitType
 }
 
