@@ -142,4 +142,12 @@ enum DifficultyType {
     HARD
 }
 
+enum MicronutrientType {
+    VITAMIN
+    MINERAL
+    ELECTROLYTE
+    ANTIOXIDANT
+    ESSENTIAL_FATTY_ACID
+}
+
 @enduml
