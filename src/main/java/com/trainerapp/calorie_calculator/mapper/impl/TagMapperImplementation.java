@@ -20,7 +20,6 @@ public class TagMapperImplementation implements TagMapper {
     public Tag fromDataDto(TagDataDto tagDataDto) {
         return Tag.builder()
                 .label(tagDataDto.label())
-                .tagType(tagDataDto.tagType())
                 .build();
     }
 
