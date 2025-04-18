@@ -1,15 +1,14 @@
 package com.trainerapp.calorie_calculator.mapper.impl;
 
 import com.trainerapp.calorie_calculator.enums.DifficultyType;
-import com.trainerapp.calorie_calculator.enums.DurationType;
 import com.trainerapp.calorie_calculator.mapper.MealMapper;
 import com.trainerapp.calorie_calculator.mapper.RecipeMapper;
 import com.trainerapp.calorie_calculator.mapper.TagMapper;
 import com.trainerapp.calorie_calculator.model.dto.MealCardDto;
 import com.trainerapp.calorie_calculator.model.dto.MealDto;
 import com.trainerapp.calorie_calculator.model.dto.create.MealDataDto;
-import com.trainerapp.calorie_calculator.model.entity.Meal;
 import com.trainerapp.calorie_calculator.model.entity.Recipe;
+import com.trainerapp.calorie_calculator.model.entity.RecipeSection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -25,17 +24,17 @@ public class MealMapperImplementation implements MealMapper {
     private final RecipeMapper recipeMapper;
     private final TagMapper tagMapper;
 
-    public MealDto toDto(Meal meal) {
+    public MealDto toDto(Recipe recipe) {
         return MealDto.builder()
-                .id(meal.getId())
-                .name(meal.getName())
-                .shortDescription(meal.getShortDescription())
-                .url(meal.getUrl())
-                .recipeList(meal.getRecipeList()
+                .id(recipe.getId())
+                .name(recipe.getName())
+                .shortDescription(recipe.getDescription())
+                .url(recipe.getUrl())
+                .recipeList(recipe.getRecipeSectionList()
                         .stream()
                         .map(recipeMapper::toDto)
                         .toList())
-                .tagList(Optional.ofNullable(meal.getTagList())
+                .tagList(Optional.ofNullable(recipe.getTags())
                                 .orElse(Collections.emptyList())
                                 .stream()
                                 .map(tagMapper::toDto)
@@ -43,20 +42,20 @@ public class MealMapperImplementation implements MealMapper {
                 .build();
     }
 
-    public MealCardDto toCardDto(Meal meal) {
-        if (meal == null) return null;
+    public MealCardDto toCardDto(Recipe recipe) {
+        if (recipe == null) return null;
 
         // Obtener la mayor dificultad
-        DifficultyType maxDifficulty = meal.getRecipeList()
+        DifficultyType maxDifficulty = recipe.getRecipeSectionList()
                 .stream()
-                .map(Recipe::getDifficulty)
+                .map(RecipeSection::getDifficulty)
                 .max(Comparator.naturalOrder())  // si Difficulty es Enum o Comparable
                 .orElse(null);
 
         // Sumar los tiempos de preparación
-        Duration totalPreparationTime = meal.getRecipeList()
+        Duration totalPreparationTime = recipe.getRecipeSectionList()
                 .stream()
-                .map(Recipe::getPreparationTime)
+                .map(RecipeSection::getPreparationTime)
                 .reduce(Duration.ZERO, Duration::plus);
 
         String formattedTime;
@@ -77,12 +76,12 @@ public class MealMapperImplementation implements MealMapper {
 
 
         return MealCardDto.builder()
-                .id(meal.getId())
-                .name(meal.getName())
-                .url(meal.getUrl())
+                .id(recipe.getId())
+                .name(recipe.getName())
+                .url(recipe.getUrl())
                 .difficulty(String.valueOf(maxDifficulty))
                 .preparationTime(formattedTime)
-                .tags(meal.getTagList()
+                .tags(recipe.getTags()
                         .stream()
                         .map(tagMapper::toDto)
                         .toList())
@@ -90,7 +89,7 @@ public class MealMapperImplementation implements MealMapper {
     }
 
 
-    public Meal fromDataDto(MealDataDto mealDataDto) {
+    public Recipe fromDataDto(MealDataDto mealDataDto) {
         return null;
     }
 }

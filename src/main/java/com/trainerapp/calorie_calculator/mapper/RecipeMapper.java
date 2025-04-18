@@ -2,15 +2,15 @@ package com.trainerapp.calorie_calculator.mapper;
 
 import com.trainerapp.calorie_calculator.model.dto.RecipeDto;
 import com.trainerapp.calorie_calculator.model.dto.create.RecipeDataDto;
-import com.trainerapp.calorie_calculator.model.entity.Recipe;
+import com.trainerapp.calorie_calculator.model.entity.RecipeSection;
 
 
 public interface RecipeMapper {
 
 
-    Recipe fromDto(RecipeDto recipeDto);
+    RecipeSection fromDto(RecipeDto recipeDto);
 
-    RecipeDto toDto(Recipe recipe);
+    RecipeDto toDto(RecipeSection recipeSection);
 
-    Recipe fromDataDto(RecipeDataDto recipeDataDto);
+    RecipeSection fromDataDto(RecipeDataDto recipeDataDto);
 }

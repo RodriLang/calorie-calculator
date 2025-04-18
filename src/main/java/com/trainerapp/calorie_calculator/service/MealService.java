@@ -8,8 +8,8 @@ import com.trainerapp.calorie_calculator.model.dto.MealDto;
 import com.trainerapp.calorie_calculator.model.dto.RecipeDto;
 import com.trainerapp.calorie_calculator.model.dto.create.MealDataDto;
 import com.trainerapp.calorie_calculator.model.dto.create.TagDataDto;
-import com.trainerapp.calorie_calculator.model.entity.Meal;
 import com.trainerapp.calorie_calculator.model.entity.Recipe;
+import com.trainerapp.calorie_calculator.model.entity.RecipeSection;
 import com.trainerapp.calorie_calculator.model.entity.Tag;
 import com.trainerapp.calorie_calculator.repository.MealRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,11 +32,11 @@ public class MealService {
     private final TagService tagService;
 
 
-    public List<Meal> getMeals() {
+    public List<Recipe> getMeals() {
         return mealRepository.findAll();
     }
 
-    public Meal getMealEntityById(Long id) {
+    public Recipe getMealEntityById(Long id) {
         return mealRepository.findById(id).orElseThrow(()
                 -> new MealNotFoundException(id));
     }
@@ -51,17 +51,17 @@ public class MealService {
     }
 
     public MealDto createMeal(MealDataDto mealDataDto) {
-        Meal meal = Meal.builder()
+        Recipe recipe = Recipe.builder()
                 .name(mealDataDto.name())
                 .url(mealDataDto.url())
-                .recipeList(
+                .sections(
                         Optional.ofNullable(mealDataDto.recipes())
                                 .orElse(Collections.emptyList())
                                 .stream()
                                 .map(recipeMapper::fromDto)
                                 .toList())
-                .shortDescription(mealDataDto.shortDescription())
-                .tagList(
+                .description(mealDataDto.shortDescription())
+                .tags(
                         Optional.ofNullable(mealDataDto.tags())
                                 .orElse(Collections.emptyList())
                                 .stream()
@@ -69,24 +69,24 @@ public class MealService {
                                 .toList())
                 .build();
 
-        return mealMapper.toDto(mealRepository.save(meal));
+        return mealMapper.toDto(mealRepository.save(recipe));
     }
 
     public MealDto updateMeal(Long mealId, MealDataDto mealDataDto) {
-        Meal meal = mealRepository.findById(mealId)
+        Recipe recipe = mealRepository.findById(mealId)
                 .orElseThrow(() -> new MealNotFoundException(mealId));
 
-        meal.setName(mealDataDto.name());
-        meal.setUrl(mealDataDto.url());
-        meal.setShortDescription(mealDataDto.shortDescription());
+        recipe.setName(mealDataDto.name());
+        recipe.setUrl(mealDataDto.url());
+        recipe.setDescription(mealDataDto.shortDescription());
 
         // Actualizar recetas asociadas
-        List<Recipe> recipes = Optional.ofNullable(mealDataDto.recipes())
+        List<RecipeSection> recipeSections = Optional.ofNullable(mealDataDto.recipes())
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(recipeMapper::fromDto)
                 .toList();
-        meal.setRecipeList(recipes);
+        recipe.setRecipeSectionList(recipeSections);
 
         // Actualizar tags asociados
         List<Tag> tags = Optional.ofNullable(mealDataDto.tags())
@@ -94,15 +94,15 @@ public class MealService {
                 .stream()
                 .map(tagService::findOrCreateByDataDto)
                 .toList();
-        meal.setTagList(tags);
+        recipe.setTags(tags);
 
-        return mealMapper.toDto(mealRepository.save(meal));
+        return mealMapper.toDto(mealRepository.save(recipe));
     }
 
     public void removeMeal(Long mealId) {
-        Meal meal = mealRepository.findById(mealId)
+        Recipe recipe = mealRepository.findById(mealId)
                 .orElseThrow(() -> new MealNotFoundException("Meal not found with id: " + mealId));
-        mealRepository.delete(meal);
+        mealRepository.delete(recipe);
     }
 
     public List<MealCardDto> filterMealCardsByTags(List<Tag> tags) {
@@ -142,21 +142,21 @@ public class MealService {
     }
 */
     public MealDto addRecipeToMeal(Long mealId, RecipeDto recipeDto) {
-        Meal meal = mealRepository.findById(mealId)
+        Recipe recipe = mealRepository.findById(mealId)
                 .orElseThrow(() -> new MealNotFoundException(mealId));
-        return mealMapper.toDto(meal);
+        return mealMapper.toDto(recipe);
     }
 
     public MealDto removeRecipeFromMeal(Long mealId, Long recipeId) {
-        Meal meal = mealRepository.findById(mealId)
+        Recipe meal = mealRepository.findById(mealId)
                 .orElseThrow(() -> new MealNotFoundException("Meal not found with id: " + mealId));
 
-        meal.getRecipeList().removeIf(recipe -> recipe.getId().equals(recipeId));
+        meal.getRecipeSectionList().removeIf(recipe -> recipe.getId().equals(recipeId));
         return mealMapper.toDto(mealRepository.save(meal));
     }
 
     public MealDto addTags(Long mealId, List<TagDataDto> tagsData) {
-        Meal existingMeal = mealRepository.findById(mealId)
+        Recipe existingRecipe = mealRepository.findById(mealId)
                 .orElseThrow(() -> new MealNotFoundException(mealId));
 
         // Verifica si los tags existen, si no los crea
@@ -166,19 +166,19 @@ public class MealService {
 
         // Añade los tags evitando duplicados
         tagsToAdd.forEach(tag -> {
-            if (!existingMeal.getTagList().contains(tag)) {
-                existingMeal.getTagList().add(tag);
+            if (!existingRecipe.getTags().contains(tag)) {
+                existingRecipe.getTags().add(tag);
             }
         });
 
-        return mealMapper.toDto(mealRepository.save(existingMeal));
+        return mealMapper.toDto(mealRepository.save(existingRecipe));
     }
 
     public MealDto removeTags(Long mealId, List<Long> tagIds) {
-        Meal existingFood = mealRepository.findById(mealId)
+        Recipe existingFood = mealRepository.findById(mealId)
                 .orElseThrow(() -> new MealNotFoundException(mealId));
 
-        existingFood.getTagList().removeIf(tag -> tagIds.contains(tag.getId()));
+        existingFood.getTags().removeIf(tag -> tagIds.contains(tag.getId()));
 
         return mealMapper.toDto(mealRepository.save(existingFood));
     }

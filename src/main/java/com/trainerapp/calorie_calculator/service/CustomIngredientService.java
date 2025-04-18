@@ -1,7 +1,7 @@
 package com.trainerapp.calorie_calculator.service;
 
 import com.trainerapp.calorie_calculator.model.dto.create.CustomIngredientDataDto;
-import com.trainerapp.calorie_calculator.model.entity.CustomIngredient;
+import com.trainerapp.calorie_calculator.model.entity.Seasoning;
 import com.trainerapp.calorie_calculator.repository.CustomIngredientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,9 +14,9 @@ public class CustomIngredientService {
     private final MeasurementUnitService measurementUnitService;
 
 
-    public CustomIngredient create(CustomIngredientDataDto customIngredientDataDto) {
+    public Seasoning create(CustomIngredientDataDto customIngredientDataDto) {
 
-        return CustomIngredient.builder()
+        return Seasoning.builder()
                 .food(customIngredientDataDto.food())
                 .unit(customIngredientDataDto.unit())
                 .quantity(customIngredientDataDto.quantity())
@@ -24,10 +24,10 @@ public class CustomIngredientService {
                 .build();
     }
 
-    public void update(CustomIngredient ingredient, CustomIngredientDataDto data) {
+    public void update(Seasoning ingredient, CustomIngredientDataDto data) {
 
         ingredient.setFood(data.food());
-        ingredient.setQuantity(data.quantity());
+        ingredient.setAmount(data.quantity());
         ingredient.setUnit(data.unit());
     }
 }

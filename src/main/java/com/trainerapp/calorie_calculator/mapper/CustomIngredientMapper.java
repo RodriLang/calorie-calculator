@@ -2,13 +2,13 @@ package com.trainerapp.calorie_calculator.mapper;
 
 import com.trainerapp.calorie_calculator.model.dto.CustomIngredientDto;
 import com.trainerapp.calorie_calculator.model.dto.create.CustomIngredientDataDto;
-import com.trainerapp.calorie_calculator.model.entity.CustomIngredient;
+import com.trainerapp.calorie_calculator.model.entity.Seasoning;
 
 public interface CustomIngredientMapper {
 
-    CustomIngredient fromDto(CustomIngredientDto customIngredientDto);
+    Seasoning fromDto(CustomIngredientDto customIngredientDto);
 
-    CustomIngredientDto toDto(CustomIngredient customIngredient);
+    CustomIngredientDto toDto(Seasoning seasoning);
 
-    CustomIngredient fromDataDto(CustomIngredientDataDto customIngredientDataDto);
+    Seasoning fromDataDto(CustomIngredientDataDto customIngredientDataDto);
 }

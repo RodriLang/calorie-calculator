@@ -1,6 +1,5 @@
 package com.trainerapp.calorie_calculator.repository;
 
-import com.trainerapp.calorie_calculator.enums.TagType;
 import com.trainerapp.calorie_calculator.model.entity.Tag;
 import org.springframework.data.jpa.repository.JpaRepository;
 

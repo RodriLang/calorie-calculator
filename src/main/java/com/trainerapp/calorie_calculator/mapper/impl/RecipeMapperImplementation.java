@@ -5,7 +5,7 @@ import com.trainerapp.calorie_calculator.mapper.IngredientMapper;
 import com.trainerapp.calorie_calculator.mapper.RecipeMapper;
 import com.trainerapp.calorie_calculator.model.dto.RecipeDto;
 import com.trainerapp.calorie_calculator.model.dto.create.RecipeDataDto;
-import com.trainerapp.calorie_calculator.model.entity.Recipe;
+import com.trainerapp.calorie_calculator.model.entity.RecipeSection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,10 +21,10 @@ public class RecipeMapperImplementation implements RecipeMapper {
     private final CustomIngredientMapper customIngredientMapper;
 
     @Override
-    public Recipe fromDto(RecipeDto recipeDto) {
+    public RecipeSection fromDto(RecipeDto recipeDto) {
         if (recipeDto == null) return null;
 
-        return Recipe.builder()
+        return RecipeSection.builder()
                 .id(recipeDto.id())
                 .name(recipeDto.name())
                 .shortDescription(recipeDto.shortDescription())
@@ -44,34 +44,34 @@ public class RecipeMapperImplementation implements RecipeMapper {
     }
 
     @Override
-    public RecipeDto toDto(Recipe recipe) {
-        if (recipe == null) return null;
+    public RecipeDto toDto(RecipeSection recipeSection) {
+        if (recipeSection == null) return null;
 
         return RecipeDto.builder()
-                .id(recipe.getId())
-                .name(recipe.getName())
-                .ingredients(recipe.getIngredients()
+                .id(recipeSection.getId())
+                .name(recipeSection.getName())
+                .ingredients(recipeSection.getIngredients()
                         .stream()
                         .map(ingredientMapper::toDto)
                         .toList())
-                .shortDescription(recipe.getShortDescription())
+                .shortDescription(recipeSection.getShortDescription())
                 .customIngredients(
-                        Optional.ofNullable(recipe.getCustomIngredients())
+                        Optional.ofNullable(recipeSection.getCustomIngredients())
                                 .orElse(Collections.emptyList())
                                 .stream()
                                 .map(customIngredientMapper::toDto)
                                 .toList())
-                .difficulty(recipe.getDifficulty())
-                .preparationTime(recipe.getPreparationTime())
-                .steps(recipe.getSteps())
+                .difficulty(recipeSection.getDifficulty())
+                .preparationTime(recipeSection.getPreparationTime())
+                .steps(recipeSection.getSteps())
                 .build();
     }
 
     @Override
-    public Recipe fromDataDto(RecipeDataDto recipeDataDto) {
+    public RecipeSection fromDataDto(RecipeDataDto recipeDataDto) {
         if (recipeDataDto == null) return null;
 
-        return Recipe.builder()
+        return RecipeSection.builder()
                 .name(recipeDataDto.name())
                 .shortDescription(recipeDataDto.shortDescription())
                 .steps(recipeDataDto.steps())
