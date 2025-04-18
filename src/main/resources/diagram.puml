@@ -15,12 +15,11 @@ class RecipeSection {
     - id: Long
     - title: String
     - ingredients: List<Ingredient>
-    - otherIngredients: List<CustomIngredient>
+    - seasonings: List<Seasoning>
     - steps: List<Step>
 }
 
 class Step {
-    - label: String
     - instructions: String
 }
 
@@ -29,31 +28,29 @@ class Ingredient {
     - food: Food
     - amount: Double
     - unit: MeasurementUnit
-    - customLabel: String
+    - label: String
 }
 
-
-class CustomIngredient {
+class Seasoning {
+    - id: Long
     - name: String
     - amount: Double
     - unit: UnitType
-    - note: String
+    - label: String
 }
-
 
 class Food {
     - id: Long
     - name: String
     - nutritionalInfo: NutritionalInfo
     - micronutrients: List<MicronutrientContent>
-    - supportedUnits: List<MeasurementUnit>
+    - allowedUnits: List<MeasurementUnit>
     - foodOrigin: FoodOriginType
     - nutritionalFunctions: List<NutritionalFunctionType>
 }
 
-
 class NutritionalInfo {
-    - calories: Double
+    - energy: Double
     - carbohydrates: Double
     - sugars: Double
     - proteins: Double
@@ -63,6 +60,7 @@ class NutritionalInfo {
 }
 
 class MicronutrientContent {
+    - id: Long
     - micronutrient: Micronutrient
     - amountPerGram: Double
 }
@@ -70,7 +68,8 @@ class MicronutrientContent {
 class Micronutrient {
     - id: Long
     - name: String
-    - dailyAmount: Double
+    - rda: Double
+    ' Recommended Daily Allowance
     - unit: UnitType
 }
 
@@ -89,9 +88,9 @@ class Tag {
 Recipe "1" *-- "*" RecipeSection
 Recipe "1" *-- "*" Tag
 
-RecipeSection "1" *-- "*" step
+RecipeSection "1" *-- "*" Step
 RecipeSection "1" *-- "*" Ingredient
-RecipeSection "1" *-- "*" CustomIngredient
+RecipeSection "1" *-- "*" Seasoning
 
 Ingredient "1" *-- "1" Food
 Ingredient "1" o-- "1" MeasurementUnit
