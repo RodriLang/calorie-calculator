@@ -24,12 +24,11 @@ public class Micronutrient {
     private String name;
 
     @Column
-    private Double dailyAmount;
+    private Double rda;
 
     @Enumerated(EnumType.STRING)
     private UnitType unit;
 
     @Enumerated(EnumType.STRING)
     private MicronutrientType type;
-
 }

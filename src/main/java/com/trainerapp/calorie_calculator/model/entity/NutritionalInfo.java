@@ -15,8 +15,8 @@ public class NutritionalInfo {
 
     @NotNull
     @Min(0)
-    @Column(name = "energy_value")
-    private Double energyValue = 0.0; // kcal
+    @Column(name = "energy")
+    private Double energy = 0.0; // kcal
 
     @NotNull
     @Min(0)
