@@ -14,15 +14,9 @@ public interface FoodRepository extends JpaRepository<Food, Long> {
 
     Food findByName(String name);
 
-    List<Food> findByNutritionalInfo_EnergyValue(int energyValue);
+    List<Food> findByNutritionalInfo_EnergyBetween(double energyValue1, double energyValue2);
 
-    Page<Food> findByNutritionalInfo_EnergyValue(int energyValue, Pageable pageable);
-
-    List<Food> findByNutritionalInfo_EnergyValueBetween(int energyValue1, int energyValue2);
-
-    Page<Food> findByNutritionalInfo_EnergyValueBetween(int energyValue1, int energyValue2, Pageable pageable);
-
-    Food findByNutritionalInfo_EnergyValueAndName(int energyValue, String name);
+    Page<Food> findByNutritionalInfo_EnergyBetween(double energyValue1, double energyValue2, Pageable pageable);
 
     List<Food> findByFoodOrigin(FoodOriginType foodOriginType);
 

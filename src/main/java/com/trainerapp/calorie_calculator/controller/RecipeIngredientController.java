@@ -1,8 +1,8 @@
 package com.trainerapp.calorie_calculator.controller;
 
-import com.trainerapp.calorie_calculator.model.dto.RecipeDto;
+import com.trainerapp.calorie_calculator.model.dto.RecipeSectionDto;
 import com.trainerapp.calorie_calculator.model.dto.create.IngredientDataDto;
-import com.trainerapp.calorie_calculator.service.RecipeService;
+import com.trainerapp.calorie_calculator.service.RecipeSectionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,25 +11,25 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class RecipeIngredientController {
 
-    private final RecipeService recipeService;
+    private final RecipeSectionService recipeSectionService;
 
     @PostMapping
-    public RecipeDto addIngredient(@PathVariable Long recipeId,
-                                   @RequestBody IngredientDataDto ingredientDataDto) {
-        return recipeService.addIngredientToRecipe(recipeId, ingredientDataDto);
+    public RecipeSectionDto addIngredient(@PathVariable Long recipeId,
+                                          @RequestBody IngredientDataDto ingredientDataDto) {
+        return recipeSectionService.addIngredientToRecipe(recipeId, ingredientDataDto);
     }
 
     @PutMapping("/{ingredientId}")
-    public RecipeDto updateIngredient(@PathVariable Long recipeId,
-                                      @PathVariable Long ingredientId,
-                                      @RequestBody IngredientDataDto newIngredientData) {
-        return recipeService.updateIngredientInRecipe(recipeId, ingredientId, newIngredientData);
+    public RecipeSectionDto updateIngredient(@PathVariable Long recipeId,
+                                             @PathVariable Long ingredientId,
+                                             @RequestBody IngredientDataDto newIngredientData) {
+        return recipeSectionService.updateIngredientInRecipe(recipeId, ingredientId, newIngredientData);
     }
 
     @DeleteMapping("/{ingredientId}")
-    public RecipeDto removeIngredient(@PathVariable Long recipeId,
-                                      @PathVariable Long ingredientId) {
-        return recipeService.removeIngredientFromRecipe(recipeId, ingredientId);
+    public RecipeSectionDto removeIngredient(@PathVariable Long recipeId,
+                                             @PathVariable Long ingredientId) {
+        return recipeSectionService.removeIngredientFromRecipe(recipeId, ingredientId);
     }
 }
 

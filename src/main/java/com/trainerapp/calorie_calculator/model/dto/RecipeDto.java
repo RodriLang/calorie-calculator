@@ -1,19 +1,20 @@
 package com.trainerapp.calorie_calculator.model.dto;
 
 import com.trainerapp.calorie_calculator.enums.DifficultyType;
+import com.trainerapp.calorie_calculator.enums.FlavorType;
 import lombok.Builder;
 
-import java.time.Duration;
 import java.util.List;
 
 @Builder
 public record RecipeDto(
         Long id,
         String name,
-        List<IngredientDto> ingredients,
-        List<CustomIngredientDto> customIngredients,
-        String shortDescription,
-        List<String> steps,
-        Duration preparationTime,
-        DifficultyType difficulty) {
+        String description,
+        String url,
+        List<RecipeSectionDto> recipeList,
+        String preparationTime,
+        DifficultyType difficulty,
+        List<TagDto> tagList,
+        FlavorType flavorType) {
 }

@@ -2,7 +2,6 @@ package com.trainerapp.calorie_calculator.service;
 
 import com.trainerapp.calorie_calculator.exception.MicronutrientNotFoundException;
 import com.trainerapp.calorie_calculator.mapper.MicronutrientMapper;
-import com.trainerapp.calorie_calculator.model.dto.MicronutrientContentDto;
 import com.trainerapp.calorie_calculator.model.dto.MicronutrientDto;
 import com.trainerapp.calorie_calculator.model.dto.create.MicronutrientDataDto;
 import com.trainerapp.calorie_calculator.model.entity.Micronutrient;
@@ -66,7 +65,7 @@ public class MicronutrientService {
         existingMicronutrient.setName(micronutrientDataDto.name());
         existingMicronutrient.setUnit(micronutrientDataDto.unit());
         existingMicronutrient.setType(micronutrientDataDto.type());
-        existingMicronutrient.setDailyAmount(micronutrientDataDto.dailyAmount());
+        existingMicronutrient.setRda(micronutrientDataDto.dailyAmount());
 
         return micronutrientMapper.toDto(micronutrientRepository.save(existingMicronutrient));
     }

@@ -20,7 +20,7 @@ public class NutritionalInfoMapperImplementation implements NutritionalInfoMappe
 
     public NutritionalInfo toEntity(NutritionalInfoDto dto) {
         return NutritionalInfo.builder()
-                .energyValue(dto.energy().value())
+                .energy(dto.energy().value())
                 .carbohydrates(dto.carbohydrates().value())
                 .sugars(dto.sugars().value())
                 .protein(dto.protein().value())
@@ -32,7 +32,7 @@ public class NutritionalInfoMapperImplementation implements NutritionalInfoMappe
 
     public NutritionalInfoDto toDto(NutritionalInfo entity) {
         return NutritionalInfoDto.builder()
-                .energy(nutrientValueMapper.map(entity.getEnergyValue(), NutrientType.ENERGY))
+                .energy(nutrientValueMapper.map(entity.getEnergy(), NutrientType.ENERGY))
                 .carbohydrates(nutrientValueMapper.map(entity.getCarbohydrates(), NutrientType.CARBOHYDRATES))
                 .sugars(nutrientValueMapper.map(entity.getSugars(), NutrientType.SUGARS))
                 .protein(nutrientValueMapper.map(entity.getProtein(), NutrientType.PROTEIN))
@@ -45,7 +45,7 @@ public class NutritionalInfoMapperImplementation implements NutritionalInfoMappe
 
     public NutritionalInfo fromDataDto(NutritionalInfoDataDto dataDto) {
         return NutritionalInfo.builder()
-                .energyValue(dataDto.energy())
+                .energy(dataDto.energy())
                 .carbohydrates(dataDto.carbohydrates())
                 .sugars(dataDto.sugars())
                 .protein(dataDto.protein())

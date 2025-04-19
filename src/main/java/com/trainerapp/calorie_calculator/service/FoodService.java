@@ -69,10 +69,6 @@ public class FoodService {
                 .map(micronutrientContentMapper::fromDataDto)
                 .toList());
 
-        existingFood.setTags(updatedFood.tags()
-                .stream()
-                .map(tagService::findOrCreateByDataDto)
-                .toList());
 
         return foodMapper.toDto(foodRepository.save(existingFood));
     }
@@ -95,11 +91,7 @@ public class FoodService {
                         .map(micronutrientContentMapper::fromDataDto)
                         .toList()));
 
-        updatedFood.tags()
-                .ifPresent(t -> existingFood.setTags(t
-                        .stream()
-                        .map(tagService::findOrCreateByDataDto)
-                        .toList()));
+
 
        return foodMapper.toDto(foodRepository.save(existingFood));
     }
@@ -109,7 +101,7 @@ public class FoodService {
         int min = Objects.requireNonNullElse(calories1, 0);
         int max = Objects.requireNonNullElse(calories2, Integer.MAX_VALUE);
 
-        return foodRepository.findByNutritionalInfo_EnergyValueBetween(min, max)
+        return foodRepository.findByNutritionalInfo_EnergyBetween(min, max)
                 .stream()
                 .map(foodMapper::toDto)
                 .toList();
@@ -166,7 +158,7 @@ public class FoodService {
         Food existingFood = foodRepository.findById(foodId)
                 .orElseThrow(() -> new FoodNotFoundException(foodId));
 
-        boolean alreadyAssigned = existingFood.getMeasurementUnits().stream()
+        boolean alreadyAssigned = existingFood.getAllowedUnits().stream()
                 .anyMatch(u -> u.getUnit().equals(unitDto.unit()));
 
         if (!alreadyAssigned) {
@@ -174,7 +166,7 @@ public class FoodService {
             newUnit.setUnit(unitDto.unit());
             newUnit.setGramsPerUnit(unitDto.gramsPerUnit());
             newUnit.setFood(existingFood);  // vinculación correcta
-            existingFood.getMeasurementUnits().add(newUnit);
+            existingFood.getAllowedUnits().add(newUnit);
         }
 
         return foodMapper.toDto(foodRepository.save(existingFood));
@@ -190,31 +182,17 @@ public class FoodService {
                 .map(tagService::findOrCreateByDataDto)
                 .toList();
 
-        // Añade los tags evitando duplicados
-        tagsToAdd.forEach(tag -> {
-            if (!existingFood.getTags().contains(tag)) {
-                existingFood.getTags().add(tag);
-            }
-        });
+
 
         return foodMapper.toDto(foodRepository.save(existingFood));
     }
 
 
-    public FoodDto removeTags(Long foodId, List<Long> tagIds) {
-        Food existingFood = foodRepository.findById(foodId)
-                .orElseThrow(() -> new FoodNotFoundException(foodId));
-
-        existingFood.getTags().removeIf(tag -> tagIds.contains(tag.getId()));
-
-        return foodMapper.toDto(foodRepository.save(existingFood));
-    }
 
     public FoodDto removeMeasurementUnit(Long foodId, Long unitId) {
         Food existingFood = foodRepository.findById(foodId)
                 .orElseThrow(() -> new FoodNotFoundException(foodId));
 
-        existingFood.getTags().removeIf(tag -> tag.getId().equals(unitId));
 
         return foodMapper.toDto(foodRepository.save(existingFood));
     }

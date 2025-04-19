@@ -23,7 +23,7 @@ public class MicronutrientMapperImplementation implements MicronutrientMapper {
                 .id(micronutrientDto.id())
                 .name(micronutrientDto.name())
                 .type(micronutrientDto.type())
-                .dailyAmount(micronutrientDto.dailyAmount())
+                .rda(micronutrientDto.dailyAmount())
                 .unit(unitType)
                 .build();
     }
@@ -32,7 +32,7 @@ public class MicronutrientMapperImplementation implements MicronutrientMapper {
         return MicronutrientDto.builder()
                 .id(micronutrient.getId())
                 .name(micronutrient.getName())
-                .dailyAmount(micronutrient.getDailyAmount())
+                .dailyAmount(micronutrient.getRda())
                 .unit(micronutrient.getUnit().getAbbreviation())
                 .type(micronutrient.getType())
                 .build();
@@ -42,7 +42,7 @@ public class MicronutrientMapperImplementation implements MicronutrientMapper {
         return Micronutrient.builder()
                 .name(micronutrientDataDto.name())
                 .type(micronutrientDataDto.type())
-                .dailyAmount(micronutrientDataDto.dailyAmount())
+                .rda(micronutrientDataDto.dailyAmount())
                 .unit(micronutrientDataDto.unit())
                 .build();
     }

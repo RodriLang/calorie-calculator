@@ -6,10 +6,8 @@ import jakarta.validation.constraints.NotNull;
 public record TagDataDto(
 
         @NotBlank(message = "La etiqueta no puede estar vacía.")
-        String label,
-
-        @NotNull(message = "El tipo de etiqueta no puede ser nulo.")
-        TagType tagType
+        String label
+        
 
 ) {
 }

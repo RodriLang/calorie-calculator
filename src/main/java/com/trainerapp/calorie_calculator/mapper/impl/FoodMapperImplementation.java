@@ -33,11 +33,6 @@ public class FoodMapperImplementation implements com.trainerapp.calorie_calculat
                                 .stream()
                                 .map(micronutrientContentMapper::toDto)
                                 .toList())
-                .tags(Optional.ofNullable(food.getTags())
-                        .orElse(Collections.emptyList())
-                        .stream()
-                        .map(tagMapper::toDto)
-                        .toList())
                 .build();
     }
 
@@ -61,12 +56,6 @@ public class FoodMapperImplementation implements com.trainerapp.calorie_calculat
                                 .stream()
                                 .map(micronutrientContentMapper::fromDataDto)
                                 .toList()
-                )
-                .tags(Optional.ofNullable(foodDataDto.tags())
-                        .orElse(Collections.emptyList())
-                        .stream()
-                        .map(tagMapper::fromDataDto)
-                        .toList()
                 )
                 .build();
     }

@@ -1,10 +1,9 @@
 package com.trainerapp.calorie_calculator.model.dto;
 
-import com.trainerapp.calorie_calculator.enums.UnitType;
 import lombok.Builder;
 
 @Builder
-public record CustomIngredientDto(
+public record SeasoningDto(
 
         String food,
         Double quantity,

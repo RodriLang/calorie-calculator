@@ -9,5 +9,5 @@ public record IngredientDto(
         FoodDto food,
         Double quantity,
         MeasurementUnitDto unit,
-        List<RecipeDto> recipes) {
+        List<RecipeSectionDto> recipes) {
 }

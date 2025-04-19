@@ -19,7 +19,7 @@ public class MicronutrientContentMapperImplementation implements MicronutrientCo
         Double amountPerUnit = micronutrientContent.getAmountPerUnit();
 
         Double dailyPercentage = amountPerUnit
-                    / micronutrientContent.getMicronutrient().getDailyAmount() * 100;
+                    / micronutrientContent.getMicronutrient().getRda() * 100;
 
 
         return MicronutrientContentDto.builder()
@@ -45,7 +45,7 @@ public class MicronutrientContentMapperImplementation implements MicronutrientCo
 
         return MicronutrientContent.builder()
                 .micronutrient(micronutrient)
-                .amountPerUnit(dto.dailyPercentage() * micronutrient.getDailyAmount() / 100)  // inversa del cálculo del toDto
+                .amountPerUnit(dto.dailyPercentage() * micronutrient.getRda() / 100)  // inversa del cálculo del toDto
                 .build();
     }
 

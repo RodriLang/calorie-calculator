@@ -19,7 +19,7 @@ public class TagService {
 
 
     public Tag findOrCreateByDataDto(TagDataDto dto) {
-        return tagRepository.findByLabelAndTagType(dto.label(), dto.tagType())
+        return tagRepository.findByLabel(dto.label())
                 .orElseGet(() -> tagRepository.save(tagMapper.fromDataDto(dto)));
     }
 }

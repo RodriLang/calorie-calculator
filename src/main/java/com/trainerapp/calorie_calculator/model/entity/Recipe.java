@@ -1,6 +1,7 @@
 package com.trainerapp.calorie_calculator.model.entity;
 
 import com.trainerapp.calorie_calculator.enums.DifficultyType;
+import com.trainerapp.calorie_calculator.enums.FlavorType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +44,9 @@ public class Recipe {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private List<Tag> tags;
+
+@Enumerated(EnumType.STRING)
+    private FlavorType flavorType;
 }
 
 

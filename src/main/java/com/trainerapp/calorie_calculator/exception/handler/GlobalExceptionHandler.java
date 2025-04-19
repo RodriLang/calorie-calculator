@@ -15,14 +15,14 @@ public class GlobalExceptionHandler {
 
     // Excepciones de tipo "NO ENCONTRADO"
     @ExceptionHandler({
-            CustomIngredientNotFoundException.class,
+            SeasoningNotFoundException.class,
             FoodNotFoundException.class,
             IngredientNotFoundException.class,
-            MealNotFoundException.class,
+            RecipeNotFoundException.class,
             MeasurementUnitNotFoundException.class,
             MicronutrientContentNotFoundException.class,
             MicronutrientNotFoundException.class,
-            RecipeNotFoundException.class,
+            RecipeSectionNotFoundException.class,
             StepNotFoundException.class
     })
     public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException e, HttpServletRequest request) {
