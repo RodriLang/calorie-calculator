@@ -26,8 +26,8 @@ public class RecipeSectionMapperImplementation implements RecipeSectionMapper {
 
         return RecipeSection.builder()
                 .id(recipeSectionDto.id())
-                .name(recipeSectionDto.name())
-                .description(recipeSectionDto.description())
+                .title(recipeSectionDto.name())
+
                 .steps(recipeSectionDto.steps())
                 .ingredients(recipeSectionDto.ingredients()
                         .stream()
@@ -47,12 +47,12 @@ public class RecipeSectionMapperImplementation implements RecipeSectionMapper {
 
         return RecipeSectionDto.builder()
                 .id(recipeSection.getId())
-                .name(recipeSection.getName())
+                .name(recipeSection.getTitle())
                 .ingredients(recipeSection.getIngredients()
                         .stream()
                         .map(ingredientMapper::toDto)
                         .toList())
-                .description(recipeSection.getDescription())
+
                 .seasonings(
                         Optional.ofNullable(recipeSection.getSeasonings())
                                 .orElse(Collections.emptyList())
@@ -69,8 +69,8 @@ public class RecipeSectionMapperImplementation implements RecipeSectionMapper {
         if (recipeSectionDataDto == null) return null;
 
         return RecipeSection.builder()
-                .name(recipeSectionDataDto.name())
-                .description(recipeSectionDataDto.shortDescription())
+                .title(recipeSectionDataDto.name())
+
                 .steps(recipeSectionDataDto.steps())
                 .ingredients(recipeSectionDataDto.ingredients()
                         .stream()

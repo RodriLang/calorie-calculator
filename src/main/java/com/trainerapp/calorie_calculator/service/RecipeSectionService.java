@@ -57,8 +57,8 @@ public class RecipeSectionService {
     public RecipeSectionDto createRecipe(RecipeSectionDataDto recipeSectionDataDto) {
 
         RecipeSection recipeSection = new RecipeSection();
-        recipeSection.setName(recipeSectionDataDto.name());
-        recipeSection.setDescription(recipeSectionDataDto.shortDescription());
+        recipeSection.setTitle(recipeSectionDataDto.name());
+
 
 
         // Mapear ingredientes
@@ -87,8 +87,7 @@ public class RecipeSectionService {
         RecipeSection recipeSection = recipeSectionRepository.findById(recipeId)
                 .orElseThrow(() -> new RecipeSectionNotFoundException(recipeId));
 
-        recipeSection.setName(recipeSectionDataDto.name());
-        recipeSection.setDescription(recipeSectionDataDto.shortDescription());
+        recipeSection.setTitle(recipeSectionDataDto.name());
 
 
         // Limpiar y actualizar ingredientes

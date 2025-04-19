@@ -54,14 +54,14 @@ public class RecipeService {
         Recipe recipe = Recipe.builder()
                 .name(recipeDataDto.name())
                 .url(recipeDataDto.url())
-                .recipeSectionList(
+                .sections(
                         Optional.ofNullable(recipeDataDto.recipes())
                                 .orElse(Collections.emptyList())
                                 .stream()
                                 .map(recipeSectionMapper::fromDto)
                                 .toList())
                 .description(recipeDataDto.shortDescription())
-                .tagList(
+                .tags(
                         Optional.ofNullable(recipeDataDto.tags())
                                 .orElse(Collections.emptyList())
                                 .stream()
@@ -86,7 +86,7 @@ public class RecipeService {
                 .stream()
                 .map(recipeSectionMapper::fromDto)
                 .toList();
-        recipe.setRecipeSectionList(recipeSections);
+        recipe.setSections(recipeSections);
 
         // Actualizar tags asociados
         List<Tag> tags = Optional.ofNullable(recipeDataDto.tags())
@@ -94,7 +94,7 @@ public class RecipeService {
                 .stream()
                 .map(tagService::findOrCreateByDataDto)
                 .toList();
-        recipe.setTagList(tags);
+        recipe.setTags(tags);
 
         return recipeMapper.toDto(recipeRepository.save(recipe));
     }
@@ -106,7 +106,7 @@ public class RecipeService {
     }
 
     public List<RecipeCardDto> filterRecipeCardsByTags(List<Tag> tags) {
-        return recipeRepository.findByTagListIn(tags)
+        return recipeRepository.findByTags(tags)
                 .stream()
                 .map(recipeMapper::toCardDto)
                 .toList();
@@ -151,7 +151,7 @@ public class RecipeService {
         Recipe meal = recipeRepository.findById(mealId)
                 .orElseThrow(() -> new RecipeNotFoundException("Recipe not found with id: " + mealId));
 
-        meal.getRecipeSectionList().removeIf(recipe -> recipe.getId().equals(recipeId));
+        meal.getSections().removeIf(recipe -> recipe.getId().equals(recipeId));
         return recipeMapper.toDto(recipeRepository.save(meal));
     }
 
@@ -166,8 +166,8 @@ public class RecipeService {
 
         // Añade los tags evitando duplicados
         tagsToAdd.forEach(tag -> {
-            if (!existingRecipe.getTagList().contains(tag)) {
-                existingRecipe.getTagList().add(tag);
+            if (!existingRecipe.getTags().contains(tag)) {
+                existingRecipe.getTags().add(tag);
             }
         });
 
@@ -178,7 +178,7 @@ public class RecipeService {
         Recipe existingFood = recipeRepository.findById(mealId)
                 .orElseThrow(() -> new RecipeNotFoundException(mealId));
 
-        existingFood.getTagList().removeIf(tag -> tagIds.contains(tag.getId()));
+        existingFood.getTags().removeIf(tag -> tagIds.contains(tag.getId()));
 
         return recipeMapper.toDto(recipeRepository.save(existingFood));
     }
@@ -190,7 +190,7 @@ public class RecipeService {
     }
 
     public Page<RecipeCardDto> filterMealCardsByTags(List<Tag> tags, Pageable pageable) {
-        return recipeRepository.findByTagListIn(tags, pageable)
+        return recipeRepository.findByTags(tags, pageable)
                 .map(recipeMapper::toCardDto);
     }
 

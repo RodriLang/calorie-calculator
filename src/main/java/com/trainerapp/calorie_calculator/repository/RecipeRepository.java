@@ -12,9 +12,10 @@ import java.util.List;
 @Repository
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
-    List<Recipe> findByTagListIn(List<Tag> tagList);
+    List<Recipe> findByTags(List<Tag> tagList);
 
-    Page<Recipe> findAll(Pageable pageable);
+    //Page<Recipe> getAll (Pageable pageable);
 
-    Page<Recipe> findByTagListIn(List<Tag> tags, Pageable pageable);
+    Page<Recipe> findByTags(List<Tag> tags, Pageable pageable);
 }
+

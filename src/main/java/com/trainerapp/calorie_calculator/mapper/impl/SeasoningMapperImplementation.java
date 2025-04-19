@@ -20,29 +20,29 @@ public class SeasoningMapperImplementation implements SeasoningMapper {
                 .orElseThrow(IllegalArgumentException::new);
 
         return Seasoning.builder()
-                .food(seasoningDto.food())
-                .quantity(seasoningDto.quantity())
+                .name(seasoningDto.food())
+                .amount(seasoningDto.quantity())
                 .unit(unitType)
-                .note(seasoningDto.note())
+                .label(seasoningDto.note())
                 .build();
     }
 
     public SeasoningDto toDto(Seasoning seasoning){
         return SeasoningDto.builder()
-                .food(seasoning.getFood())
-                .quantity(seasoning.getQuantity())
+                .food(seasoning.getName())
+                .quantity(seasoning.getAmount())
                 .unit(seasoning.getUnit().getAbbreviation())
-                .note(seasoning.getNote())
+                .note(seasoning.getLabel())
                 .build();
     }
 
     public Seasoning fromDataDto(SeasoningDataDto seasoningDataDto){
 
         return Seasoning.builder()
-                .food(seasoningDataDto.food())
-                .quantity(seasoningDataDto.quantity())
+                .name(seasoningDataDto.food())
+                .amount(seasoningDataDto.quantity())
                 .unit(seasoningDataDto.unit())
-                .note(seasoningDataDto.note())
+                .label(seasoningDataDto.note())
                 .build();
     }
 }

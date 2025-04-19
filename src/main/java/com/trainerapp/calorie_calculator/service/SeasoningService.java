@@ -17,17 +17,17 @@ public class SeasoningService {
     public Seasoning create(SeasoningDataDto seasoningDataDto) {
 
         return Seasoning.builder()
-                .food(seasoningDataDto.food())
+                .name(seasoningDataDto.food())
                 .unit(seasoningDataDto.unit())
-                .quantity(seasoningDataDto.quantity())
-                .note(seasoningDataDto.note())
+                .amount(seasoningDataDto.quantity())
+                .label(seasoningDataDto.note())
                 .build();
     }
 
     public void update(Seasoning ingredient, SeasoningDataDto data) {
 
-        ingredient.setFood(data.food());
-        ingredient.setQuantity(data.quantity());
+        ingredient.setName(data.food());
+        ingredient.setAmount(data.quantity());
         ingredient.setUnit(data.unit());
     }
 }
