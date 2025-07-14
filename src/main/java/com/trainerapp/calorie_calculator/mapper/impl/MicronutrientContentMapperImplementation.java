@@ -1,8 +1,8 @@
 package com.trainerapp.calorie_calculator.mapper.impl;
 
 import com.trainerapp.calorie_calculator.mapper.MicronutrientContentMapper;
-import com.trainerapp.calorie_calculator.model.dto.MicronutrientContentDto;
-import com.trainerapp.calorie_calculator.model.dto.create.MicronutrientContentDataDto;
+import com.trainerapp.calorie_calculator.dto.MicronutrientContentDto;
+import com.trainerapp.calorie_calculator.dto.create.MicronutrientContentDataDto;
 import com.trainerapp.calorie_calculator.model.entity.Micronutrient;
 import com.trainerapp.calorie_calculator.model.entity.MicronutrientContent;
 import com.trainerapp.calorie_calculator.service.MicronutrientService;

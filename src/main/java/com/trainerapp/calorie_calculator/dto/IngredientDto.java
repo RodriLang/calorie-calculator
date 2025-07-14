@@ -1,4 +1,4 @@
-package com.trainerapp.calorie_calculator.model.dto;
+package com.trainerapp.calorie_calculator.dto;
 
 import lombok.Builder;
 

@@ -2,8 +2,8 @@ package com.trainerapp.calorie_calculator.mapper.impl;
 
 import com.trainerapp.calorie_calculator.enums.UnitType;
 import com.trainerapp.calorie_calculator.mapper.MicronutrientMapper;
-import com.trainerapp.calorie_calculator.model.dto.MicronutrientDto;
-import com.trainerapp.calorie_calculator.model.dto.create.MicronutrientDataDto;
+import com.trainerapp.calorie_calculator.dto.MicronutrientDto;
+import com.trainerapp.calorie_calculator.dto.create.MicronutrientDataDto;
 import com.trainerapp.calorie_calculator.model.entity.Micronutrient;
 import org.springframework.stereotype.Component;
 

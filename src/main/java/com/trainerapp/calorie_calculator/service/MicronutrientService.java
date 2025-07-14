@@ -2,9 +2,8 @@ package com.trainerapp.calorie_calculator.service;
 
 import com.trainerapp.calorie_calculator.exception.MicronutrientNotFoundException;
 import com.trainerapp.calorie_calculator.mapper.MicronutrientMapper;
-import com.trainerapp.calorie_calculator.model.dto.MicronutrientContentDto;
-import com.trainerapp.calorie_calculator.model.dto.MicronutrientDto;
-import com.trainerapp.calorie_calculator.model.dto.create.MicronutrientDataDto;
+import com.trainerapp.calorie_calculator.dto.MicronutrientDto;
+import com.trainerapp.calorie_calculator.dto.create.MicronutrientDataDto;
 import com.trainerapp.calorie_calculator.model.entity.Micronutrient;
 import com.trainerapp.calorie_calculator.repository.MicronutrientRepository;
 import lombok.RequiredArgsConstructor;

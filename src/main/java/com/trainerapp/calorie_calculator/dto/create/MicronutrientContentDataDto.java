@@ -1,4 +1,4 @@
-package com.trainerapp.calorie_calculator.model.dto.create;
+package com.trainerapp.calorie_calculator.dto.create;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;

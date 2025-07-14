@@ -1,8 +1,8 @@
 package com.trainerapp.calorie_calculator.mapper.impl;
 
 import com.trainerapp.calorie_calculator.mapper.MeasurementUnitMapper;
-import com.trainerapp.calorie_calculator.model.dto.MeasurementUnitDto;
-import com.trainerapp.calorie_calculator.model.dto.create.MeasurementUnitDataDto;
+import com.trainerapp.calorie_calculator.dto.MeasurementUnitDto;
+import com.trainerapp.calorie_calculator.dto.create.MeasurementUnitDataDto;
 import com.trainerapp.calorie_calculator.model.entity.MeasurementUnit;
 import org.springframework.stereotype.Component;
 

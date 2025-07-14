@@ -1,9 +1,9 @@
 package com.trainerapp.calorie_calculator.controller;
 
 import com.trainerapp.calorie_calculator.enums.FoodOriginType;
-import com.trainerapp.calorie_calculator.model.dto.FoodDto;
-import com.trainerapp.calorie_calculator.model.dto.create.FoodDataDto;
-import com.trainerapp.calorie_calculator.model.dto.update.FoodUpdateDto;
+import com.trainerapp.calorie_calculator.dto.FoodDto;
+import com.trainerapp.calorie_calculator.dto.create.FoodDataDto;
+import com.trainerapp.calorie_calculator.dto.update.FoodUpdateDto;
 import com.trainerapp.calorie_calculator.service.FoodService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

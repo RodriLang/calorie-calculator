@@ -1,6 +1,6 @@
-package com.trainerapp.calorie_calculator.model.dto.create;
+package com.trainerapp.calorie_calculator.dto.create;
 
-import com.trainerapp.calorie_calculator.model.dto.RecipeDto;
+import com.trainerapp.calorie_calculator.dto.RecipeDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

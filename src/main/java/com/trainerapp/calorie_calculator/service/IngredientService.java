@@ -2,7 +2,7 @@ package com.trainerapp.calorie_calculator.service;
 
 import com.trainerapp.calorie_calculator.exception.IngredientNotFoundException;
 import com.trainerapp.calorie_calculator.mapper.FoodMapper;
-import com.trainerapp.calorie_calculator.model.dto.create.IngredientDataDto;
+import com.trainerapp.calorie_calculator.dto.create.IngredientDataDto;
 import com.trainerapp.calorie_calculator.model.entity.Ingredient;
 import com.trainerapp.calorie_calculator.model.entity.MeasurementUnit;
 import com.trainerapp.calorie_calculator.repository.IngredientRepository;

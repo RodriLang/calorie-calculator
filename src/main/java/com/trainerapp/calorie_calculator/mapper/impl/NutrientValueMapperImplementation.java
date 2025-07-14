@@ -2,7 +2,7 @@ package com.trainerapp.calorie_calculator.mapper.impl;
 
 import com.trainerapp.calorie_calculator.enums.NutrientType;
 import com.trainerapp.calorie_calculator.mapper.NutrientValueMapper;
-import com.trainerapp.calorie_calculator.model.dto.NutrientValueDto;
+import com.trainerapp.calorie_calculator.dto.NutrientValueDto;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,9 +1,9 @@
 package com.trainerapp.calorie_calculator.controller;
 
-import com.trainerapp.calorie_calculator.model.dto.MealCardDto;
-import com.trainerapp.calorie_calculator.model.dto.MealDto;
-import com.trainerapp.calorie_calculator.model.dto.RecipeDto;
-import com.trainerapp.calorie_calculator.model.dto.create.MealDataDto;
+import com.trainerapp.calorie_calculator.dto.MealCardDto;
+import com.trainerapp.calorie_calculator.dto.MealDto;
+import com.trainerapp.calorie_calculator.dto.RecipeDto;
+import com.trainerapp.calorie_calculator.dto.create.MealDataDto;
 import com.trainerapp.calorie_calculator.service.MealService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,7 +22,7 @@ public class MealController {
 
     @GetMapping
     public ResponseEntity<Page<MealCardDto>> getAllMealCards(@PageableDefault(
-            page = 0, size = 10, sort = "name", direction = Sort.Direction.ASC
+            sort = "name", direction = Sort.Direction.ASC
     ) Pageable pageable) {
         return ResponseEntity.ok(mealService.getAllMealCards(pageable));
     }
@@ -48,7 +48,7 @@ public class MealController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/{mealId}/recipes/{recipeId}")
+    @PostMapping("/{mealId}/recipes")
     public ResponseEntity<MealDto> addRecipeToMeal(@PathVariable Long mealId, @RequestBody RecipeDto recipeDto) {
         return ResponseEntity.ok(mealService.addRecipeToMeal(mealId, recipeDto));
     }

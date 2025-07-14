@@ -4,8 +4,6 @@ import com.trainerapp.calorie_calculator.enums.UnitType;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

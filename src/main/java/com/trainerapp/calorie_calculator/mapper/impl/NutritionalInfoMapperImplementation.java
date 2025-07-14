@@ -1,12 +1,10 @@
 package com.trainerapp.calorie_calculator.mapper.impl;
 
 import com.trainerapp.calorie_calculator.enums.NutrientType;
-import com.trainerapp.calorie_calculator.enums.UnitType;
 import com.trainerapp.calorie_calculator.mapper.NutrientValueMapper;
 import com.trainerapp.calorie_calculator.mapper.NutritionalInfoMapper;
-import com.trainerapp.calorie_calculator.model.dto.NutrientValueDto;
-import com.trainerapp.calorie_calculator.model.dto.NutritionalInfoDto;
-import com.trainerapp.calorie_calculator.model.dto.create.NutritionalInfoDataDto;
+import com.trainerapp.calorie_calculator.dto.NutritionalInfoDto;
+import com.trainerapp.calorie_calculator.dto.create.NutritionalInfoDataDto;
 import com.trainerapp.calorie_calculator.model.entity.NutritionalInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

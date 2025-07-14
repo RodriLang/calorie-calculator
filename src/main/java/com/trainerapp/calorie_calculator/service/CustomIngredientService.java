@@ -1,6 +1,6 @@
 package com.trainerapp.calorie_calculator.service;
 
-import com.trainerapp.calorie_calculator.model.dto.create.CustomIngredientDataDto;
+import com.trainerapp.calorie_calculator.dto.create.CustomIngredientDataDto;
 import com.trainerapp.calorie_calculator.model.entity.CustomIngredient;
 import com.trainerapp.calorie_calculator.repository.CustomIngredientRepository;
 import lombok.RequiredArgsConstructor;

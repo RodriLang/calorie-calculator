@@ -1,7 +1,7 @@
 package com.trainerapp.calorie_calculator.exception.handler;
 
 import com.trainerapp.calorie_calculator.exception.*;
-import com.trainerapp.calorie_calculator.model.response.ErrorResponse;
+import com.trainerapp.calorie_calculator.exception.response.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

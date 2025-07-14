@@ -1,7 +1,7 @@
 package com.trainerapp.calorie_calculator.controller;
 
-import com.trainerapp.calorie_calculator.model.dto.FoodDto;
-import com.trainerapp.calorie_calculator.model.dto.create.MicronutrientContentDataDto;
+import com.trainerapp.calorie_calculator.dto.FoodDto;
+import com.trainerapp.calorie_calculator.dto.create.MicronutrientContentDataDto;
 import com.trainerapp.calorie_calculator.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,7 +1,7 @@
 package com.trainerapp.calorie_calculator.controller;
 
-import com.trainerapp.calorie_calculator.model.dto.RecipeDto;
-import com.trainerapp.calorie_calculator.model.dto.create.CustomIngredientDataDto;
+import com.trainerapp.calorie_calculator.dto.RecipeDto;
+import com.trainerapp.calorie_calculator.dto.create.CustomIngredientDataDto;
 import com.trainerapp.calorie_calculator.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

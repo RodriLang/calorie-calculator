@@ -1,4 +1,4 @@
-package com.trainerapp.calorie_calculator.model.response;
+package com.trainerapp.calorie_calculator.exception.response;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

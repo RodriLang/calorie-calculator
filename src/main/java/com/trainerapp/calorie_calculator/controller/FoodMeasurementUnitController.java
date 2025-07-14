@@ -1,13 +1,11 @@
 package com.trainerapp.calorie_calculator.controller;
 
-import com.trainerapp.calorie_calculator.model.dto.FoodDto;
-import com.trainerapp.calorie_calculator.model.dto.create.MeasurementUnitDataDto;
+import com.trainerapp.calorie_calculator.dto.FoodDto;
+import com.trainerapp.calorie_calculator.dto.create.MeasurementUnitDataDto;
 import com.trainerapp.calorie_calculator.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

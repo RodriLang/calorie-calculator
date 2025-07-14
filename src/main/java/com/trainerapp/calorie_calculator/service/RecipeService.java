@@ -5,13 +5,12 @@ import com.trainerapp.calorie_calculator.exception.IngredientNotFoundException;
 import com.trainerapp.calorie_calculator.exception.RecipeNotFoundException;
 import com.trainerapp.calorie_calculator.exception.StepNotFoundException;
 import com.trainerapp.calorie_calculator.mapper.RecipeMapper;
-import com.trainerapp.calorie_calculator.model.dto.RecipeDto;
-import com.trainerapp.calorie_calculator.model.dto.create.CustomIngredientDataDto;
-import com.trainerapp.calorie_calculator.model.dto.create.IngredientDataDto;
-import com.trainerapp.calorie_calculator.model.dto.create.RecipeDataDto;
+import com.trainerapp.calorie_calculator.dto.RecipeDto;
+import com.trainerapp.calorie_calculator.dto.create.CustomIngredientDataDto;
+import com.trainerapp.calorie_calculator.dto.create.IngredientDataDto;
+import com.trainerapp.calorie_calculator.dto.create.RecipeDataDto;
 import com.trainerapp.calorie_calculator.model.entity.CustomIngredient;
 import com.trainerapp.calorie_calculator.model.entity.Ingredient;
-import com.trainerapp.calorie_calculator.model.entity.Meal;
 import com.trainerapp.calorie_calculator.model.entity.Recipe;
 import com.trainerapp.calorie_calculator.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @RequiredArgsConstructor

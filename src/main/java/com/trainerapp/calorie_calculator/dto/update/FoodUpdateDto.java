@@ -1,10 +1,10 @@
-package com.trainerapp.calorie_calculator.model.dto.update;
+package com.trainerapp.calorie_calculator.dto.update;
 
 import com.trainerapp.calorie_calculator.enums.FoodOriginType;
 import com.trainerapp.calorie_calculator.enums.NutritionalFunctionType;
-import com.trainerapp.calorie_calculator.model.dto.create.MicronutrientContentDataDto;
-import com.trainerapp.calorie_calculator.model.dto.create.NutritionalInfoDataDto;
-import com.trainerapp.calorie_calculator.model.dto.create.TagDataDto;
+import com.trainerapp.calorie_calculator.dto.create.MicronutrientContentDataDto;
+import com.trainerapp.calorie_calculator.dto.create.NutritionalInfoDataDto;
+import com.trainerapp.calorie_calculator.dto.create.TagDataDto;
 
 import java.util.List;
 import java.util.Optional;
