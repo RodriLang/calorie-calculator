@@ -1,20 +1,23 @@
 package com.trainerapp.calorie_calculator.service;
 
+import com.trainerapp.calorie_calculator.dto.filter.MealFilterParamsDto;
+import com.trainerapp.calorie_calculator.dto.response.MealCardResponseDto;
+import com.trainerapp.calorie_calculator.dto.response.RecipeResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.MealRequestDto;
+import com.trainerapp.calorie_calculator.dto.request.TagRequestDto;
 import com.trainerapp.calorie_calculator.exception.MealNotFoundException;
 import com.trainerapp.calorie_calculator.mapper.MealMapper;
 import com.trainerapp.calorie_calculator.mapper.RecipeMapper;
-import com.trainerapp.calorie_calculator.dto.MealCardDto;
-import com.trainerapp.calorie_calculator.dto.MealDto;
-import com.trainerapp.calorie_calculator.dto.RecipeDto;
-import com.trainerapp.calorie_calculator.dto.create.MealDataDto;
-import com.trainerapp.calorie_calculator.dto.create.TagDataDto;
+import com.trainerapp.calorie_calculator.dto.response.MealResponseDto;
 import com.trainerapp.calorie_calculator.model.entity.Meal;
 import com.trainerapp.calorie_calculator.model.entity.Recipe;
 import com.trainerapp.calorie_calculator.model.entity.Tag;
 import com.trainerapp.calorie_calculator.repository.MealRepository;
+import com.trainerapp.calorie_calculator.specification.MealSpecifications;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -41,28 +44,35 @@ public class MealService {
                 -> new MealNotFoundException(id));
     }
 
-    public MealDto getMealById(Long id) {
+    public Page<MealCardResponseDto> filterMealCards(MealFilterParamsDto params, Pageable pageable) {
+        Specification<Meal> spec = MealSpecifications.withFilters(params);
+        return mealRepository.findAll(spec, pageable)
+                .map(mealMapper::toCardDto);
+    }
+
+
+    public MealResponseDto getMealById(Long id) {
         return mealMapper.toDto(mealRepository.findById(id).orElseThrow(()
                 -> new MealNotFoundException(id)));
     }
 
-    public MealDto saveRecipe(MealDataDto mealDataDto) {
-        return mealMapper.toDto(mealRepository.save(mealMapper.fromDataDto(mealDataDto)));
+    public MealResponseDto saveRecipe(MealRequestDto mealRequestDto) {
+        return mealMapper.toDto(mealRepository.save(mealMapper.fromDataDto(mealRequestDto)));
     }
 
-    public MealDto createMeal(MealDataDto mealDataDto) {
+    public MealResponseDto createMeal(MealRequestDto mealRequestDto) {
         Meal meal = Meal.builder()
-                .name(mealDataDto.name())
-                .url(mealDataDto.url())
+                .name(mealRequestDto.name())
+                .url(mealRequestDto.url())
                 .recipeList(
-                        Optional.ofNullable(mealDataDto.recipes())
+                        Optional.ofNullable(mealRequestDto.recipes())
                                 .orElse(Collections.emptyList())
                                 .stream()
                                 .map(recipeMapper::fromDto)
                                 .toList())
-                .shortDescription(mealDataDto.shortDescription())
+                .shortDescription(mealRequestDto.shortDescription())
                 .tagList(
-                        Optional.ofNullable(mealDataDto.tags())
+                        Optional.ofNullable(mealRequestDto.tags())
                                 .orElse(Collections.emptyList())
                                 .stream()
                                 .map(tagService::findOrCreateByDataDto)
@@ -72,16 +82,16 @@ public class MealService {
         return mealMapper.toDto(mealRepository.save(meal));
     }
 
-    public MealDto updateMeal(Long mealId, MealDataDto mealDataDto) {
+    public MealResponseDto updateMeal(Long mealId, MealRequestDto mealRequestDto) {
         Meal meal = mealRepository.findById(mealId)
                 .orElseThrow(() -> new MealNotFoundException(mealId));
 
-        meal.setName(mealDataDto.name());
-        meal.setUrl(mealDataDto.url());
-        meal.setShortDescription(mealDataDto.shortDescription());
+        meal.setName(mealRequestDto.name());
+        meal.setUrl(mealRequestDto.url());
+        meal.setShortDescription(mealRequestDto.shortDescription());
 
         // Actualizar recetas asociadas
-        List<Recipe> recipes = Optional.ofNullable(mealDataDto.recipes())
+        List<Recipe> recipes = Optional.ofNullable(mealRequestDto.recipes())
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(recipeMapper::fromDto)
@@ -89,7 +99,7 @@ public class MealService {
         meal.setRecipeList(recipes);
 
         // Actualizar tags asociados
-        List<Tag> tags = Optional.ofNullable(mealDataDto.tags())
+        List<Tag> tags = Optional.ofNullable(mealRequestDto.tags())
                 .orElse(Collections.emptyList())
                 .stream()
                 .map(tagService::findOrCreateByDataDto)
@@ -105,14 +115,14 @@ public class MealService {
         mealRepository.delete(meal);
     }
 
-    public List<MealCardDto> filterMealCardsByTags(List<Tag> tags) {
+    public List<MealCardResponseDto> filterMealCardsByTags(List<Tag> tags) {
         return mealRepository.findByTagListIn(tags)
                 .stream()
                 .map(mealMapper::toCardDto)
                 .toList();
     }
 
-    public List<MealCardDto> getAllMealCards() {
+    public List<MealCardResponseDto> getAllMealCards() {
         return mealRepository.findAll()
                 .stream()
                 .map(mealMapper::toCardDto)
@@ -141,13 +151,13 @@ public class MealService {
         );
     }
 */
-    public MealDto addRecipeToMeal(Long mealId, RecipeDto recipeDto) {
+    public MealResponseDto addRecipeToMeal(Long mealId, RecipeResponseDto recipeResponseDto) {
         Meal meal = mealRepository.findById(mealId)
                 .orElseThrow(() -> new MealNotFoundException(mealId));
         return mealMapper.toDto(meal);
     }
 
-    public MealDto removeRecipeFromMeal(Long mealId, Long recipeId) {
+    public MealResponseDto removeRecipeFromMeal(Long mealId, Long recipeId) {
         Meal meal = mealRepository.findById(mealId)
                 .orElseThrow(() -> new MealNotFoundException("Meal not found with id: " + mealId));
 
@@ -155,7 +165,7 @@ public class MealService {
         return mealMapper.toDto(mealRepository.save(meal));
     }
 
-    public MealDto addTags(Long mealId, List<TagDataDto> tagsData) {
+    public MealResponseDto addTags(Long mealId, List<TagRequestDto> tagsData) {
         Meal existingMeal = mealRepository.findById(mealId)
                 .orElseThrow(() -> new MealNotFoundException(mealId));
 
@@ -174,7 +184,7 @@ public class MealService {
         return mealMapper.toDto(mealRepository.save(existingMeal));
     }
 
-    public MealDto removeTags(Long mealId, List<Long> tagIds) {
+    public MealResponseDto removeTags(Long mealId, List<Long> tagIds) {
         Meal existingFood = mealRepository.findById(mealId)
                 .orElseThrow(() -> new MealNotFoundException(mealId));
 
@@ -184,12 +194,12 @@ public class MealService {
     }
 
     //Métodos con paginación
-    public Page<MealCardDto> getAllMealCards(Pageable pageable) {
+    public Page<MealCardResponseDto> getAllMealCards(Pageable pageable) {
         return mealRepository.findAll(pageable)
                 .map(mealMapper::toCardDto);
     }
 
-    public Page<MealCardDto> filterMealCardsByTags(List<Tag> tags, Pageable pageable) {
+    public Page<MealCardResponseDto> filterMealCardsByTags(List<Tag> tags, Pageable pageable) {
         return mealRepository.findByTagListIn(tags, pageable)
                 .map(mealMapper::toCardDto);
     }
