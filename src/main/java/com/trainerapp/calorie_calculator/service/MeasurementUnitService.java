@@ -1,9 +1,9 @@
 package com.trainerapp.calorie_calculator.service;
 
+import com.trainerapp.calorie_calculator.dto.response.MeasurementUnitResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.MeasurementUnitRequestDto;
 import com.trainerapp.calorie_calculator.exception.MeasurementUnitNotFoundException;
 import com.trainerapp.calorie_calculator.mapper.MeasurementUnitMapper;
-import com.trainerapp.calorie_calculator.dto.MeasurementUnitDto;
-import com.trainerapp.calorie_calculator.dto.create.MeasurementUnitDataDto;
 import com.trainerapp.calorie_calculator.model.entity.MeasurementUnit;
 import com.trainerapp.calorie_calculator.repository.MeasurementUnitRepository;
 import org.springframework.stereotype.Service;
@@ -22,13 +22,13 @@ public class MeasurementUnitService {
     }
 
 
-    public MeasurementUnit findOrCreateByDataDto(Long foodId, MeasurementUnitDataDto measurementUnit) {
+    public MeasurementUnit findOrCreateByDataDto(Long foodId, MeasurementUnitRequestDto measurementUnit) {
         return measurementUnitRepository.findByUnitAndFood_Id(measurementUnit.unit(), foodId)
                 .orElseGet(() -> measurementUnitRepository
                         .save(measurementUnitMapper.fromDataDto(measurementUnit)));
     }
 
-    public MeasurementUnitDto findById(Long id) {
+    public MeasurementUnitResponseDto findById(Long id) {
         return measurementUnitMapper.toDto(measurementUnitRepository.findById(id)
                 .orElseThrow(()->new MeasurementUnitNotFoundException(id)));
     }
@@ -39,7 +39,7 @@ public class MeasurementUnitService {
                 .orElseThrow(()->new MeasurementUnitNotFoundException(id));
     }
 
-    public List<MeasurementUnitDto> findByFood(Long foodId) {
+    public List<MeasurementUnitResponseDto> findByFood(Long foodId) {
         return measurementUnitRepository.findByFood_Id(foodId)
                 .stream()
                 .map(measurementUnitMapper::toDto)

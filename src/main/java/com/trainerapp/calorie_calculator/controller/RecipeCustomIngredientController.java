@@ -1,7 +1,7 @@
 package com.trainerapp.calorie_calculator.controller;
 
-import com.trainerapp.calorie_calculator.dto.RecipeDto;
-import com.trainerapp.calorie_calculator.dto.create.CustomIngredientDataDto;
+import com.trainerapp.calorie_calculator.dto.response.RecipeResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.CustomIngredientRequestDto;
 import com.trainerapp.calorie_calculator.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,20 +14,20 @@ public class RecipeCustomIngredientController {
     private final RecipeService recipeService;
 
     @PostMapping
-    public RecipeDto addCustomIngredient(@PathVariable Long recipeId,
-                                         @RequestBody CustomIngredientDataDto dto) {
+    public RecipeResponseDto addCustomIngredient(@PathVariable Long recipeId,
+                                                 @RequestBody CustomIngredientRequestDto dto) {
         return recipeService.addCustomIngredient(recipeId, dto);
     }
 
     @PutMapping("/{customIngredientId}")
-    public RecipeDto updateCustomIngredient(@PathVariable Long recipeId,
-                                            @PathVariable Long customIngredientId,
-                                            @RequestBody CustomIngredientDataDto updatedData) {
+    public RecipeResponseDto updateCustomIngredient(@PathVariable Long recipeId,
+                                                    @PathVariable Long customIngredientId,
+                                                    @RequestBody CustomIngredientRequestDto updatedData) {
         return recipeService.updateCustomIngredient(recipeId, customIngredientId, updatedData);
     }
 
     @DeleteMapping("/{customIngredientId}")
-    public RecipeDto removeCustomIngredient(@PathVariable Long recipeId, @PathVariable Long customIngredientId) {
+    public RecipeResponseDto removeCustomIngredient(@PathVariable Long recipeId, @PathVariable Long customIngredientId) {
         return recipeService.removeCustomIngredient(recipeId, customIngredientId);
     }
 }

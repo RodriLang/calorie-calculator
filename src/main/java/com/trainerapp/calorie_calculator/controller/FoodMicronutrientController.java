@@ -1,7 +1,7 @@
 package com.trainerapp.calorie_calculator.controller;
 
-import com.trainerapp.calorie_calculator.dto.FoodDto;
-import com.trainerapp.calorie_calculator.dto.create.MicronutrientContentDataDto;
+import com.trainerapp.calorie_calculator.dto.response.FoodResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.MicronutrientContentRequestDto;
 import com.trainerapp.calorie_calculator.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,22 +17,22 @@ public class FoodMicronutrientController {
     private final FoodService foodService;
 
     @PutMapping("/{foodId}/micronutrients")
-    public ResponseEntity<FoodDto> addMicronutrients(
+    public ResponseEntity<FoodResponseDto> addMicronutrients(
             @PathVariable Long foodId,
-            @RequestBody List<MicronutrientContentDataDto> micronutrients) {
+            @RequestBody List<MicronutrientContentRequestDto> micronutrients) {
         return ResponseEntity.ok(foodService.addOrUpdateMicronutrients(foodId, micronutrients));
     }
 
     @PatchMapping("/{foodId}/micronutrient")
-    public ResponseEntity<FoodDto> addMicronutrient(
+    public ResponseEntity<FoodResponseDto> addMicronutrient(
             @PathVariable Long foodId,
-            @RequestBody MicronutrientContentDataDto micronutrient) {
+            @RequestBody MicronutrientContentRequestDto micronutrient) {
         return ResponseEntity.ok(foodService.addMicronutrient(foodId, micronutrient));
     }
 
 
     @DeleteMapping("/{foodId}/micronutrients")
-    public ResponseEntity<FoodDto> removeMicronutrients(
+    public ResponseEntity<FoodResponseDto> removeMicronutrients(
             @PathVariable Long foodId,
             @RequestBody List<Long> micronutrientIds) {
         return ResponseEntity.ok(foodService.removeMicronutrients(foodId, micronutrientIds));

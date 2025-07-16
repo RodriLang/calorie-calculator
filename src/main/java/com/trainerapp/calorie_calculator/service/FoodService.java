@@ -1,14 +1,14 @@
 package com.trainerapp.calorie_calculator.service;
 
+import com.trainerapp.calorie_calculator.dto.response.FoodResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.FoodRequestDto;
+import com.trainerapp.calorie_calculator.dto.request.MeasurementUnitRequestDto;
+import com.trainerapp.calorie_calculator.dto.request.TagRequestDto;
 import com.trainerapp.calorie_calculator.enums.FoodOriginType;
 import com.trainerapp.calorie_calculator.exception.DuplicatedMicronutrientContentException;
 import com.trainerapp.calorie_calculator.exception.FoodNotFoundException;
 import com.trainerapp.calorie_calculator.mapper.*;
-import com.trainerapp.calorie_calculator.dto.FoodDto;
-import com.trainerapp.calorie_calculator.dto.create.FoodDataDto;
-import com.trainerapp.calorie_calculator.dto.create.MeasurementUnitDataDto;
-import com.trainerapp.calorie_calculator.dto.create.MicronutrientContentDataDto;
-import com.trainerapp.calorie_calculator.dto.create.TagDataDto;
+import com.trainerapp.calorie_calculator.dto.request.MicronutrientContentRequestDto;
 import com.trainerapp.calorie_calculator.dto.update.FoodUpdateDto;
 import com.trainerapp.calorie_calculator.model.entity.Food;
 import com.trainerapp.calorie_calculator.model.entity.MeasurementUnit;
@@ -33,19 +33,19 @@ public class FoodService {
     private final MicronutrientContentMapper micronutrientContentMapper;
 
 
-    public List<FoodDto> getAll() {
+    public List<FoodResponseDto> getAll() {
         return foodRepository.findAll()
                 .stream()
                 .map(foodMapper::toDto)
                 .toList();
     }
 
-    public FoodDto getById(long id) {
+    public FoodResponseDto getById(long id) {
         return foodMapper.toDto(foodRepository.findById(id)
                 .orElseThrow(() -> new FoodNotFoundException(id)));
     }
 
-    public FoodDto save(FoodDataDto food) {
+    public FoodResponseDto save(FoodRequestDto food) {
         return foodMapper.toDto(foodRepository.save(foodMapper.fromDataDto(food)));
     }
 
@@ -53,7 +53,7 @@ public class FoodService {
         foodRepository.deleteById(id);
     }
 
-    public FoodDto update(Long id, FoodDataDto updatedFood) {
+    public FoodResponseDto update(Long id, FoodRequestDto updatedFood) {
         Food existingFood = foodRepository.findById(id)
                 .orElseThrow(() -> new FoodNotFoundException(id));
 
@@ -77,7 +77,7 @@ public class FoodService {
         return foodMapper.toDto(foodRepository.save(existingFood));
     }
 
-    public FoodDto parcialUpdate(Long id, FoodUpdateDto updatedFood) {
+    public FoodResponseDto parcialUpdate(Long id, FoodUpdateDto updatedFood) {
         Food existingFood = foodRepository.findById(id)
                 .orElseThrow(() -> new FoodNotFoundException(id));
 
@@ -105,7 +105,7 @@ public class FoodService {
     }
 
     @Transactional(readOnly = true)
-    public List<FoodDto> findByCaloriesBetween(Integer calories1, Integer calories2) {
+    public List<FoodResponseDto> findByCaloriesBetween(Integer calories1, Integer calories2) {
         int min = Objects.requireNonNullElse(calories1, 0);
         int max = Objects.requireNonNullElse(calories2, Integer.MAX_VALUE);
 
@@ -116,14 +116,14 @@ public class FoodService {
     }
 
 
-    public List<FoodDto> findByFoodOrigin(FoodOriginType foodOriginType) {
+    public List<FoodResponseDto> findByFoodOrigin(FoodOriginType foodOriginType) {
         return foodRepository.findByFoodOrigin(foodOriginType)
                 .stream()
                 .map(foodMapper::toDto)
                 .toList();
     }
 
-    public FoodDto addMicronutrient(Long id, MicronutrientContentDataDto micronutrientContent) {
+    public FoodResponseDto addMicronutrient(Long id, MicronutrientContentRequestDto micronutrientContent) {
         Food existingFood = foodRepository.findById(id)
                 .orElseThrow(() -> new FoodNotFoundException(id));
 
@@ -136,11 +136,11 @@ public class FoodService {
         return foodMapper.toDto(foodRepository.save(existingFood));
     }
 
-    public FoodDto addOrUpdateMicronutrients(Long id, List<MicronutrientContentDataDto> micronutrientContents) {
+    public FoodResponseDto addOrUpdateMicronutrients(Long id, List<MicronutrientContentRequestDto> micronutrientContents) {
         Food existingFood = foodRepository.findById(id)
                 .orElseThrow(() -> new FoodNotFoundException(id));
 
-        for (MicronutrientContentDataDto content : micronutrientContents) {
+        for (MicronutrientContentRequestDto content : micronutrientContents) {
             existingFood.getMicronutrients().removeIf(
                     m -> m.getMicronutrient().getId().equals(content.micronutrientId())
             );
@@ -150,7 +150,7 @@ public class FoodService {
         return foodMapper.toDto(foodRepository.save(existingFood));
     }
 
-    public FoodDto removeMicronutrients(Long foodId, List<Long> micronutrientIds) {
+    public FoodResponseDto removeMicronutrients(Long foodId, List<Long> micronutrientIds) {
         Food existingFood = foodRepository.findById(foodId)
                 .orElseThrow(() -> new FoodNotFoundException(foodId));
 
@@ -162,7 +162,7 @@ public class FoodService {
     }
 
 
-    public FoodDto addMeasurementUnit(Long foodId, MeasurementUnitDataDto unitDto) {
+    public FoodResponseDto addMeasurementUnit(Long foodId, MeasurementUnitRequestDto unitDto) {
         Food existingFood = foodRepository.findById(foodId)
                 .orElseThrow(() -> new FoodNotFoundException(foodId));
 
@@ -181,7 +181,7 @@ public class FoodService {
     }
 
 
-    public FoodDto addTags(Long foodId, List<TagDataDto> tagsData) {
+    public FoodResponseDto addTags(Long foodId, List<TagRequestDto> tagsData) {
         Food existingFood = foodRepository.findById(foodId)
                 .orElseThrow(() -> new FoodNotFoundException(foodId));
 
@@ -201,7 +201,7 @@ public class FoodService {
     }
 
 
-    public FoodDto removeTags(Long foodId, List<Long> tagIds) {
+    public FoodResponseDto removeTags(Long foodId, List<Long> tagIds) {
         Food existingFood = foodRepository.findById(foodId)
                 .orElseThrow(() -> new FoodNotFoundException(foodId));
 
@@ -210,7 +210,7 @@ public class FoodService {
         return foodMapper.toDto(foodRepository.save(existingFood));
     }
 
-    public FoodDto removeMeasurementUnit(Long foodId, Long unitId) {
+    public FoodResponseDto removeMeasurementUnit(Long foodId, Long unitId) {
         Food existingFood = foodRepository.findById(foodId)
                 .orElseThrow(() -> new FoodNotFoundException(foodId));
 

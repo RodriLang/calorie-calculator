@@ -1,7 +1,7 @@
 package com.trainerapp.calorie_calculator.controller;
 
-import com.trainerapp.calorie_calculator.dto.RecipeDto;
-import com.trainerapp.calorie_calculator.dto.create.RecipeDataDto;
+import com.trainerapp.calorie_calculator.dto.response.RecipeResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.RecipeRequestDto;
 import com.trainerapp.calorie_calculator.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,23 +16,23 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     @GetMapping
-    public List<RecipeDto> getAllRecipes() {
+    public List<RecipeResponseDto> getAllRecipes() {
         return recipeService.getRecipes();
     }
 
     @GetMapping("/{id}")
-    public RecipeDto getRecipeById(@PathVariable Long id) {
+    public RecipeResponseDto getRecipeById(@PathVariable Long id) {
         return recipeService.findById(id);
     }
 
     @PostMapping
-    public RecipeDto createRecipe(@RequestBody RecipeDataDto recipeDataDto) {
-        return recipeService.createRecipe(recipeDataDto);
+    public RecipeResponseDto createRecipe(@RequestBody RecipeRequestDto recipeRequestDto) {
+        return recipeService.createRecipe(recipeRequestDto);
     }
 
     @PutMapping("/{id}")
-    public RecipeDto updateRecipe(@PathVariable Long id, @RequestBody RecipeDataDto recipeDataDto) {
-        return recipeService.updateRecipe(id, recipeDataDto);
+    public RecipeResponseDto updateRecipe(@PathVariable Long id, @RequestBody RecipeRequestDto recipeRequestDto) {
+        return recipeService.updateRecipe(id, recipeRequestDto);
     }
 
     @DeleteMapping("/{id}")

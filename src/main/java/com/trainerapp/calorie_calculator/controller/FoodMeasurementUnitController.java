@@ -1,7 +1,7 @@
 package com.trainerapp.calorie_calculator.controller;
 
-import com.trainerapp.calorie_calculator.dto.FoodDto;
-import com.trainerapp.calorie_calculator.dto.create.MeasurementUnitDataDto;
+import com.trainerapp.calorie_calculator.dto.response.FoodResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.MeasurementUnitRequestDto;
 import com.trainerapp.calorie_calculator.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,15 +16,15 @@ public class FoodMeasurementUnitController {
 
 
     @PutMapping("/{foodId}/measurement-unit")
-    public ResponseEntity<FoodDto> addMeasurementUnit(
+    public ResponseEntity<FoodResponseDto> addMeasurementUnit(
             @PathVariable Long foodId,
-            @RequestBody MeasurementUnitDataDto measurementUnit) {
+            @RequestBody MeasurementUnitRequestDto measurementUnit) {
         return ResponseEntity.ok(foodService.addMeasurementUnit(foodId, measurementUnit));
     }
 
 
     @DeleteMapping("/{foodId}/measurement-unit")
-    public ResponseEntity<FoodDto> removeMeasurementUnit(
+    public ResponseEntity<FoodResponseDto> removeMeasurementUnit(
             @PathVariable Long foodId,
             @RequestBody Long measurementUnitId) {
         return ResponseEntity.ok(foodService.removeMeasurementUnit(foodId, measurementUnitId));

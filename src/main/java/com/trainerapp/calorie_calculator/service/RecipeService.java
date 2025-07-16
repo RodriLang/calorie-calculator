@@ -1,14 +1,14 @@
 package com.trainerapp.calorie_calculator.service;
 
+import com.trainerapp.calorie_calculator.dto.request.CustomIngredientRequestDto;
+import com.trainerapp.calorie_calculator.dto.request.IngredientRequestDto;
+import com.trainerapp.calorie_calculator.dto.request.RecipeRequestDto;
 import com.trainerapp.calorie_calculator.exception.CustomIngredientNotFoundException;
 import com.trainerapp.calorie_calculator.exception.IngredientNotFoundException;
 import com.trainerapp.calorie_calculator.exception.RecipeNotFoundException;
 import com.trainerapp.calorie_calculator.exception.StepNotFoundException;
 import com.trainerapp.calorie_calculator.mapper.RecipeMapper;
-import com.trainerapp.calorie_calculator.dto.RecipeDto;
-import com.trainerapp.calorie_calculator.dto.create.CustomIngredientDataDto;
-import com.trainerapp.calorie_calculator.dto.create.IngredientDataDto;
-import com.trainerapp.calorie_calculator.dto.create.RecipeDataDto;
+import com.trainerapp.calorie_calculator.dto.response.RecipeResponseDto;
 import com.trainerapp.calorie_calculator.model.entity.CustomIngredient;
 import com.trainerapp.calorie_calculator.model.entity.Ingredient;
 import com.trainerapp.calorie_calculator.model.entity.Recipe;
@@ -32,18 +32,18 @@ public class RecipeService {
     private final IngredientService ingredientService;
     private final CustomIngredientService customIngredientService;
 
-    public RecipeDto saveRecipe(RecipeDataDto recipeDataDto) {
-        return recipeMapper.toDto(recipeRepository.save(recipeMapper.fromDataDto(recipeDataDto)));
+    public RecipeResponseDto saveRecipe(RecipeRequestDto recipeRequestDto) {
+        return recipeMapper.toDto(recipeRepository.save(recipeMapper.fromDataDto(recipeRequestDto)));
     }
 
-    public List<RecipeDto> getRecipes() {
+    public List<RecipeResponseDto> getRecipes() {
         return recipeRepository.findAll()
                 .stream()
                 .map(recipeMapper::toDto)
                 .toList();
     }
 
-    public RecipeDto findById(Long recipeId) {
+    public RecipeResponseDto findById(Long recipeId) {
         return recipeMapper.toDto(recipeRepository.findById(recipeId).orElseThrow(()
                 -> new RecipeNotFoundException(recipeId)));
     }
@@ -54,28 +54,28 @@ public class RecipeService {
     }
 
 
-    public RecipeDto createRecipe(RecipeDataDto recipeDataDto) {
+    public RecipeResponseDto createRecipe(RecipeRequestDto recipeRequestDto) {
 
         Recipe recipe = new Recipe();
-        recipe.setName(recipeDataDto.name());
-        recipe.setShortDescription(recipeDataDto.shortDescription());
-        recipe.setPreparationTime(recipeDataDto.preparationTime());
-        recipe.setDifficulty(recipeDataDto.difficulty());
+        recipe.setName(recipeRequestDto.name());
+        recipe.setShortDescription(recipeRequestDto.shortDescription());
+        recipe.setPreparationTime(recipeRequestDto.preparationTime());
+        recipe.setDifficulty(recipeRequestDto.difficulty());
 
         // Mapear ingredientes
-        for (IngredientDataDto ingredientDto : recipeDataDto.ingredients()) {
+        for (IngredientRequestDto ingredientDto : recipeRequestDto.ingredients()) {
             Ingredient ingredient = ingredientService.create(ingredientDto);
             recipe.getIngredients().add(ingredient);
         }
 
         // Mapear custom ingredients
-        for (CustomIngredientDataDto customDto : recipeDataDto.customIngredients()) {
+        for (CustomIngredientRequestDto customDto : recipeRequestDto.customIngredients()) {
             CustomIngredient customIngredient = customIngredientService.create(customDto);
             recipe.getCustomIngredients().add(customIngredient);
         }
 
         // Guardar los pasos
-        recipe.setSteps(new ArrayList<>(recipeDataDto.steps()));
+        recipe.setSteps(new ArrayList<>(recipeRequestDto.steps()));
 
         recipe = recipeRepository.save(recipe);
 
@@ -83,33 +83,33 @@ public class RecipeService {
     }
 
 
-    public RecipeDto updateRecipe(Long recipeId, RecipeDataDto recipeDataDto) {
+    public RecipeResponseDto updateRecipe(Long recipeId, RecipeRequestDto recipeRequestDto) {
 
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RecipeNotFoundException(recipeId));
 
-        recipe.setName(recipeDataDto.name());
-        recipe.setShortDescription(recipeDataDto.shortDescription());
-        recipe.setPreparationTime(recipeDataDto.preparationTime());
-        recipe.setDifficulty(recipeDataDto.difficulty());
+        recipe.setName(recipeRequestDto.name());
+        recipe.setShortDescription(recipeRequestDto.shortDescription());
+        recipe.setPreparationTime(recipeRequestDto.preparationTime());
+        recipe.setDifficulty(recipeRequestDto.difficulty());
 
         // Limpiar y actualizar ingredientes
         recipe.getIngredients().clear();
-        for (IngredientDataDto ingredientDto : recipeDataDto.ingredients()) {
+        for (IngredientRequestDto ingredientDto : recipeRequestDto.ingredients()) {
             Ingredient ingredient = ingredientService.create(ingredientDto);
             recipe.getIngredients().add(ingredient);
         }
 
         // Limpiar y actualizar custom ingredients
         recipe.getCustomIngredients().clear();
-        for (CustomIngredientDataDto customDto : recipeDataDto.customIngredients()) {
+        for (CustomIngredientRequestDto customDto : recipeRequestDto.customIngredients()) {
             CustomIngredient customIngredient = customIngredientService.create(customDto);
             recipe.getCustomIngredients().add(customIngredient);
         }
 
         // Actualizar pasos
         recipe.getSteps().clear();
-        recipe.getSteps().addAll(recipeDataDto.steps());
+        recipe.getSteps().addAll(recipeRequestDto.steps());
 
         recipe = recipeRepository.save(recipe);
 
@@ -124,11 +124,11 @@ public class RecipeService {
     }
 
 
-    public RecipeDto addIngredientToRecipe(Long recipeId, IngredientDataDto ingredientDataDto) {
+    public RecipeResponseDto addIngredientToRecipe(Long recipeId, IngredientRequestDto ingredientRequestDto) {
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RecipeNotFoundException(recipeId));
 
-        Ingredient ingredient = ingredientService.create(ingredientDataDto);
+        Ingredient ingredient = ingredientService.create(ingredientRequestDto);
 
         recipe.getIngredients().add(ingredient);
         recipe = recipeRepository.save(recipe);
@@ -136,7 +136,7 @@ public class RecipeService {
         return recipeMapper.toDto(recipe);
     }
 
-    public RecipeDto removeIngredientFromRecipe(Long recipeId, Long ingredientId) {
+    public RecipeResponseDto removeIngredientFromRecipe(Long recipeId, Long ingredientId) {
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RecipeNotFoundException(recipeId));
 
@@ -151,7 +151,7 @@ public class RecipeService {
     }
 
 
-    public RecipeDto updateIngredientInRecipe(Long recipeId, Long ingredientId, IngredientDataDto newIngredientData) {
+    public RecipeResponseDto updateIngredientInRecipe(Long recipeId, Long ingredientId, IngredientRequestDto newIngredientData) {
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RecipeNotFoundException(recipeId));
 
@@ -170,17 +170,17 @@ public class RecipeService {
 
 //Custom Ingredients
 
-    public RecipeDto addCustomIngredient(Long recipeId, CustomIngredientDataDto customIngredientDataDto) {
+    public RecipeResponseDto addCustomIngredient(Long recipeId, CustomIngredientRequestDto customIngredientRequestDto) {
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RecipeNotFoundException(recipeId));
 
-        recipe.getCustomIngredients().add(customIngredientService.create(customIngredientDataDto));
+        recipe.getCustomIngredients().add(customIngredientService.create(customIngredientRequestDto));
         recipe = recipeRepository.save(recipe);
 
         return recipeMapper.toDto(recipe);
     }
 
-    public RecipeDto updateCustomIngredient(Long recipeId, Long customIngredientId, CustomIngredientDataDto updatedData) {
+    public RecipeResponseDto updateCustomIngredient(Long recipeId, Long customIngredientId, CustomIngredientRequestDto updatedData) {
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RecipeNotFoundException(recipeId));
 
@@ -197,7 +197,7 @@ public class RecipeService {
     }
 
 
-    public RecipeDto removeCustomIngredient(Long recipeId, Long customIngredientId) {
+    public RecipeResponseDto removeCustomIngredient(Long recipeId, Long customIngredientId) {
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RecipeNotFoundException(recipeId));
 
@@ -215,7 +215,7 @@ public class RecipeService {
 
 //Steps
 
-    public RecipeDto addStepToRecipe(Long recipeId, String stepDescription) {
+    public RecipeResponseDto addStepToRecipe(Long recipeId, String stepDescription) {
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RecipeNotFoundException(recipeId));
 
@@ -226,7 +226,7 @@ public class RecipeService {
         return recipeMapper.toDto(recipe);
     }
 
-    public RecipeDto updateStepInRecipe(Long recipeId, int stepIndex, String newStepDescription) {
+    public RecipeResponseDto updateStepInRecipe(Long recipeId, int stepIndex, String newStepDescription) {
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RecipeNotFoundException(recipeId));
 
@@ -239,7 +239,7 @@ public class RecipeService {
         }
     }
 
-    public RecipeDto removeStepFromRecipe(Long recipeId, String stepDescription) {
+    public RecipeResponseDto removeStepFromRecipe(Long recipeId, String stepDescription) {
         Recipe recipe = recipeRepository.findById(recipeId)
                 .orElseThrow(() -> new RecipeNotFoundException(recipeId));
 

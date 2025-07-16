@@ -1,9 +1,9 @@
 package com.trainerapp.calorie_calculator.service;
 
+import com.trainerapp.calorie_calculator.dto.response.MicronutrientResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.MicronutrientRequestDto;
 import com.trainerapp.calorie_calculator.exception.MicronutrientNotFoundException;
 import com.trainerapp.calorie_calculator.mapper.MicronutrientMapper;
-import com.trainerapp.calorie_calculator.dto.MicronutrientDto;
-import com.trainerapp.calorie_calculator.dto.create.MicronutrientDataDto;
 import com.trainerapp.calorie_calculator.model.entity.Micronutrient;
 import com.trainerapp.calorie_calculator.repository.MicronutrientRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,14 +26,14 @@ public class MicronutrientService {
         return micronutrientRepository.findAll();
     }
 
-    public MicronutrientDto createMicronutrient(MicronutrientDataDto micronutrientDataDto) {
+    public MicronutrientResponseDto createMicronutrient(MicronutrientRequestDto micronutrientRequestDto) {
         return micronutrientMapper
                 .toDto(micronutrientRepository
                         .save(micronutrientMapper
-                                .fromDataDto(micronutrientDataDto)));
+                                .fromDataDto(micronutrientRequestDto)));
     }
 
-    public MicronutrientDto getMicronutrientById(Long id) {
+    public MicronutrientResponseDto getMicronutrientById(Long id) {
         return micronutrientMapper.toDto(micronutrientRepository.findById(id)
                 .orElseThrow(() -> new MicronutrientNotFoundException(id)));
     }
@@ -43,7 +43,7 @@ public class MicronutrientService {
                 .orElseThrow(() -> new MicronutrientNotFoundException(id));
     }
 
-    public List<MicronutrientDto> getAllMicronutrients() {
+    public List<MicronutrientResponseDto> getAllMicronutrients() {
         return micronutrientRepository.findAll()
                 .stream()
                 .map(micronutrientMapper::toDto)
@@ -58,14 +58,14 @@ public class MicronutrientService {
         }
     }
 
-    public MicronutrientDto update(Long id, MicronutrientDataDto micronutrientDataDto) {
+    public MicronutrientResponseDto update(Long id, MicronutrientRequestDto micronutrientRequestDto) {
         Micronutrient existingMicronutrient = micronutrientRepository.findById(id)
                 .orElseThrow(() -> new MicronutrientNotFoundException(id));
 
-        existingMicronutrient.setName(micronutrientDataDto.name());
-        existingMicronutrient.setUnit(micronutrientDataDto.unit());
-        existingMicronutrient.setType(micronutrientDataDto.type());
-        existingMicronutrient.setDailyAmount(micronutrientDataDto.dailyAmount());
+        existingMicronutrient.setName(micronutrientRequestDto.name());
+        existingMicronutrient.setUnit(micronutrientRequestDto.unit());
+        existingMicronutrient.setType(micronutrientRequestDto.type());
+        existingMicronutrient.setDailyAmount(micronutrientRequestDto.dailyAmount());
 
         return micronutrientMapper.toDto(micronutrientRepository.save(existingMicronutrient));
     }

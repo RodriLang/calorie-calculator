@@ -2,7 +2,7 @@ package com.trainerapp.calorie_calculator.service;
 
 import com.trainerapp.calorie_calculator.exception.IngredientNotFoundException;
 import com.trainerapp.calorie_calculator.mapper.FoodMapper;
-import com.trainerapp.calorie_calculator.dto.create.IngredientDataDto;
+import com.trainerapp.calorie_calculator.dto.request.IngredientRequestDto;
 import com.trainerapp.calorie_calculator.model.entity.Ingredient;
 import com.trainerapp.calorie_calculator.model.entity.MeasurementUnit;
 import com.trainerapp.calorie_calculator.repository.IngredientRepository;
@@ -19,12 +19,12 @@ public class IngredientService {
     private final MeasurementUnitService measurementUnitService;
 
 
-    public Ingredient create(IngredientDataDto ingredientDataDto) {
+    public Ingredient create(IngredientRequestDto ingredientRequestDto) {
 
         return Ingredient.builder()
-                .food(foodMapper.fromDto(ingredientDataDto.food()))
-                .unit(measurementUnitService.findEntityById(ingredientDataDto.measurementUnitId()))
-                .quantity(ingredientDataDto.quantity())
+                .food(foodMapper.fromDto(ingredientRequestDto.food()))
+                .unit(measurementUnitService.findEntityById(ingredientRequestDto.measurementUnitId()))
+                .quantity(ingredientRequestDto.quantity())
                 .build();
     }
 
@@ -32,7 +32,7 @@ public class IngredientService {
         return ingredientRepository.findById(id).orElseThrow(() -> new IngredientNotFoundException(id));
     }
 
-    public void update(Ingredient ingredient, IngredientDataDto data) {
+    public void update(Ingredient ingredient, IngredientRequestDto data) {
         MeasurementUnit unit = measurementUnitService.findEntityById(data.measurementUnitId());
 
         ingredient.setFood(foodMapper.fromDto(data.food()));

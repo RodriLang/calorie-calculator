@@ -1,7 +1,7 @@
 package com.trainerapp.calorie_calculator.service;
 
 import com.trainerapp.calorie_calculator.mapper.TagMapper;
-import com.trainerapp.calorie_calculator.dto.create.TagDataDto;
+import com.trainerapp.calorie_calculator.dto.request.TagRequestDto;
 import com.trainerapp.calorie_calculator.model.entity.Tag;
 import com.trainerapp.calorie_calculator.repository.TagRepository;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class TagService {
     }
 
 
-    public Tag findOrCreateByDataDto(TagDataDto dto) {
+    public Tag findOrCreateByDataDto(TagRequestDto dto) {
         return tagRepository.findByLabelAndTagType(dto.label(), dto.tagType())
                 .orElseGet(() -> tagRepository.save(tagMapper.fromDataDto(dto)));
     }

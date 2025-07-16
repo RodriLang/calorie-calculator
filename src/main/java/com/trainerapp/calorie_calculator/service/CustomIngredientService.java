@@ -1,6 +1,6 @@
 package com.trainerapp.calorie_calculator.service;
 
-import com.trainerapp.calorie_calculator.dto.create.CustomIngredientDataDto;
+import com.trainerapp.calorie_calculator.dto.request.CustomIngredientRequestDto;
 import com.trainerapp.calorie_calculator.model.entity.CustomIngredient;
 import com.trainerapp.calorie_calculator.repository.CustomIngredientRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,17 +14,17 @@ public class CustomIngredientService {
     private final MeasurementUnitService measurementUnitService;
 
 
-    public CustomIngredient create(CustomIngredientDataDto customIngredientDataDto) {
+    public CustomIngredient create(CustomIngredientRequestDto customIngredientRequestDto) {
 
         return CustomIngredient.builder()
-                .food(customIngredientDataDto.food())
-                .unit(customIngredientDataDto.unit())
-                .quantity(customIngredientDataDto.quantity())
-                .note(customIngredientDataDto.note())
+                .food(customIngredientRequestDto.food())
+                .unit(customIngredientRequestDto.unit())
+                .quantity(customIngredientRequestDto.quantity())
+                .note(customIngredientRequestDto.note())
                 .build();
     }
 
-    public void update(CustomIngredient ingredient, CustomIngredientDataDto data) {
+    public void update(CustomIngredient ingredient, CustomIngredientRequestDto data) {
 
         ingredient.setFood(data.food());
         ingredient.setQuantity(data.quantity());

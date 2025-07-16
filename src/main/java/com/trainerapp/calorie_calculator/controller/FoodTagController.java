@@ -1,7 +1,7 @@
 package com.trainerapp.calorie_calculator.controller;
 
-import com.trainerapp.calorie_calculator.dto.FoodDto;
-import com.trainerapp.calorie_calculator.dto.create.TagDataDto;
+import com.trainerapp.calorie_calculator.dto.response.FoodResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.TagRequestDto;
 import com.trainerapp.calorie_calculator.service.FoodService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,14 +17,14 @@ public class FoodTagController {
     private final FoodService foodService;
 
     @PutMapping("/{foodId}/tags")
-    public ResponseEntity<FoodDto> addTags(
+    public ResponseEntity<FoodResponseDto> addTags(
             @PathVariable Long foodId,
-            @RequestBody List<TagDataDto> tags) {
+            @RequestBody List<TagRequestDto> tags) {
         return ResponseEntity.ok(foodService.addTags(foodId, tags));
     }
 
     @DeleteMapping("/{foodId}/tags")
-    public ResponseEntity<FoodDto> removeTags(
+    public ResponseEntity<FoodResponseDto> removeTags(
             @PathVariable Long foodId,
             @RequestBody List<Long> tagIds) {
         return ResponseEntity.ok(foodService.removeTags(foodId, tagIds));
