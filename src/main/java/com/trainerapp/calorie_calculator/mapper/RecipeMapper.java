@@ -1,16 +1,21 @@
 package com.trainerapp.calorie_calculator.mapper;
 
-import com.trainerapp.calorie_calculator.dto.RecipeDto;
-import com.trainerapp.calorie_calculator.dto.create.RecipeDataDto;
+import com.trainerapp.calorie_calculator.dto.response.RecipeResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.RecipeRequestDto;
 import com.trainerapp.calorie_calculator.model.entity.Recipe;
+import org.mapstruct.Mapper;
 
-
+@Mapper(componentModel = "spring",
+        uses = {
+                IngredientMapper.class,
+                CustomIngredientMapper.class
+        })
 public interface RecipeMapper {
 
 
-    Recipe fromDto(RecipeDto recipeDto);
+    Recipe fromDto(RecipeResponseDto recipeResponseDto);
 
-    RecipeDto toDto(Recipe recipe);
+    RecipeResponseDto toDto(Recipe recipe);
 
-    Recipe fromDataDto(RecipeDataDto recipeDataDto);
+    Recipe fromDataDto(RecipeRequestDto recipeRequestDto);
 }

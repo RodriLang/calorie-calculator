@@ -1,13 +1,15 @@
 package com.trainerapp.calorie_calculator.mapper;
 
-import com.trainerapp.calorie_calculator.dto.TagDto;
-import com.trainerapp.calorie_calculator.dto.create.TagDataDto;
+import com.trainerapp.calorie_calculator.dto.response.TagResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.TagRequestDto;
 import com.trainerapp.calorie_calculator.model.entity.Tag;
+import org.mapstruct.Mapper;
 
+@Mapper(componentModel = "spring")
 public interface TagMapper {
 
-    TagDto toDto(Tag tag);
+    TagResponseDto toDto(Tag tag);
 
-    Tag fromDataDto(TagDataDto tagDataDto);
+    Tag fromDataDto(TagRequestDto tagRequestDto);
 
 }

@@ -1,14 +1,16 @@
 package com.trainerapp.calorie_calculator.mapper;
 
-import com.trainerapp.calorie_calculator.dto.MeasurementUnitDto;
-import com.trainerapp.calorie_calculator.dto.create.MeasurementUnitDataDto;
+import com.trainerapp.calorie_calculator.dto.response.MeasurementUnitResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.MeasurementUnitRequestDto;
 import com.trainerapp.calorie_calculator.model.entity.MeasurementUnit;
+import org.mapstruct.Mapper;
 
+@Mapper(componentModel = "spring")
 public interface MeasurementUnitMapper {
 
-    MeasurementUnit fromDto(MeasurementUnitDto measurementUnitDto);
+    MeasurementUnit fromDto(MeasurementUnitResponseDto measurementUnitResponseDto);
 
-    MeasurementUnitDto toDto(MeasurementUnit measurementUnit);
+    MeasurementUnitResponseDto toDto(MeasurementUnit measurementUnit);
 
-    MeasurementUnit fromDataDto(MeasurementUnitDataDto measurementUnitDataDto);
+    MeasurementUnit fromDataDto(MeasurementUnitRequestDto measurementUnitRequestDto);
 }

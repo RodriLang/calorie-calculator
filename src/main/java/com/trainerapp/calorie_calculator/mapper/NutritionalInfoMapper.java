@@ -1,19 +1,15 @@
 package com.trainerapp.calorie_calculator.mapper;
 
-import com.trainerapp.calorie_calculator.dto.NutritionalInfoDto;
-import com.trainerapp.calorie_calculator.dto.create.NutritionalInfoDataDto;
+import com.trainerapp.calorie_calculator.dto.response.NutritionalInfoResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.NutritionalInfoRequestDto;
 import com.trainerapp.calorie_calculator.model.entity.NutritionalInfo;
 
 public interface NutritionalInfoMapper {
 
-    NutritionalInfo toEntity(NutritionalInfoDto dto);
+    NutritionalInfo toEntity(NutritionalInfoResponseDto dto);
 
+    NutritionalInfoResponseDto toDto(NutritionalInfo entity);
 
-    NutritionalInfoDto toDto(NutritionalInfo entity);
-
-
-    NutritionalInfo fromDataDto(NutritionalInfoDataDto dataDto);
-
-
+    NutritionalInfo fromDataDto(NutritionalInfoRequestDto dataDto);
 }
 

@@ -2,6 +2,8 @@ package com.trainerapp.calorie_calculator.enums;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 public enum UnitType {
 
@@ -23,5 +25,11 @@ public enum UnitType {
         this.abbreviation = abbreviation;
     }
 
+    public static UnitType fromAbbreviation(String abbreviation) {
+        return Arrays.stream(values())
+                .filter(u -> u.abbreviation.equals(abbreviation))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Invalid unit abbreviation: " + abbreviation));
+    }
 
 }
