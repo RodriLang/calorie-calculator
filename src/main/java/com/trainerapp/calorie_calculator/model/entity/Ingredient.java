@@ -1,10 +1,7 @@
 package com.trainerapp.calorie_calculator.model.entity;
 
-import com.trainerapp.calorie_calculator.enums.UnitType;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,7 +19,9 @@ public class Ingredient {
     @JoinColumn(name = "food_id")
     private Food food;
 
-    private Double quantity; //2 unidades, 100 ml, 3 cucharadas.
+    private Double amount; //2 unidades, 100 ml, 3 cucharadas.
+
+    private String displayName;
 
     @ManyToOne
     @JoinColumn(name = "unit_id")

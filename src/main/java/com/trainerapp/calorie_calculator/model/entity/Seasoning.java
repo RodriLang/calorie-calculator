@@ -9,21 +9,22 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "ingredients") // Especifica el nombre de la tabla
-public class CustomIngredient {
+@Table(name = "seasonings") // Especifica el nombre de la tabla
+public class Seasoning {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String food;
+    @Column
+    private String name;
 
-    private Double quantity;
+    @Column
+    private Double amount;
 
     @Enumerated(EnumType.STRING)
     private UnitType unit;
 
     @Column
-    private String note;
+    private String label;
 }

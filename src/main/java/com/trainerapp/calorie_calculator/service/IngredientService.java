@@ -3,6 +3,7 @@ package com.trainerapp.calorie_calculator.service;
 import com.trainerapp.calorie_calculator.exception.IngredientNotFoundException;
 import com.trainerapp.calorie_calculator.mapper.FoodMapper;
 import com.trainerapp.calorie_calculator.dto.request.IngredientRequestDto;
+import com.trainerapp.calorie_calculator.model.entity.Food;
 import com.trainerapp.calorie_calculator.model.entity.Ingredient;
 import com.trainerapp.calorie_calculator.model.entity.MeasurementUnit;
 import com.trainerapp.calorie_calculator.repository.IngredientRepository;
@@ -14,17 +15,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class IngredientService {
     private final IngredientRepository ingredientRepository;
-    private final FoodMapper foodMapper;
     private final FoodService foodService;
     private final MeasurementUnitService measurementUnitService;
 
 
     public Ingredient create(IngredientRequestDto ingredientRequestDto) {
 
+        Food food = foodService.findEntityById(ingredientRequestDto.foodId());
+
         return Ingredient.builder()
-                .food(foodMapper.fromDto(ingredientRequestDto.food()))
+                .food(food)
                 .unit(measurementUnitService.findEntityById(ingredientRequestDto.measurementUnitId()))
-                .quantity(ingredientRequestDto.quantity())
+                .amount(ingredientRequestDto.amount())
                 .build();
     }
 
@@ -32,11 +34,12 @@ public class IngredientService {
         return ingredientRepository.findById(id).orElseThrow(() -> new IngredientNotFoundException(id));
     }
 
-    public void update(Ingredient ingredient, IngredientRequestDto data) {
-        MeasurementUnit unit = measurementUnitService.findEntityById(data.measurementUnitId());
+    public void update(Ingredient ingredient, IngredientRequestDto ingredientRequestDto) {
+        MeasurementUnit unit = measurementUnitService.findEntityById(ingredientRequestDto.measurementUnitId());
+        Food food = foodService.findEntityById(ingredientRequestDto.foodId());
 
-        ingredient.setFood(foodMapper.fromDto(data.food()));
-        ingredient.setQuantity(data.quantity());
+        ingredient.setFood(food);
+        ingredient.setAmount(ingredientRequestDto.amount());
         ingredient.setUnit(unit);
     }
 

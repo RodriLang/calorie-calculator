@@ -1,22 +1,22 @@
 package com.trainerapp.calorie_calculator.mapper;
 
-import com.trainerapp.calorie_calculator.dto.response.CustomIngredientResponseDto;
-import com.trainerapp.calorie_calculator.dto.request.CustomIngredientRequestDto;
+import com.trainerapp.calorie_calculator.dto.response.SeasoningResponseDto;
+import com.trainerapp.calorie_calculator.dto.request.SeasoningRequestDto;
 import com.trainerapp.calorie_calculator.enums.UnitType;
-import com.trainerapp.calorie_calculator.model.entity.CustomIngredient;
+import com.trainerapp.calorie_calculator.model.entity.Seasoning;
 import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface CustomIngredientMapper {
 
     @Mapping(target = "unit", source = "unit", qualifiedByName = "fromAbbreviation")
-    CustomIngredient fromDto(CustomIngredientResponseDto dto);
+    Seasoning fromDto(SeasoningResponseDto dto);
 
     @Mapping(target = "unit", source = "unit", qualifiedByName = "toAbbreviation")
-    CustomIngredientResponseDto toDto(CustomIngredient entity);
+    SeasoningResponseDto toDto(Seasoning entity);
 
     // No necesita conversión, los campos coinciden en tipo
-    CustomIngredient fromDataDto(CustomIngredientRequestDto dto);
+    Seasoning toEntity(SeasoningRequestDto dto);
 
     // Métodos auxiliares para conversión de enum
     @Named("fromAbbreviation")

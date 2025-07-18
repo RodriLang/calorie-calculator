@@ -22,7 +22,7 @@ public class RecipeController {
 
     @GetMapping("/{id}")
     public RecipeResponseDto getRecipeById(@PathVariable Long id) {
-        return recipeService.findById(id);
+        return recipeService.getRecipeById(id);
     }
 
     @PostMapping

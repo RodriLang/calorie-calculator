@@ -1,19 +1,19 @@
 package com.trainerapp.calorie_calculator.dto.response;
 
-import com.trainerapp.calorie_calculator.enums.DifficultyType;
-import lombok.Builder;
+import com.trainerapp.calorie_calculator.dto.request.SectionRequestDto;
+import com.trainerapp.calorie_calculator.dto.request.TagRequestDto;
 
-import java.time.Duration;
 import java.util.List;
 
-@Builder
 public record RecipeResponseDto(
+
         Long id,
         String name,
-        List<IngredientResponseDto> ingredients,
-        List<CustomIngredientResponseDto> customIngredients,
-        String shortDescription,
-        List<String> steps,
-        Duration preparationTime,
-        DifficultyType difficulty) {
+        String preparationTime,
+        Integer portions,
+        String description,
+        String url,
+        List<SectionRequestDto> sections,
+        List<TagRequestDto> tags
+) {
 }

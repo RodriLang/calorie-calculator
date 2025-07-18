@@ -1,40 +1,32 @@
 package com.trainerapp.calorie_calculator.service;
 
-import com.trainerapp.calorie_calculator.dto.request.CustomIngredientRequestDto;
-import com.trainerapp.calorie_calculator.dto.request.IngredientRequestDto;
 import com.trainerapp.calorie_calculator.dto.request.RecipeRequestDto;
-import com.trainerapp.calorie_calculator.exception.CustomIngredientNotFoundException;
-import com.trainerapp.calorie_calculator.exception.IngredientNotFoundException;
-import com.trainerapp.calorie_calculator.exception.RecipeNotFoundException;
-import com.trainerapp.calorie_calculator.exception.StepNotFoundException;
-import com.trainerapp.calorie_calculator.mapper.RecipeMapper;
+import com.trainerapp.calorie_calculator.dto.request.SectionRequestDto;
+import com.trainerapp.calorie_calculator.dto.request.TagRequestDto;
 import com.trainerapp.calorie_calculator.dto.response.RecipeResponseDto;
-import com.trainerapp.calorie_calculator.model.entity.CustomIngredient;
-import com.trainerapp.calorie_calculator.model.entity.Ingredient;
+import com.trainerapp.calorie_calculator.exception.RecipeNotFoundException;
+import com.trainerapp.calorie_calculator.mapper.RecipeMapper;
+import com.trainerapp.calorie_calculator.mapper.SectionMapper;
 import com.trainerapp.calorie_calculator.model.entity.Recipe;
+import com.trainerapp.calorie_calculator.model.entity.Section;
+import com.trainerapp.calorie_calculator.model.entity.Tag;
 import com.trainerapp.calorie_calculator.repository.RecipeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-@Transactional
 @RequiredArgsConstructor
 @Service
 public class RecipeService {
 
-
     private final RecipeRepository recipeRepository;
     private final RecipeMapper recipeMapper;
+    private final TagService tagService;
+    private final SectionMapper sectionMapper;
 
-    private final IngredientService ingredientService;
-    private final CustomIngredientService customIngredientService;
-
-    public RecipeResponseDto saveRecipe(RecipeRequestDto recipeRequestDto) {
-        return recipeMapper.toDto(recipeRepository.save(recipeMapper.fromDataDto(recipeRequestDto)));
-    }
 
     public List<RecipeResponseDto> getRecipes() {
         return recipeRepository.findAll()
@@ -43,212 +35,116 @@ public class RecipeService {
                 .toList();
     }
 
-    public RecipeResponseDto findById(Long recipeId) {
-        return recipeMapper.toDto(recipeRepository.findById(recipeId).orElseThrow(()
-                -> new RecipeNotFoundException(recipeId)));
+    public Recipe getRecipeEntityById(Long id) {
+        return recipeRepository.findById(id).orElseThrow(()
+                -> new RecipeNotFoundException(id));
     }
-
-    public Recipe findEntityById(Long recipeId) {
-        return recipeRepository.findById(recipeId).orElseThrow(()
-                -> new RecipeNotFoundException(recipeId));
+/*
+    public Page<RecipeCardResponseDto> filterRecipes(MealFilterParamsDto params, Pageable pageable) {
+        Specification<Recipe> spec = MealSpecifications.withFilters(params);
+        return recipeRepository.findAll(spec, pageable)
+                .map(recipeMapper::toDto);
     }
+*/
 
+    public RecipeResponseDto getRecipeById(Long id) {
+        return recipeMapper.toDto(this.getRecipeEntityById(id));
+    }
 
     public RecipeResponseDto createRecipe(RecipeRequestDto recipeRequestDto) {
-
-        Recipe recipe = new Recipe();
-        recipe.setName(recipeRequestDto.name());
-        recipe.setShortDescription(recipeRequestDto.shortDescription());
-        recipe.setPreparationTime(recipeRequestDto.preparationTime());
-        recipe.setDifficulty(recipeRequestDto.difficulty());
-
-        // Mapear ingredientes
-        for (IngredientRequestDto ingredientDto : recipeRequestDto.ingredients()) {
-            Ingredient ingredient = ingredientService.create(ingredientDto);
-            recipe.getIngredients().add(ingredient);
-        }
-
-        // Mapear custom ingredients
-        for (CustomIngredientRequestDto customDto : recipeRequestDto.customIngredients()) {
-            CustomIngredient customIngredient = customIngredientService.create(customDto);
-            recipe.getCustomIngredients().add(customIngredient);
-        }
-
-        // Guardar los pasos
-        recipe.setSteps(new ArrayList<>(recipeRequestDto.steps()));
-
-        recipe = recipeRepository.save(recipe);
-
-        return recipeMapper.toDto(recipe);
+        return recipeMapper.toDto(recipeRepository.save(recipeMapper.toEntity(recipeRequestDto)));
     }
-
 
     public RecipeResponseDto updateRecipe(Long recipeId, RecipeRequestDto recipeRequestDto) {
+        Recipe recipe = this.getRecipeEntityById(recipeId);
+        recipeMapper.updateRecipeFromDto(recipeRequestDto, recipe);
 
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new RecipeNotFoundException(recipeId));
+        // Actualizar recetas asociadas
+        List<Section> sections = Optional.ofNullable(recipeRequestDto.sections())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(sectionMapper::toEntity)
+                .toList();
+        recipe.setSections(sections);
 
-        recipe.setName(recipeRequestDto.name());
-        recipe.setShortDescription(recipeRequestDto.shortDescription());
-        recipe.setPreparationTime(recipeRequestDto.preparationTime());
-        recipe.setDifficulty(recipeRequestDto.difficulty());
+        // Actualizar tags asociados
+        List<Tag> tags = Optional.ofNullable(recipeRequestDto.tags())
+                .orElse(Collections.emptyList())
+                .stream()
+                .map(tagService::findOrCreateByDataDto)
+                .toList();
+        recipe.setTagList(tags);
 
-        // Limpiar y actualizar ingredientes
-        recipe.getIngredients().clear();
-        for (IngredientRequestDto ingredientDto : recipeRequestDto.ingredients()) {
-            Ingredient ingredient = ingredientService.create(ingredientDto);
-            recipe.getIngredients().add(ingredient);
-        }
-
-        // Limpiar y actualizar custom ingredients
-        recipe.getCustomIngredients().clear();
-        for (CustomIngredientRequestDto customDto : recipeRequestDto.customIngredients()) {
-            CustomIngredient customIngredient = customIngredientService.create(customDto);
-            recipe.getCustomIngredients().add(customIngredient);
-        }
-
-        // Actualizar pasos
-        recipe.getSteps().clear();
-        recipe.getSteps().addAll(recipeRequestDto.steps());
-
-        recipe = recipeRepository.save(recipe);
-
-        return recipeMapper.toDto(recipe);
+        return recipeMapper.toDto(recipeRepository.save(recipe));
     }
 
-
     public void deleteRecipe(Long recipeId) {
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new RecipeNotFoundException(recipeId));
+        Recipe recipe = this.getRecipeEntityById(recipeId);
         recipeRepository.delete(recipe);
     }
 
 
-    public RecipeResponseDto addIngredientToRecipe(Long recipeId, IngredientRequestDto ingredientRequestDto) {
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new RecipeNotFoundException(recipeId));
+    public RecipeResponseDto addSectionToRecipe(Long recipeId, SectionRequestDto sectionRequestDto) {
 
-        Ingredient ingredient = ingredientService.create(ingredientRequestDto);
+        Recipe recipe = this.getRecipeEntityById(recipeId);
 
-        recipe.getIngredients().add(ingredient);
-        recipe = recipeRepository.save(recipe);
+        Section section = sectionMapper.toEntity(sectionRequestDto);
 
-        return recipeMapper.toDto(recipe);
-    }
+        recipe.getSections().add(section);
 
-    public RecipeResponseDto removeIngredientFromRecipe(Long recipeId, Long ingredientId) {
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new RecipeNotFoundException(recipeId));
-
-        boolean removed = recipe.getIngredients().removeIf(i -> i.getId().equals(ingredientId));
-
-        if (!removed) {
-            throw new IngredientNotFoundException("Ingredient not found with id: " + ingredientId + " in recipe id: " + recipeId);
-        }
-
-        recipe = recipeRepository.save(recipe);
-        return recipeMapper.toDto(recipe);
+        return recipeMapper.toDto(recipeRepository.save(recipe));
     }
 
 
-    public RecipeResponseDto updateIngredientInRecipe(Long recipeId, Long ingredientId, IngredientRequestDto newIngredientData) {
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new RecipeNotFoundException(recipeId));
+    public RecipeResponseDto removeSectionFromRecipe(Long recipeId, Long sectionId) {
+        Recipe recipe = this.getRecipeEntityById(recipeId);
 
-        Ingredient ingredient = recipe.getIngredients().stream()
-                .filter(i -> i.getId().equals(ingredientId))
-                .findFirst()
-                .orElseThrow(() -> new IngredientNotFoundException(ingredientId));
-
-        // Actualizar usando IngredientService
-        ingredientService.update(ingredient, newIngredientData);
-
-        recipe = recipeRepository.save(recipe);
-        return recipeMapper.toDto(recipe);
+        recipe.getSections().removeIf(s -> s.getId().equals(sectionId));
+        return recipeMapper.toDto(recipeRepository.save(recipe));
     }
 
+    public RecipeResponseDto addTags(Long recipeId, List<TagRequestDto> tagsData) {
+        Recipe existingRecipe = this.getRecipeEntityById(recipeId);
 
-//Custom Ingredients
+        // Verifica si los tags existen, si no los crea
+        List<Tag> tagsToAdd = tagsData.stream()
+                .map(tagService::findOrCreateByDataDto)
+                .toList();
 
-    public RecipeResponseDto addCustomIngredient(Long recipeId, CustomIngredientRequestDto customIngredientRequestDto) {
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new RecipeNotFoundException(recipeId));
+        // Añade los tags evitando duplicados
+        tagsToAdd.forEach(tag -> {
+            if (!existingRecipe.getTagList().contains(tag)) {
+                existingRecipe.getTagList().add(tag);
+            }
+        });
 
-        recipe.getCustomIngredients().add(customIngredientService.create(customIngredientRequestDto));
-        recipe = recipeRepository.save(recipe);
-
-        return recipeMapper.toDto(recipe);
+        return recipeMapper.toDto(recipeRepository.save(existingRecipe));
     }
 
-    public RecipeResponseDto updateCustomIngredient(Long recipeId, Long customIngredientId, CustomIngredientRequestDto updatedData) {
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new RecipeNotFoundException(recipeId));
+    public RecipeResponseDto removeTags(Long recipeId, List<Long> tagIds) {
+        Recipe existingFood = this.getRecipeEntityById(recipeId);
 
-        CustomIngredient ingredient = recipe.getCustomIngredients().stream()
-                .filter(i -> i.getId().equals(customIngredientId))
-                .findFirst()
-                .orElseThrow(() -> new CustomIngredientNotFoundException(customIngredientId));
+        existingFood.getTagList().removeIf(tag -> tagIds.contains(tag.getId()));
 
-        // Actualizar campos
-        customIngredientService.update(ingredient, updatedData);
-
-        recipe = recipeRepository.save(recipe);
-        return recipeMapper.toDto(recipe);
+        return recipeMapper.toDto(recipeRepository.save(existingFood));
     }
 
-
-    public RecipeResponseDto removeCustomIngredient(Long recipeId, Long customIngredientId) {
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new RecipeNotFoundException(recipeId));
-
-        CustomIngredient ingredient = recipe.getCustomIngredients().stream()
-                .filter(i -> i.getId().equals(customIngredientId))
-                .findFirst()
-                .orElseThrow(() -> new CustomIngredientNotFoundException(customIngredientId));
-
-        recipe.getCustomIngredients().remove(ingredient);
-
-        recipe = recipeRepository.save(recipe);
-        return recipeMapper.toDto(recipe);
+  /*  //Métodos con paginación
+    public Page<RecipeResponseDto> getAllMealCards(Pageable pageable) {
+        return recipeRepository.findAll(pageable)
+                .map(recipeMapper::toDto);
     }
 
-
-//Steps
-
-    public RecipeResponseDto addStepToRecipe(Long recipeId, String stepDescription) {
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new RecipeNotFoundException(recipeId));
-
-        recipe.getSteps().add(stepDescription); // Añadir el paso
-
-        recipe = recipeRepository.save(recipe);
-
-        return recipeMapper.toDto(recipe);
+    public Page<RecipeCardResponseDto> filterMealCardsByTags(List<Tag> tags, Pageable pageable) {
+        return recipeRepository.findByTagListIn(tags, pageable)
+                .map(mealMapper::toCardDto);
     }
-
-    public RecipeResponseDto updateStepInRecipe(Long recipeId, int stepIndex, String newStepDescription) {
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new RecipeNotFoundException(recipeId));
-
-        if (stepIndex >= 0 && stepIndex < recipe.getSteps().size()) {
-            recipe.getSteps().set(stepIndex, newStepDescription); // Reemplazar paso
-            recipe = recipeRepository.save(recipe);
-            return recipeMapper.toDto(recipe);
-        } else {
-            throw new StepNotFoundException("Step index out of range");
-        }
+    */
+   /* //Métodos privados
+    private String formatDuration(Duration duration) {
+        long hours = duration.toHours();
+        long minutes = duration.toMinutes() % 60;
+        return String.format("%02d:%02d", hours, minutes);
     }
-
-    public RecipeResponseDto removeStepFromRecipe(Long recipeId, String stepDescription) {
-        Recipe recipe = recipeRepository.findById(recipeId)
-                .orElseThrow(() -> new RecipeNotFoundException(recipeId));
-
-        if (recipe.getSteps().remove(stepDescription)) {
-            recipe = recipeRepository.save(recipe);
-            return recipeMapper.toDto(recipe);
-        } else {
-            throw new StepNotFoundException("Step not found in recipe");
-        }
-    }
-
+     */
 }

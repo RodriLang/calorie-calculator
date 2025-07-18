@@ -28,7 +28,7 @@ public class Food {
 
     @ElementCollection(targetClass = NutritionalFunctionType.class)
     @Enumerated(EnumType.STRING)
-    @CollectionTable(name = "food_nutritional_functions", joinColumns = @JoinColumn(name = "food_id"))
+    @CollectionTable(name = "foods_nutritional_functions", joinColumns = @JoinColumn(name = "food_id"))
     private List<NutritionalFunctionType> nutritionalFunctions = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -44,7 +44,7 @@ public class Food {
 
     @ManyToMany
     @JoinTable(
-    name = "food_tags",  // Nombre de la tabla intermedia
+    name = "foods_tags",  // Nombre de la tabla intermedia
     joinColumns = @JoinColumn(name = "food_id"),  // Columna de Recipe
     inverseJoinColumns = @JoinColumn(name = "tag_id"))
     private List<Tag> tags = new ArrayList<>();

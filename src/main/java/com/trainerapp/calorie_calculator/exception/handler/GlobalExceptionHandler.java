@@ -18,11 +18,11 @@ public class GlobalExceptionHandler {
             CustomIngredientNotFoundException.class,
             FoodNotFoundException.class,
             IngredientNotFoundException.class,
-            MealNotFoundException.class,
+            RecipeNotFoundException.class,
             MeasurementUnitNotFoundException.class,
             MicronutrientContentNotFoundException.class,
             MicronutrientNotFoundException.class,
-            RecipeNotFoundException.class,
+            SectionNotFoundException.class,
             StepNotFoundException.class
     })
     public ResponseEntity<ErrorResponse> handleNotFound(RuntimeException e, HttpServletRequest request) {

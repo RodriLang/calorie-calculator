@@ -1,11 +1,11 @@
 package com.trainerapp.calorie_calculator.repository;
 
-import com.trainerapp.calorie_calculator.model.entity.CustomIngredient;
+import com.trainerapp.calorie_calculator.model.entity.Seasoning;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CustomIngredientRepository extends JpaRepository<CustomIngredient, Long> {
+public interface CustomIngredientRepository extends JpaRepository<Seasoning, Long> {
 
-    public CustomIngredient findEntityById(Long id);
+    public Seasoning findEntityById(Long id);
 }

@@ -1,7 +1,7 @@
 package com.trainerapp.calorie_calculator.controller;
 
 import com.trainerapp.calorie_calculator.dto.response.RecipeResponseDto;
-import com.trainerapp.calorie_calculator.service.RecipeService;
+import com.trainerapp.calorie_calculator.service.SectionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,25 +9,27 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/recipes/{recipeId}/steps")
 @RequiredArgsConstructor
 public class RecipeStepController {
-
-    private final RecipeService recipeService;
+/*
+    private final SectionService sectionService;
 
     @PostMapping
     public RecipeResponseDto addStep(@PathVariable Long recipeId,
                                      @RequestBody String stepDescription) {
-        return recipeService.addStepToRecipe(recipeId, stepDescription);
+        return sectionService.addStepToRecipe(recipeId, stepDescription);
     }
 
     @PutMapping("/{stepIndex}")
     public RecipeResponseDto updateStep(@PathVariable Long recipeId,
                                         @PathVariable int stepIndex,
                                         @RequestBody String newStepDescription) {
-        return recipeService.updateStepInRecipe(recipeId, stepIndex, newStepDescription);
+        return sectionService.updateStepInRecipe(recipeId, stepIndex, newStepDescription);
     }
 
     @DeleteMapping
     public RecipeResponseDto removeStep(@PathVariable Long recipeId,
                                         @RequestBody String stepDescription) {
-        return recipeService.removeStepFromRecipe(recipeId, stepDescription);
+        return sectionService.removeStepFromRecipe(recipeId, stepDescription);
     }
+
+ */
 }

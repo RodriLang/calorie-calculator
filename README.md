@@ -24,15 +24,15 @@ calculando su valor nutricional a partir de ingredientes, micronutrientes y unid
 
 ### 📋 Recetas
 
-- **GET / POST / PUT / DELETE** `/api/recipes`: CRUD de recetas
-- **POST** `/recipes/{id}/ingredients`: Agregar ingrediente
-- **POST** `/recipes/{id}/custom-ingredients`: Ingredientes personalizados
-- **POST** `/recipes/{id}/steps`: Agregar pasos a la receta
+- **GET / POST / PUT / DELETE** `/api/sections`: CRUD de recetas
+- **POST** `/sections/{id}/ingredients`: Agregar ingrediente
+- **POST** `/sections/{id}/custom-ingredients`: Ingredientes personalizados
+- **POST** `/sections/{id}/steps`: Agregar pasos a la receta
 
 ### 🍽️ Comidas
 
 - **GET / POST / PUT / DELETE** `/api/calorie-calculator/meals`: CRUD de comidas
-- **POST** `/meals/{id}/recipes`: Asociar recetas
+- **POST** `/meals/{id}/sections`: Asociar recetas
 
 ---
 

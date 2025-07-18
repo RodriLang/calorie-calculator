@@ -46,7 +46,7 @@ public class FoodService {
     }
 
     public FoodResponseDto save(FoodRequestDto food) {
-        return foodMapper.toDto(foodRepository.save(foodMapper.fromDataDto(food)));
+        return foodMapper.toDto(foodRepository.save(foodMapper.toEntity(food)));
     }
 
     public void deleteById(long id) {

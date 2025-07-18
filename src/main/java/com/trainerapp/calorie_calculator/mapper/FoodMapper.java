@@ -18,7 +18,7 @@ public interface FoodMapper {
 
     Food fromDto(FoodResponseDto foodResponseDto);
 
-    Food fromDataDto(FoodRequestDto foodRequestDto);
+    Food toEntity(FoodRequestDto foodRequestDto);
 
 
 }

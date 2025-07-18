@@ -16,31 +16,33 @@ public class NutritionalInfoMapperImplementation implements NutritionalInfoMappe
     private final NutrientValueMapper nutrientValueMapper;
 
     public NutritionalInfo toEntity(NutritionalInfoResponseDto dto) {
-        return NutritionalInfo.builder()
-                .energyValue(dto.energy().value())
-                .carbohydrates(dto.carbohydrates().value())
-                .sugars(dto.sugars().value())
-                .protein(dto.protein().value())
-                .totalFat(dto.totalFat().value())
-                .saturatedFat(dto.saturatedFat().value())
-                .fiber(dto.fiber().value())
-                .build();
+
+        return new NutritionalInfo(
+                dto.energy().value(),
+                dto.carbohydrates().value(),
+                dto.sugars().value(),
+                dto.protein().value(),
+                dto.totalFat().value(),
+                dto.saturatedFat().value(),
+                dto.fiber().value()
+        );
     }
 
     public NutritionalInfoResponseDto toDto(NutritionalInfo entity) {
-        return NutritionalInfoResponseDto.builder()
-                .energy(nutrientValueMapper.map(entity.getEnergyValue(), NutrientType.ENERGY))
-                .carbohydrates(nutrientValueMapper.map(entity.getCarbohydrates(), NutrientType.CARBOHYDRATES))
-                .sugars(nutrientValueMapper.map(entity.getSugars(), NutrientType.SUGARS))
-                .protein(nutrientValueMapper.map(entity.getProtein(), NutrientType.PROTEIN))
-                .totalFat(nutrientValueMapper.map(entity.getTotalFat(),NutrientType.TOTAL_FAT))
-                .saturatedFat(nutrientValueMapper.map(entity.getSaturatedFat(), NutrientType.SATURATED_FAT))
-                .fiber(nutrientValueMapper.map(entity.getFiber(), NutrientType.FIBER))
-                .build();
+        return new NutritionalInfoResponseDto(
+                nutrientValueMapper.map(entity.getEnergyValue(), NutrientType.ENERGY),
+                nutrientValueMapper.map(entity.getCarbohydrates(), NutrientType.CARBOHYDRATES),
+                nutrientValueMapper.map(entity.getSugars(), NutrientType.SUGARS),
+                nutrientValueMapper.map(entity.getProtein(), NutrientType.PROTEIN),
+                nutrientValueMapper.map(entity.getTotalFat(), NutrientType.TOTAL_FAT),
+                nutrientValueMapper.map(entity.getSaturatedFat(), NutrientType.SATURATED_FAT),
+                nutrientValueMapper.map(entity.getFiber(), NutrientType.FIBER)
+        );
     }
 
 
     public NutritionalInfo fromDataDto(NutritionalInfoRequestDto dataDto) {
+
         return NutritionalInfo.builder()
                 .energyValue(dataDto.energy())
                 .carbohydrates(dataDto.carbohydrates())

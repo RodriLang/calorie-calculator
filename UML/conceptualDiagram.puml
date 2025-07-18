@@ -1,41 +1,31 @@
 @startuml
 
 class Recipe {
-    - id: Long
     - name: String
     - description: String
     - imageUrl: String
     - preparationTime: String
     - difficulty: DifficultyType
 }
-Recipe "1" *-- "1...*" RecipeSection : sections
-Recipe "1" *-- "0...*" Tag : tags
 
 class Tag {
-    - id: Long
     - label: String
 }
 
-class RecipeSection {
-    - id: Long
+class Section {
     - title: String
 }
-RecipeSection "1" *-- "1...*" Step : steps
-RecipeSection "1" *-- "1...*" Ingredient : Ingredients
-RecipeSection "1" *-- "0...*" CustomIngredient : seasonings
 
 class Step {
+    - stepNumber: Integer
     - label: String
     - instructions: String
 }
 
 class Ingredient {
-    - id: Long
     - amount: Double
-    - customLabel: String
+    - displayName: String
 }
-Ingredient "1" *-- "1" Food : food
-Ingredient "1" o-- "1" MeasurementUnit : unit
 
 class Seasoning {
     - name: String
@@ -45,14 +35,10 @@ class Seasoning {
 }
 
 class Food {
-    - id: Long
     - name: String
     - foodOrigin: FoodOriginType
     - nutritionalFunctions: List<NutritionalFunctionType>
 }
-Food "1" *-- "1" NutritionalInfo : nutritionalInfo
-Food "1" *-- "1...*" MeasurementUnit : supportedUnits
-Food "1" *-- "0...*" MicronutrientContent : micronutrients
 
 class NutritionalInfo {
     - energy: Double
@@ -67,10 +53,8 @@ class NutritionalInfo {
 class MicronutrientContent {
     - amountPerGram: Double
 }
-MicronutrientContent "1" *-- "1" Micronutrient : micronutrients
 
 class Micronutrient {
-    - id: Long
     - name: String
     - rda: Double
         ' recommendedDietaryAllowance
@@ -78,10 +62,37 @@ class Micronutrient {
 }
 
 class MeasurementUnit {
-    - id: Long
     - unit: UnitType
     - gramsPerUnit: Double
 }
+
+
+
+Recipe "1" *-r- "1...*" Section : sections
+Recipe "1" *-l- "0...*" Tag : tags
+
+Section "1" *-r- "1...*" Step : steps
+Section "1" *-d- "1...*" Ingredient : Ingredients
+Section "1" *-r- "0...*" Seasoning : seasonings
+
+Ingredient "1" *-- "1" Food : food
+Ingredient "1" o-r- "1" MeasurementUnit : unit
+
+MicronutrientContent "1" *-- "1" Micronutrient : micronutrients
+
+Food "1" *-- "1" NutritionalInfo : nutritionalInfo
+Food "1" *-u- "1...*" MeasurementUnit : supportedUnits
+Food "1" *-r- "0...*" MicronutrientContent : micronutrients
+Food "1" *-l- "0...*" Tag : tags
+Step -[hidden]- Seasoning
+
+UnitType -[hidden]d- FoodOriginType
+FoodOriginType -[hidden]- NutritionalFunctionType
+NutritionalFunctionType -[hidden]- DifficultyType
+
+
+
+
 
 enum UnitType {
     GRAMS

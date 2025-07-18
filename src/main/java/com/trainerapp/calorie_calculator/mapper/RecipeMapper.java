@@ -3,19 +3,19 @@ package com.trainerapp.calorie_calculator.mapper;
 import com.trainerapp.calorie_calculator.dto.response.RecipeResponseDto;
 import com.trainerapp.calorie_calculator.dto.request.RecipeRequestDto;
 import com.trainerapp.calorie_calculator.model.entity.Recipe;
-import org.mapstruct.Mapper;
+import org.mapstruct.*;
 
 @Mapper(componentModel = "spring",
         uses = {
-                IngredientMapper.class,
-                CustomIngredientMapper.class
+                SectionMapper.class,
+                TagMapper.class
         })
 public interface RecipeMapper {
-
-
-    Recipe fromDto(RecipeResponseDto recipeResponseDto);
-
+    
     RecipeResponseDto toDto(Recipe recipe);
 
-    Recipe fromDataDto(RecipeRequestDto recipeRequestDto);
+    Recipe toEntity(RecipeRequestDto recipeRequestDto);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateRecipeFromDto(RecipeRequestDto dto, @MappingTarget Recipe recipe);
 }

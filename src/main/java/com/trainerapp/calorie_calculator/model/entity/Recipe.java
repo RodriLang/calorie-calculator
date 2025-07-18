@@ -1,17 +1,15 @@
 package com.trainerapp.calorie_calculator.model.entity;
 
-import com.trainerapp.calorie_calculator.enums.DifficultyType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.time.Duration;
 import java.util.List;
-
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Entity
 @Table(name = "recipes")
@@ -21,34 +19,35 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size(max = 100)
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(nullable = false)
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @Column
+    private String description;
+
+    @Column
+    private String imageUrl;
+
+    @Column
+    private String preparationTime;
+
+    @Column
+    private Integer portions;
+
+    @ManyToMany
     @JoinTable(
-            name = "recipe_ingredients",  // Nombre de la tabla intermedia
-            joinColumns = @JoinColumn(name = "recipe_id"),  // Columna de Recipe
-            inverseJoinColumns = @JoinColumn(name = "ingredient_id")  // Columna de Ingredient
+            name = "recipes_sections",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "section_id")
     )
-    private List<Ingredient> ingredients;
+    private List<Section> sections;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "recipe_id")
-    private List<CustomIngredient> customIngredients;
+    @ManyToMany
+    @JoinTable(
+            name = "recipes_tags",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<Tag> tagList;
 
-    @Column(name = "short_description")
-    private String shortDescription;
-
-    @ElementCollection
-    @CollectionTable(name = "recipe_steps", joinColumns = @JoinColumn(name = "recipe_id"))
-    @Column(name = "step")
-    private List<String> steps;
-
-    @Column(name = "preparation_time")
-    Duration preparationTime;
-
-    @Enumerated(EnumType.STRING)
-    private DifficultyType difficulty;
 }

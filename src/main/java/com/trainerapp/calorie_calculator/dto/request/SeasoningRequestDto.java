@@ -5,17 +5,17 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record CustomIngredientRequestDto(
+public record SeasoningRequestDto(
 
         @NotBlank
-        String food,
+        String name,
 
         @NotNull
         @DecimalMin(value = "0.0", inclusive = true, message = "La cantidad no puede ser menor a cero.")
-        Double quantity,
+        Double amount,
 
         @NotNull
         UnitType unit,
 
-        String note) {
+        String label) {
 }
