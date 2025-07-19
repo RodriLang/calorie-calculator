@@ -17,7 +17,7 @@ public class RecipeController {
 
     @GetMapping
     public List<RecipeResponseDto> getAllRecipes() {
-        return recipeService.getRecipes();
+        return recipeService.getAllRecipes();
     }
 
     @GetMapping("/{id}")

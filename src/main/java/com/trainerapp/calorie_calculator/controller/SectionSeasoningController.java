@@ -1,9 +1,5 @@
 package com.trainerapp.calorie_calculator.controller;
 
-import com.trainerapp.calorie_calculator.dto.response.RecipeResponseDto;
-import com.trainerapp.calorie_calculator.dto.request.SeasoningRequestDto;
-import com.trainerapp.calorie_calculator.dto.response.SectionResponseDto;
-import com.trainerapp.calorie_calculator.service.SectionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

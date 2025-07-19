@@ -1,12 +1,7 @@
 package com.trainerapp.calorie_calculator.controller;
 
-import com.trainerapp.calorie_calculator.dto.request.TagRequestDto;
-import com.trainerapp.calorie_calculator.service.RecipeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor

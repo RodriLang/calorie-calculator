@@ -4,7 +4,7 @@ import com.trainerapp.calorie_calculator.dto.response.FoodResponseDto;
 import com.trainerapp.calorie_calculator.dto.request.FoodRequestDto;
 import com.trainerapp.calorie_calculator.enums.FoodOriginType;
 import com.trainerapp.calorie_calculator.dto.update.FoodUpdateDto;
-import com.trainerapp.calorie_calculator.service.FoodService;
+import com.trainerapp.calorie_calculator.service.impl.FoodService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/calorie-calculator/foods")
 public class FoodController {
 
-    private final FoodService foodService;
+    private final com.trainerapp.calorie_calculator.service.FoodService foodService;
 
     public FoodController(FoodService foodService) {
         this.foodService = foodService;
