@@ -1,0 +1,188 @@
+@startuml
+
+!define COMPOSITION_COLOR #FF6B6B
+!define AGGREGATION_COLOR #4ECDC4
+!define ASSOCIATION_COLOR #45B7D1
+
+class Recipe {
+    - name: String
+    - description: String
+    - imageUrl: String
+    - preparationTime: Duration
+    - difficulty: DifficultyType
+    - servings: Integer
+}
+
+class Tag {
+    - label: String
+    - category: TagCategory
+}
+
+class Section {
+    - title: String
+    - order: Integer
+}
+
+class Step {
+    - stepNumber: Integer
+    - title: String
+    - instructions: String
+    - estimatedTime: Duration
+    - imageUrl: String
+}
+
+class Ingredient {
+    - amount: Double
+    - displayName: String
+    - isOptional: Boolean
+}
+
+class Seasoning {
+    - name: String
+    - amount: Double
+    - unit: UnitType
+    - displayLabel: String
+    - isOptional: Boolean
+}
+
+class Food {
+    - name: String
+    - foodOrigin: FoodOriginType
+    - nutritionalFunctions: List<NutritionalFunctionType>
+    - isActive: Boolean
+}
+
+class NutritionalInfo {
+    - energy: Double
+    - carbohydrates: Double
+    - sugars: Double
+    - proteins: Double
+    - totalFats: Double
+    - saturatedFats: Double
+    - fiber: Double
+    - sodium: Double
+}
+
+class MicronutrientContent {
+    - amountPer100g: Double
+}
+
+class Micronutrient {
+    - name: String
+    - symbol: String
+    - rda: Double
+    - unit: UnitType
+    - category: MicronutrientCategory
+}
+
+class MeasurementUnit {
+    - unit: UnitType
+    - gramsPerUnit: Double
+    - displayName: String
+}
+
+Recipe ||--o{ Section : "contains\n1..*"
+Recipe }o--o{ Tag : "categorizedBy\n0..*"
+
+Section ||--o{ Step : "hasSteps\n1..*"
+Section ||--o{ Ingredient : "requiresIngredients\n1..*"
+Section ||--o{ Seasoning : "includeSeasonings\n0..*"
+
+Ingredient }o--|| Food : "basedOn"
+Ingredient }o--|| MeasurementUnit : "measuredIn"
+
+Food ||--|| NutritionalInfo : "hasNutrition"
+Food ||--o{ MeasurementUnit : "supportsUnits\n1..*"
+Food ||--o{ MicronutrientContent : "containsMicronutrients\n0..*"
+Food }o-up-o{ Tag : "taggedWith\n0..*"
+
+MicronutrientContent }o--|| Micronutrient : "represents"
+
+Recipe -[hidden]down-> Section
+Section -[hidden]down-> Step
+Food -[hidden]down-> NutritionalInfo
+MicronutrientContent -[hidden]up-> Micronutrient
+
+' Enums agrupados
+enum UnitType {
+    ' Weight
+    GRAMS
+    KILOGRAMS
+    MILLIGRAMS
+    MICROGRAMS
+
+    ' Volume
+    MILLILITERS
+    LITERS
+
+    ' Kitchen measures
+    TABLESPOON
+    TEASPOON
+    CUP
+
+    ' Approximate measures
+    PINCH
+    HANDFUL
+    DASH
+    DROP
+    SLICE
+    PIECE
+    UNIT
+
+    ' Special
+    PERCENTAGE
+    AS_NEEDED
+    TO_TASTE
+}
+
+enum FoodOriginType {
+    GRAIN
+    VEGETABLE
+    FRUIT
+    DAIRY
+    PROTEIN
+    LEGUME
+    NUT_SEED
+    SPICE_HERB
+    FAT_OIL
+    BEVERAGE
+}
+
+enum NutritionalFunctionType {
+    ENERGY_PROVIDER
+    BODY_BUILDER
+    BODY_REGULATOR
+}
+
+enum DifficultyType {
+    BEGINNER
+    INTERMEDIATE
+    ADVANCED
+    EXPERT
+}
+
+enum TagCategory {
+    DIETARY_RESTRICTION
+    CUISINE_TYPE
+    MEAL_TYPE
+    COOKING_METHOD
+    OCCASION
+}
+
+enum MicronutrientCategory {
+    VITAMIN
+    MINERAL
+    ANTIOXIDANT
+}
+
+
+' Usando hidden para alinear
+Recipe -[hidden]right-> DifficultyType
+Micronutrient -[hidden]right-> MicronutrientCategory
+MeasurementUnit -[hidden]right-> UnitType
+Tag -[hidden]up-> TagCategory
+Food -[hidden]left-> FoodOriginType
+FoodOriginType -[hidden]up-> NutritionalFunctionType
+
+
+@enduml
