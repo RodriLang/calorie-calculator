@@ -6,13 +6,12 @@ import com.trainerapp.calorie_calculator.exception.MeasurementUnitNotFoundExcept
 import com.trainerapp.calorie_calculator.mapper.MeasurementUnitMapper;
 import com.trainerapp.calorie_calculator.model.entity.MeasurementUnit;
 import com.trainerapp.calorie_calculator.repository.MeasurementUnitRepository;
-import com.trainerapp.calorie_calculator.service.MeasurementUnitService; // Importar la interfaz
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class MeasurementUnitServiceImpl implements MeasurementUnitService { // Implementar la interfaz
+public class MeasurementUnitServiceImpl implements com.trainerapp.calorie_calculator.service.MeasurementUnitService { // Implementar la interfaz
 
     private final MeasurementUnitRepository measurementUnitRepository;
     private final MeasurementUnitMapper measurementUnitMapper;
@@ -26,7 +25,7 @@ public class MeasurementUnitServiceImpl implements MeasurementUnitService { // I
     public MeasurementUnit findOrCreateByDataDto(Long foodId, MeasurementUnitRequestDto measurementUnit) {
         return measurementUnitRepository.findByUnitAndFood_Id(measurementUnit.unit(), foodId)
                 .orElseGet(() -> measurementUnitRepository
-                        .save(measurementUnitMapper.fromDataDto(measurementUnit)));
+                        .save(measurementUnitMapper.toEntity(measurementUnit)));
     }
 
     @Override
@@ -52,5 +51,11 @@ public class MeasurementUnitServiceImpl implements MeasurementUnitService { // I
     @Override
     public List<MeasurementUnit> getAll() {
         return measurementUnitRepository.findAll();
+    }
+
+    @Override
+    public void deleteMeasurementUnit(Long measurementUnitId) {
+        MeasurementUnit measurementUnit = this.findEntityById(measurementUnitId);
+        measurementUnitRepository.deleteById(measurementUnitId);
     }
 }

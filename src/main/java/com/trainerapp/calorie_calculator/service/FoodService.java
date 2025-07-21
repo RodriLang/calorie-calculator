@@ -17,15 +17,15 @@ public interface FoodService {
     FoodResponseDto save(FoodRequestDto food);
     void deleteById(long id);
     FoodResponseDto update(Long id, FoodRequestDto updatedFood);
-    FoodResponseDto parcialUpdate(Long id, FoodUpdateDto updatedFood);
     List<FoodResponseDto> findByCaloriesBetween(Integer calories1, Integer calories2);
     List<FoodResponseDto> findByFoodOrigin(FoodOriginType foodOriginType);
     FoodResponseDto addMicronutrient(Long id, MicronutrientContentRequestDto micronutrientContent);
     FoodResponseDto addOrUpdateMicronutrients(Long id, List<MicronutrientContentRequestDto> micronutrientContents);
+    FoodResponseDto removeMicronutrient(Long foodId, Long micronutrientId);
     FoodResponseDto removeMicronutrients(Long foodId, List<Long> micronutrientIds);
-    FoodResponseDto addMeasurementUnit(Long foodId, MeasurementUnitRequestDto unitDto);
+    FoodResponseDto addMeasurementUnit(MeasurementUnitRequestDto unitDto);
     FoodResponseDto addTags(Long foodId, List<TagRequestDto> tagsData);
     FoodResponseDto removeTags(Long foodId, List<Long> tagIds);
-    FoodResponseDto removeMeasurementUnit(Long foodId, Long unitId);
+    FoodResponseDto removeMeasurementUnit(Long unitId);
     Food findEntityById(Long id);
 }

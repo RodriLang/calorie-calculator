@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class IngredientServiceImpl implements IngredientService { // Implementar la interfaz
 
     private final IngredientRepository ingredientRepository;
-    private final FoodService foodService;
+    private final FoodServiceImpl foodService;
     private final MeasurementUnitServiceImpl measurementUnitServiceImpl;
 
     @Override

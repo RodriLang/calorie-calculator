@@ -8,11 +8,9 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring", uses = FoodMapper.class)
 public interface IngredientMapper {
 
-    Ingredient fromDto(IngredientResponseDto ingredientResponseDto);
-
     IngredientResponseDto toDto(Ingredient ingredient);
 
-    Ingredient fromDataDto(IngredientRequestDto ingredientRequestDto);
+    Ingredient toEntity(IngredientRequestDto ingredientRequestDto);
 
 }
 

@@ -16,6 +16,7 @@ import com.trainerapp.calorie_calculator.model.entity.Ingredient;
 import com.trainerapp.calorie_calculator.model.entity.Section;
 import com.trainerapp.calorie_calculator.model.entity.Step;
 import com.trainerapp.calorie_calculator.repository.SectionRepository;
+import com.trainerapp.calorie_calculator.service.SectionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +27,7 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 @Service
-public class SectionService implements com.trainerapp.calorie_calculator.service.SectionService {
+public class SectionServiceImpl implements SectionService {
 
 
     private final SectionRepository sectionRepository;

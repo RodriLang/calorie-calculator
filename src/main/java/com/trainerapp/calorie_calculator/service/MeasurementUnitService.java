@@ -12,4 +12,5 @@ public interface MeasurementUnitService {
     MeasurementUnit findEntityById(Long id);
     List<MeasurementUnitResponseDto> findByFood(Long foodId);
     List<MeasurementUnit> getAll();
+    void deleteMeasurementUnit(Long measurementUnitId);
 }
