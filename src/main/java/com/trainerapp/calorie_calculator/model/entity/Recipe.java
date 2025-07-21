@@ -32,7 +32,7 @@ public class Recipe {
     private String preparationTime;
 
     @Column
-    private Integer portions;
+    private Integer servings;
 
     @ManyToMany
     @JoinTable(

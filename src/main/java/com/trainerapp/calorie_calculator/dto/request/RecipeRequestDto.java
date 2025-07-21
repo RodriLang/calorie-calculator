@@ -22,7 +22,7 @@ public record RecipeRequestDto(
 
         @NotNull(message = "La cantidad de porciones no puede ser nula.")
         @Size(min = 1, message = "Debe contener al menos una porción.", groups = {OnCreate.class, OnUpdate.class})
-        Integer portions,
+        Integer servings,
 
         @NotNull(message = "La URL no puede ser nula.", groups = OnCreate.class)
         @NotBlank(message = "La URL no puede estar vacía.", groups = {OnCreate.class, OnUpdate.class})

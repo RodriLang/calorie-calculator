@@ -10,7 +10,7 @@ public record RecipeResponseDto(
         Long id,
         String name,
         String preparationTime,
-        Integer portions,
+        Integer servings,
         String description,
         String url,
         List<SectionRequestDto> sections,
