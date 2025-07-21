@@ -117,25 +117,24 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public FoodResponseDto removeMicronutrient(Long foodId, Long micronutrientId) {
+    public void removeMicronutrient(Long foodId, Long micronutrientId) {
         Food existingFood = this.findEntityById(foodId);
 
         existingFood.getMicronutrients().removeIf(
                 m -> m.getMicronutrient().getId().equals(micronutrientId)
         );
 
-        return foodMapper.toDto(foodRepository.save(existingFood));
+        foodRepository.save(existingFood);
     }
 
     @Override
-    public FoodResponseDto removeMicronutrients(Long foodId, List<Long> micronutrientIds) {
+    public void removeMicronutrients(Long foodId, List<Long> micronutrientIds) {
         Food existingFood = this.findEntityById(foodId);
 
         existingFood.getMicronutrients().removeIf(
                 m -> micronutrientIds.contains(m.getMicronutrient().getId())
         );
-
-        return foodMapper.toDto(foodRepository.save(existingFood));
+        foodRepository.save(existingFood);
     }
 
     @Override

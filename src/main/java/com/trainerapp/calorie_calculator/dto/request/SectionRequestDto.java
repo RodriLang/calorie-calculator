@@ -1,9 +1,6 @@
 package com.trainerapp.calorie_calculator.dto.request;
 
 import com.trainerapp.calorie_calculator.enums.DifficultyType;
-import com.trainerapp.calorie_calculator.model.entity.Ingredient;
-import com.trainerapp.calorie_calculator.model.entity.Seasoning;
-import com.trainerapp.calorie_calculator.model.entity.Step;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
