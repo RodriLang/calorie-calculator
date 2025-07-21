@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/meals/{recipeId}/recipes/{recipeId}/sections/{sectionId}/seasonings")
+@RequestMapping("/api/recipes/{recipeId}/sections/{sectionId}/seasonings")
 @RequiredArgsConstructor
 public class SectionSeasoningController {
 /*

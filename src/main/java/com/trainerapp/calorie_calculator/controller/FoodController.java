@@ -3,10 +3,12 @@ package com.trainerapp.calorie_calculator.controller;
 import com.trainerapp.calorie_calculator.dto.response.FoodResponseDto;
 import com.trainerapp.calorie_calculator.dto.request.FoodRequestDto;
 import com.trainerapp.calorie_calculator.enums.FoodOriginType;
-import com.trainerapp.calorie_calculator.dto.update.FoodUpdateDto;
 import com.trainerapp.calorie_calculator.service.FoodService;
+import com.trainerapp.calorie_calculator.validations.OnCreate;
+import com.trainerapp.calorie_calculator.validations.OnUpdate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +22,9 @@ public class FoodController {
 
 
     @PostMapping
-    public ResponseEntity<FoodResponseDto> save(@RequestBody FoodRequestDto food) {
+    public ResponseEntity<FoodResponseDto> save(
+            @Validated(OnCreate.class)
+            @RequestBody FoodRequestDto food) {
         return ResponseEntity.ok(foodService.save(food));
     }
 
@@ -48,6 +52,7 @@ public class FoodController {
 
     @PutMapping("/{id}")
     public ResponseEntity<FoodResponseDto> update(
+            @Validated(OnUpdate.class)
             @PathVariable Long id,
             @RequestBody FoodRequestDto foodRequestDto) {
         return ResponseEntity.ok(foodService.update(id, foodRequestDto));
