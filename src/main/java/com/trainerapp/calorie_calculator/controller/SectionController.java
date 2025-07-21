@@ -2,7 +2,7 @@ package com.trainerapp.calorie_calculator.controller;
 
 import com.trainerapp.calorie_calculator.dto.request.SectionRequestDto;
 import com.trainerapp.calorie_calculator.dto.response.SectionResponseDto;
-import com.trainerapp.calorie_calculator.service.impl.SectionService;
+import com.trainerapp.calorie_calculator.service.SectionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

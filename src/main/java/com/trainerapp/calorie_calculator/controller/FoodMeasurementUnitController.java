@@ -9,24 +9,22 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/calorie-calculator/foods")
+@RequestMapping("/api/calorie-calculator/measurement-units")
 public class FoodMeasurementUnitController {
 
     private final FoodService foodService;
 
 
-    @PutMapping("/{foodId}/measurement-unit")
+    @PutMapping()
     public ResponseEntity<FoodResponseDto> addMeasurementUnit(
-            @PathVariable Long foodId,
             @RequestBody MeasurementUnitRequestDto measurementUnit) {
-        return ResponseEntity.ok(foodService.addMeasurementUnit(foodId, measurementUnit));
+        return ResponseEntity.ok(foodService.addMeasurementUnit(measurementUnit));
     }
 
 
-    @DeleteMapping("/{foodId}/measurement-unit")
+    @DeleteMapping()
     public ResponseEntity<FoodResponseDto> removeMeasurementUnit(
-            @PathVariable Long foodId,
             @RequestBody Long measurementUnitId) {
-        return ResponseEntity.ok(foodService.removeMeasurementUnit(foodId, measurementUnitId));
+        return ResponseEntity.ok(foodService.removeMeasurementUnit(measurementUnitId));
     }
 }

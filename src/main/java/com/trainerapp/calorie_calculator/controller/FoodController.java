@@ -4,7 +4,8 @@ import com.trainerapp.calorie_calculator.dto.response.FoodResponseDto;
 import com.trainerapp.calorie_calculator.dto.request.FoodRequestDto;
 import com.trainerapp.calorie_calculator.enums.FoodOriginType;
 import com.trainerapp.calorie_calculator.dto.update.FoodUpdateDto;
-import com.trainerapp.calorie_calculator.service.impl.FoodService;
+import com.trainerapp.calorie_calculator.service.FoodService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,13 +13,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/calorie-calculator/foods")
+@RequiredArgsConstructor
 public class FoodController {
 
-    private final com.trainerapp.calorie_calculator.service.FoodService foodService;
+    private final FoodService foodService;
 
-    public FoodController(FoodService foodService) {
-        this.foodService = foodService;
-    }
 
     @PostMapping
     public ResponseEntity<FoodResponseDto> save(@RequestBody FoodRequestDto food) {
@@ -52,13 +51,6 @@ public class FoodController {
             @PathVariable Long id,
             @RequestBody FoodRequestDto foodRequestDto) {
         return ResponseEntity.ok(foodService.update(id, foodRequestDto));
-    }
-
-    @PatchMapping("/{id}")
-    public ResponseEntity<FoodResponseDto> partialUpdate(
-            @PathVariable Long id,
-            @RequestBody FoodUpdateDto foodUpdateDto) {
-        return ResponseEntity.ok(foodService.parcialUpdate(id, foodUpdateDto));
     }
 
     @DeleteMapping("/{id}")

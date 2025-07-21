@@ -4,6 +4,7 @@ import com.trainerapp.calorie_calculator.dto.response.FoodResponseDto;
 import com.trainerapp.calorie_calculator.dto.request.MicronutrientContentRequestDto;
 import com.trainerapp.calorie_calculator.service.FoodService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,16 @@ public class FoodMicronutrientController {
 
     private final FoodService foodService;
 
+
+    @PostMapping("/{foodId}/micronutrient")
+    public ResponseEntity<FoodResponseDto> addMicronutrient(
+            @PathVariable Long foodId,
+            @RequestBody MicronutrientContentRequestDto micronutrient) {
+        FoodResponseDto foodResponseDto = foodService.addMicronutrient(foodId, micronutrient);
+        return ResponseEntity.status(HttpStatus.CREATED).body(foodResponseDto);
+    }
+
+
     @PutMapping("/{foodId}/micronutrients")
     public ResponseEntity<FoodResponseDto> addMicronutrients(
             @PathVariable Long foodId,
@@ -23,18 +34,21 @@ public class FoodMicronutrientController {
         return ResponseEntity.ok(foodService.addOrUpdateMicronutrients(foodId, micronutrients));
     }
 
-    @PatchMapping("/{foodId}/micronutrient")
-    public ResponseEntity<FoodResponseDto> addMicronutrient(
+
+    @DeleteMapping("/{foodId}/micronutrient/{micronutrientId}")
+    public ResponseEntity<Void> removeMicronutrient(
             @PathVariable Long foodId,
-            @RequestBody MicronutrientContentRequestDto micronutrient) {
-        return ResponseEntity.ok(foodService.addMicronutrient(foodId, micronutrient));
+            @PathVariable Long micronutrientId) {
+        foodService.removeMicronutrient(foodId, micronutrientId);
+        return ResponseEntity.noContent().build();
     }
 
 
     @DeleteMapping("/{foodId}/micronutrients")
-    public ResponseEntity<FoodResponseDto> removeMicronutrients(
+    public ResponseEntity<Void> removeMicronutrients(
             @PathVariable Long foodId,
-            @RequestBody List<Long> micronutrientIds) {
-        return ResponseEntity.ok(foodService.removeMicronutrients(foodId, micronutrientIds));
+            @RequestParam List<Long> micronutrientIds) {
+        foodService.removeMicronutrients(foodId, micronutrientIds);
+        return ResponseEntity.noContent().build();
     }
 }
