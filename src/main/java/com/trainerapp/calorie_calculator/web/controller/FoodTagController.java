@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,15 +19,15 @@ public class FoodTagController {
 
     @PutMapping("/{foodId}/tags")
     public ResponseEntity<FoodResponseDto> addTags(
-            @PathVariable Long foodId,
+            @PathVariable UUID foodId,
             @RequestBody List<TagRequestDto> tags) {
         return ResponseEntity.ok(foodService.addTags(foodId, tags));
     }
 
     @DeleteMapping("/{foodId}/tags")
     public ResponseEntity<FoodResponseDto> removeTags(
-            @PathVariable Long foodId,
-            @RequestBody List<Long> tagIds) {
+            @PathVariable UUID foodId,
+            @RequestBody List<UUID> tagIds) {
         return ResponseEntity.ok(foodService.removeTags(foodId, tagIds));
     }
 }

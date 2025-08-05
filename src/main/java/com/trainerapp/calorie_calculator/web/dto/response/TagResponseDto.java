@@ -1,8 +1,14 @@
 package com.trainerapp.calorie_calculator.web.dto.response;
 
+
+import java.util.UUID;
+
 public record TagResponseDto(
 
-        Long id,
+        UUID id,
 
-        String label) {
+        String label,
+
+        String tagType
+) {
 }

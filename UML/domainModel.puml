@@ -5,6 +5,7 @@
 !define ASSOCIATION_COLOR #45B7D1
 
 class Recipe {
+    - publicId: UUID
     - name: String
     - description: String
     - imageUrl: String
@@ -14,11 +15,13 @@ class Recipe {
 }
 
 class Tag {
+    - publicId: UUID
     - label: String
     - category: TagCategory
 }
 
 class Section {
+    - publicId: UUID
     - title: String
     - order: Integer
 }
@@ -32,12 +35,14 @@ class Step {
 }
 
 class Ingredient {
+    - publicId: UUID
     - amount: Double
     - displayName: String
     - isOptional: Boolean
 }
 
 class Seasoning {
+    - publicId: UUID
     - name: String
     - amount: Double
     - unit: UnitType
@@ -46,6 +51,7 @@ class Seasoning {
 }
 
 class Food {
+    - publicId: UUID
     - name: String
     - foodOrigin: FoodOriginType
     - nutritionalFunctions: List<NutritionalFunctionType>
@@ -64,10 +70,11 @@ class NutritionalInfo {
 }
 
 class MicronutrientContent {
-    - amountPer100g: Double
+    - amountPerUnit: Double
 }
 
 class Micronutrient {
+    - publicId: UUID
     - name: String
     - symbol: String
     - rda: Double
@@ -76,6 +83,7 @@ class Micronutrient {
 }
 
 class MeasurementUnit {
+    - publicId: UUID
     - unit: UnitType
     - gramsPerUnit: Double
     - displayName: String

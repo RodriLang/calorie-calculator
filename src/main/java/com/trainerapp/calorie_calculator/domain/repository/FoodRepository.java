@@ -8,11 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface FoodRepository extends JpaRepository<FoodEntity, Long> {
 
-    FoodEntity findByName(String name);
+    Optional<FoodEntity> findByPublicId(UUID publicId);
 
     List<FoodEntity> findByNutritionalInfo_EnergyValue(int energyValue);
 

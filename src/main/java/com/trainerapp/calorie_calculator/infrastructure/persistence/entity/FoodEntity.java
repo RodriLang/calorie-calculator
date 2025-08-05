@@ -4,9 +4,11 @@ import com.trainerapp.calorie_calculator.domain.enums.FoodOriginType;
 import com.trainerapp.calorie_calculator.domain.enums.NutritionalFunctionType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -19,6 +21,9 @@ public class FoodEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private UUID publicId;
 
     @Column(nullable = false, unique = true)
     private String name;

@@ -1,10 +1,18 @@
 package com.trainerapp.calorie_calculator.application.exception;
 
+import java.util.UUID;
+
 public class FoodNotFoundException extends RuntimeException {
+
     public FoodNotFoundException(String message) {
         super(message);
     }
+
     public FoodNotFoundException(Long id) {
+        super("Food not found with id: " + id);
+    }
+
+    public FoodNotFoundException(UUID id) {
         super("Food not found with id: " + id);
     }
 }

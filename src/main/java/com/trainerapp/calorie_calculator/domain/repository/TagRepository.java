@@ -5,9 +5,12 @@ import com.trainerapp.calorie_calculator.infrastructure.persistence.entity.TagEn
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface TagRepository extends JpaRepository<TagEntity, Long> {
 
-            Optional<TagEntity> findByLabelAndTagType(String label, TagType type);
+    Optional<TagEntity> findByPublicId(UUID publicId);
+
+    Optional<TagEntity> findByLabelAndTagType(String label, TagType type);
 
 }

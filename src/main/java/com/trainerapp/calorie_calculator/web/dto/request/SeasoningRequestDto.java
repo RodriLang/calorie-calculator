@@ -11,11 +11,12 @@ public record SeasoningRequestDto(
         String name,
 
         @NotNull
-        @DecimalMin(value = "0.0", inclusive = true, message = "La cantidad no puede ser menor a cero.")
+        @DecimalMin(value = "0.0", message = "La cantidad no puede ser menor a cero.")
         Double amount,
 
         @NotNull
         UnitType unit,
 
-        String label) {
+        String label
+) {
 }

@@ -11,6 +11,8 @@ import com.trainerapp.calorie_calculator.web.mapper.TagDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class TagServiceImpl implements TagService {
@@ -32,8 +34,8 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public Tag findById(Long id) {
-        return tagEntityMapper.toModel(tagRepository.findById(id)
+    public Tag findById(UUID id) {
+        return tagEntityMapper.toModel(tagRepository.findByPublicId(id)
                 .orElseThrow(() -> new TagNotFoundException(id)));
     }
 

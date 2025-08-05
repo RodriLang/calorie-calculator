@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/calorie-calculator/measurement-units")
@@ -24,7 +26,7 @@ public class FoodMeasurementUnitController {
 
     @DeleteMapping()
     public ResponseEntity<FoodResponseDto> removeMeasurementUnit(
-            @RequestBody Long measurementUnitId) {
+            @RequestBody UUID measurementUnitId) {
         return ResponseEntity.ok(foodService.removeMeasurementUnit(measurementUnitId));
     }
 }

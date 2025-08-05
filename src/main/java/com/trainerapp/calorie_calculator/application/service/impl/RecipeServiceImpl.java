@@ -4,7 +4,6 @@ import com.trainerapp.calorie_calculator.domain.model.Recipe;
 import com.trainerapp.calorie_calculator.domain.model.Section;
 import com.trainerapp.calorie_calculator.domain.model.Tag;
 import com.trainerapp.calorie_calculator.infrastructure.persistence.entity.RecipeEntity;
-import com.trainerapp.calorie_calculator.infrastructure.persistence.entity.SectionEntity;
 import com.trainerapp.calorie_calculator.infrastructure.persistence.mapper.SectionEntityMapper;
 import com.trainerapp.calorie_calculator.web.dto.request.RecipeRequestDto;
 import com.trainerapp.calorie_calculator.web.dto.request.SectionRequestDto;
@@ -12,18 +11,17 @@ import com.trainerapp.calorie_calculator.web.dto.request.TagRequestDto;
 import com.trainerapp.calorie_calculator.web.dto.response.RecipeResponseDto;
 import com.trainerapp.calorie_calculator.application.exception.RecipeNotFoundException;
 import com.trainerapp.calorie_calculator.infrastructure.persistence.mapper.RecipeEntityMapper;
-import com.trainerapp.calorie_calculator.infrastructure.persistence.entity.TagEntity;
 import com.trainerapp.calorie_calculator.domain.repository.RecipeRepository;
 import com.trainerapp.calorie_calculator.application.service.RecipeService;
 import com.trainerapp.calorie_calculator.web.mapper.RecipeDtoMapper;
 import com.trainerapp.calorie_calculator.web.mapper.SectionDtoMapper;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -46,13 +44,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe getModelById(Long id) {
-        return recipeEntityMapper.toModel(recipeRepository.findById(id)
-                .orElseThrow(() -> new RecipeNotFoundException(id)));
+    public Recipe getModelById(UUID id) {
+        return recipeEntityMapper.toModel(this.findEntity(id));
     }
 
     @Override
-    public RecipeResponseDto getRecipeById(Long id) {
+    public RecipeResponseDto getRecipeById(UUID id) {
         return recipeDtoMapper.toDto(getModelById(id));
     }
 
@@ -66,7 +63,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public RecipeResponseDto updateRecipe(Long recipeId, RecipeRequestDto recipeRequestDto) {
+    public RecipeResponseDto updateRecipe(UUID recipeId, RecipeRequestDto recipeRequestDto) {
 
         Recipe recipe = this.getModelById(recipeId);
 
@@ -94,12 +91,14 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public void deleteRecipe(Long recipeId) {
-        recipeRepository.deleteById(recipeId);
+    public void deleteRecipe(UUID recipeId) {
+
+        RecipeEntity recipeEntity = this.findEntity(recipeId);
+        recipeRepository.delete(recipeEntity);
     }
 
     @Override
-    public RecipeResponseDto addSectionToRecipe(Long recipeId, SectionRequestDto sectionRequestDto) {
+    public RecipeResponseDto addSectionToRecipe(UUID recipeId, SectionRequestDto sectionRequestDto) {
         Recipe recipe = this.getModelById(recipeId);
         Section section = sectionDtoMapper.toModel(sectionRequestDto);
         recipe.getSections().add(section);
@@ -108,17 +107,15 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public RecipeResponseDto removeSectionFromRecipe(Long recipeId, Long sectionId) {
-
-        //arreglar aca para que no reciba el id
+    public RecipeResponseDto removeSectionFromRecipe(UUID recipeId, UUID sectionId) {
 
         Recipe recipe = this.getModelById(recipeId);
-        recipe.getSections().removeIf(s -> s.equals(sectionId));
+        recipe.getSections().removeIf(s -> s.getPublicId().equals(sectionId));
         return recipeDtoMapper.toDto(saveRecipe(recipe));
     }
 
     @Override
-    public RecipeResponseDto addTags(Long recipeId, List<TagRequestDto> tagsData) {
+    public RecipeResponseDto addTags(UUID recipeId, List<TagRequestDto> tagsData) {
         Recipe existingRecipe = this.getModelById(recipeId);
         List<Tag> tagsToAdd = tagsData.stream()
                 .map(tagServiceImpl::findOrCreateByDataDto)
@@ -134,15 +131,20 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public RecipeResponseDto removeTags(Long recipeId, List<Long> tagIds) {
+    public RecipeResponseDto removeTags(UUID recipeId, List<UUID> tagIds) {
 
-        //arreglar la lista de iddds
         Recipe existingRecipe = this.getModelById(recipeId);
-        existingRecipe.getTagList().removeIf(tag -> tagIds.contains(tag));
+        existingRecipe.getTagList().removeIf(tag -> tagIds.contains(tag.getPublicId()));
         return recipeDtoMapper.toDto(saveRecipe(existingRecipe));
     }
 
     private Recipe saveRecipe(Recipe recipe) {
         return recipeEntityMapper.toModel(recipeRepository.save(recipeEntityMapper.toEntity(recipe)));
+    }
+
+    private RecipeEntity findEntity(UUID id) {
+        return recipeRepository.findByPublicId(id)
+                .orElseThrow(() -> new RecipeNotFoundException(id));
+
     }
 }

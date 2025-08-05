@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class FoodMicronutrientController {
 
     @PostMapping("/{foodId}/micronutrient")
     public ResponseEntity<FoodResponseDto> addMicronutrient(
-            @PathVariable Long foodId,
+            @PathVariable UUID foodId,
             @RequestBody MicronutrientContentRequestDto micronutrient) {
         FoodResponseDto foodResponseDto = foodService.addMicronutrient(foodId, micronutrient);
         return ResponseEntity.status(HttpStatus.CREATED).body(foodResponseDto);
@@ -29,7 +30,7 @@ public class FoodMicronutrientController {
 
     @PutMapping("/{foodId}/micronutrients")
     public ResponseEntity<FoodResponseDto> addMicronutrients(
-            @PathVariable Long foodId,
+            @PathVariable UUID foodId,
             @RequestBody List<MicronutrientContentRequestDto> micronutrients) {
         return ResponseEntity.ok(foodService.addOrUpdateMicronutrients(foodId, micronutrients));
     }
@@ -37,8 +38,8 @@ public class FoodMicronutrientController {
 
     @DeleteMapping("/{foodId}/micronutrient/{micronutrientId}")
     public ResponseEntity<Void> removeMicronutrient(
-            @PathVariable Long foodId,
-            @PathVariable Long micronutrientId) {
+            @PathVariable UUID foodId,
+            @PathVariable UUID micronutrientId) {
         foodService.removeMicronutrient(foodId, micronutrientId);
         return ResponseEntity.noContent().build();
     }
@@ -46,8 +47,8 @@ public class FoodMicronutrientController {
 
     @DeleteMapping("/{foodId}/micronutrients")
     public ResponseEntity<Void> removeMicronutrients(
-            @PathVariable Long foodId,
-            @RequestParam List<Long> micronutrientIds) {
+            @PathVariable UUID foodId,
+            @RequestParam List<UUID> micronutrientIds) {
         foodService.removeMicronutrients(foodId, micronutrientIds);
         return ResponseEntity.noContent().build();
     }

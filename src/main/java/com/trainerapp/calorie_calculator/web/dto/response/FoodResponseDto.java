@@ -1,13 +1,22 @@
 package com.trainerapp.calorie_calculator.web.dto.response;
 
 import java.util.List;
+import java.util.UUID;
 
 public record FoodResponseDto(
-        Long id,
+
+        UUID id,
+
         String name,
+
         String foodOrigin,
+
         List<String> nutritionalFunctions,
+
         NutritionalInfoResponseDto nutritionalInfo,
+
         List<MicronutrientContentResponseDto> micronutrients,
-        List<TagResponseDto> tags) {
+
+        List<TagResponseDto> tags
+) {
 }

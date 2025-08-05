@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/sections")
@@ -22,7 +23,7 @@ public class SectionController {
 
     @GetMapping("/{id}")
     public SectionResponseDto getSectionById(
-            @PathVariable Long id
+            @PathVariable UUID id
     ) {
         return sectionService.findById(id);
     }
@@ -36,14 +37,14 @@ public class SectionController {
 
     @PutMapping("/{id}")
     public SectionResponseDto updateSection(
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @RequestBody SectionRequestDto sectionRequestDto
     ) {
         return sectionService.updateSection(id, sectionRequestDto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSection(@PathVariable Long id) {
+    public void deleteSection(@PathVariable UUID id) {
         sectionService.deleteSection(id);
     }
 }

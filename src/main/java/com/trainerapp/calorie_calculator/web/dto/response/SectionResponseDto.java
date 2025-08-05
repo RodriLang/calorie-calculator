@@ -1,8 +1,11 @@
 package com.trainerapp.calorie_calculator.web.dto.response;
 
 import java.util.List;
+import java.util.UUID;
 
 public record SectionResponseDto(
+
+        UUID id,
 
         String name,
 
@@ -17,4 +20,5 @@ public record SectionResponseDto(
         String preparationTime,
 
         String difficulty
-) {}
+) {
+}

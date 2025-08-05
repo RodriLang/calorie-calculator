@@ -18,15 +18,15 @@ public class NutritionalInfoDtoMapperImplementation implements NutritionalInfoDt
 
     public NutritionalInfoEntity toModel(NutritionalInfoResponseDto dto) {
 
-        return new NutritionalInfoEntity(
-                dto.energy().value(),
-                dto.carbohydrates().value(),
-                dto.sugars().value(),
-                dto.protein().value(),
-                dto.totalFat().value(),
-                dto.saturatedFat().value(),
-                dto.fiber().value()
-        );
+        return NutritionalInfoEntity.builder()
+                .energyValue(dto.energy().value())
+                .carbohydrates(dto.carbohydrates().value())
+                .sugars(dto.sugars().value())
+                .protein(dto.protein().value())
+                .totalFat(dto.totalFat().value())
+                .saturatedFat(dto.saturatedFat().value())
+                .fiber(dto.fiber().value())
+                .build();
     }
 
     public NutritionalInfoResponseDto toDto(NutritionalInfo model) {

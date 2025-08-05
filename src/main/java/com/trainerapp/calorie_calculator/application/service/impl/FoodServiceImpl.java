@@ -25,13 +25,13 @@ import com.trainerapp.calorie_calculator.application.service.MeasurementUnitServ
 import com.trainerapp.calorie_calculator.web.mapper.FoodDtoMapper;
 import com.trainerapp.calorie_calculator.web.mapper.MeasurementUnitDtoMapper;
 import com.trainerapp.calorie_calculator.web.mapper.MicronutrientContentDtoMapper;
-import com.trainerapp.calorie_calculator.web.mapper.MicronutrientDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -59,7 +59,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public FoodResponseDto getById(long id) {
+    public FoodResponseDto getById(UUID id) {
         return foodDtoMapper.toDto(this.findModelById(id));
     }
 
@@ -71,12 +71,14 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void deleteById(long id) {
-        foodRepository.deleteById(id);
+    public void deleteById(UUID id) {
+
+        Food existingFood = this.findModelById(id);
+        foodRepository.delete(foodEntityMapper.toEntity(existingFood));
     }
 
     @Override
-    public FoodResponseDto update(Long id, FoodRequestDto foodRequestDto) {
+    public FoodResponseDto update(UUID id, FoodRequestDto foodRequestDto) {
 
         Food existingFood = this.findModelById(id);
         Food updatedFood = foodDtoMapper.updateFoodFromDto(foodRequestDto, existingFood.toBuilder());
@@ -107,7 +109,7 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public FoodResponseDto addMicronutrient(
-            Long id, MicronutrientContentRequestDto micronutrientContent) {
+            UUID id, MicronutrientContentRequestDto micronutrientContent) {
         Food existingFood = this.findModelById(id);
 
         MicronutrientEntity micronutrient = micronutrientService.getEntityById(micronutrientContent.micronutrientId());
@@ -120,7 +122,7 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public FoodResponseDto addOrUpdateMicronutrients(
-            Long id, List<MicronutrientContentRequestDto> micronutrientContents) {
+            UUID id, List<MicronutrientContentRequestDto> micronutrientContents) {
         Food existingFood = this.findModelById(id);
 
         for (MicronutrientContentRequestDto content : micronutrientContents) {
@@ -136,7 +138,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void removeMicronutrient(Long foodId, Long micronutrientId) {
+    public void removeMicronutrient(UUID foodId, UUID micronutrientId) {
         Food existingFood = this.findModelById(foodId);
 
         Micronutrient micronutrientAdded = micronutrientService.getModelById(micronutrientId);
@@ -149,7 +151,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public void removeMicronutrients(Long foodId, List<Long> micronutrientIds) {
+    public void removeMicronutrients(UUID foodId, List<UUID> micronutrientIds) {
         Food existingFood = this.findModelById(foodId);
 
         List<Micronutrient> micronutrientsToRemove = micronutrientIds.stream()
@@ -182,7 +184,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public FoodResponseDto addTags(Long foodId, List<TagRequestDto> tagsData) {
+    public FoodResponseDto addTags(UUID foodId, List<TagRequestDto> tagsData) {
         Food existingFood = this.findModelById(foodId);
 
         // Verifica si los tags existen, si no los crea
@@ -201,7 +203,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public FoodResponseDto removeTags(Long foodId, List<Long> tagIds) {
+    public FoodResponseDto removeTags(UUID foodId, List<UUID> tagIds) {
         Food existingFood = this.findModelById(foodId);
 
         List<Tag> removedTags = tagIds
@@ -215,11 +217,11 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public FoodResponseDto removeMeasurementUnit(Long unitId) {
+    public FoodResponseDto removeMeasurementUnit(UUID unitId) {
         MeasurementUnitEntity measurementUnit = measurementUnitService.findEntityById(unitId);
-        measurementUnitService.deleteMeasurementUnit(measurementUnit.getId());
+        measurementUnitService.deleteMeasurementUnit(measurementUnit.getPublicId());
 
-        Food existingFood = this.findModelById(measurementUnit.getFood().getId());
+        Food existingFood = this.findModelById(measurementUnit.getFood().getPublicId());
         existingFood.getMeasurementUnits()
                 .removeIf(measurementUnit1
                         -> measurementUnit1.equals(measurementUnitEntityMapper.toModel(measurementUnit)));
@@ -227,8 +229,8 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public Food findModelById(Long id) {
-        return foodEntityMapper.toModel(foodRepository.findById(id)
+    public Food findModelById(UUID id) {
+        return foodEntityMapper.toModel(foodRepository.findByPublicId(id)
                 .orElseThrow(() -> new FoodNotFoundException(id)));
     }
 

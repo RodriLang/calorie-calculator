@@ -7,13 +7,12 @@ import com.trainerapp.calorie_calculator.domain.model.Seasoning;
 import com.trainerapp.calorie_calculator.domain.model.Section;
 import com.trainerapp.calorie_calculator.domain.model.Step;
 import com.trainerapp.calorie_calculator.infrastructure.persistence.entity.SectionEntity;
-import com.trainerapp.calorie_calculator.infrastructure.persistence.mapper.StepEntityMapper;
 import com.trainerapp.calorie_calculator.web.dto.request.SeasoningRequestDto;
 import com.trainerapp.calorie_calculator.web.dto.request.IngredientRequestDto;
 import com.trainerapp.calorie_calculator.web.dto.request.SectionRequestDto;
 import com.trainerapp.calorie_calculator.web.dto.request.StepRequestDto;
 import com.trainerapp.calorie_calculator.web.dto.response.SectionResponseDto;
-import com.trainerapp.calorie_calculator.application.exception.CustomIngredientNotFoundException;
+import com.trainerapp.calorie_calculator.application.exception.SeasoningNotFoundException;
 import com.trainerapp.calorie_calculator.application.exception.IngredientNotFoundException;
 import com.trainerapp.calorie_calculator.application.exception.SectionNotFoundException;
 import com.trainerapp.calorie_calculator.application.exception.StepNotFoundException;
@@ -28,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Transactional
 @RequiredArgsConstructor
@@ -38,7 +38,6 @@ public class SectionServiceImpl implements SectionService {
     private final SectionRepository sectionRepository;
     private final SectionEntityMapper sectionEntityMapper;
     private final SectionDtoMapper sectionDtoMapper;
-    private final StepEntityMapper stepEntityMapper;
     private final StepDtoMapper stepDtoMapper;
 
     private final IngredientService ingredientService;
@@ -55,18 +54,18 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public SectionResponseDto findById(Long sectionId) {
+    public SectionResponseDto findById(UUID sectionId) {
         return sectionDtoMapper.toDto(findModelById(sectionId));
     }
 
     @Override
-    public SectionEntity findEntityById(Long sectionId) {
-        return sectionRepository.findById(sectionId).orElseThrow(()
+    public SectionEntity findEntityById(UUID sectionId) {
+        return sectionRepository.findByPublicId(sectionId).orElseThrow(()
                 -> new SectionNotFoundException(sectionId));
     }
 
     @Override
-    public Section findModelById(Long sectionId) {
+    public Section findModelById(UUID sectionId) {
         return sectionEntityMapper.toModel(findEntityById(sectionId));
     }
 
@@ -101,7 +100,7 @@ public class SectionServiceImpl implements SectionService {
 
 
     @Override
-    public SectionResponseDto updateSection(Long sectionId, SectionRequestDto sectionRequestDto) {
+    public SectionResponseDto updateSection(UUID sectionId, SectionRequestDto sectionRequestDto) {
 
         Section section = findModelById(sectionId);
 
@@ -134,15 +133,15 @@ public class SectionServiceImpl implements SectionService {
 
 
     @Override
-    public void deleteSection(Long sectionId) {
-        SectionEntity section = sectionRepository.findById(sectionId)
-                .orElseThrow(() -> new SectionNotFoundException(sectionId));
+    public void deleteSection(UUID sectionId) {
+
+        SectionEntity section = this.findEntityById(sectionId);
         sectionRepository.delete(section);
     }
 
 
     @Override
-    public SectionResponseDto addIngredientToSection(Long sectionId, IngredientRequestDto ingredientRequestDto) {
+    public SectionResponseDto addIngredientToSection(UUID sectionId, IngredientRequestDto ingredientRequestDto) {
         Section section = findModelById(sectionId);
 
         Ingredient ingredient = ingredientService.create(ingredientRequestDto);
@@ -153,11 +152,12 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public SectionResponseDto removeIngredientFromSection(Long sectionId, Long ingredientId) {
+    public SectionResponseDto removeIngredientFromSection(UUID sectionId, UUID ingredientId) {
         Section section = findModelById(sectionId);
 
-        //arreglar esto para que no reciba el idddd
-        boolean removed = section.getIngredients().removeIf(i -> i.equals(ingredientId));
+        boolean removed = section
+                .getIngredients()
+                .removeIf(i -> i.getPublicId().equals(ingredientId));
 
         if (!removed) {
             throw new IngredientNotFoundException("Ingredient not found with id: " + ingredientId + " in recipe id: " + sectionId);
@@ -168,12 +168,12 @@ public class SectionServiceImpl implements SectionService {
 
 
     @Override
-    public SectionResponseDto updateIngredientInSection(Long sectionId, Long ingredientId, IngredientRequestDto newIngredientData) {
+    public SectionResponseDto updateIngredientInSection(UUID sectionId, UUID ingredientId, IngredientRequestDto newIngredientData) {
         Section section = findModelById(sectionId);
 
 
         Ingredient ingredient = section.getIngredients().stream()
-                .filter(i -> i.equals(ingredientId))
+                .filter(i -> i.getPublicId().equals(ingredientId))
                 .findFirst()
                 .orElseThrow(() -> new IngredientNotFoundException(ingredientId));
 
@@ -184,12 +184,10 @@ public class SectionServiceImpl implements SectionService {
     }
 
 
-
-
 //Seasonings
 
     @Override
-    public SectionResponseDto addSeasoningToSection(Long recipeId, Long sectionId, SeasoningRequestDto seasoningRequestDto) {
+    public SectionResponseDto addSeasoningToSection(UUID recipeId, UUID sectionId, SeasoningRequestDto seasoningRequestDto) {
         Section section = findModelById(sectionId);
 
 
@@ -200,16 +198,15 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public SectionResponseDto updateSeasoning(Long recipeId, Long sectionId, SeasoningRequestDto updatedData) {
+    public SectionResponseDto updateSeasoning(UUID recipeId, UUID sectionId, SeasoningRequestDto updatedData) {
         Section section = findModelById(sectionId);
 
 
         Seasoning seasoning = section.getSeasonings().stream()
-                .filter(i -> i.equals(sectionId))
+                .filter(i -> i.getPublicId().equals(sectionId))
                 .findFirst()
-                .orElseThrow(() -> new CustomIngredientNotFoundException(sectionId));
+                .orElseThrow(() -> new SeasoningNotFoundException(sectionId));
 
-        // Actualizar campos
         seasoningService.update(seasoning, updatedData);
 
         return sectionDtoMapper.toDto(saveSection(section));
@@ -217,14 +214,14 @@ public class SectionServiceImpl implements SectionService {
 
 
     @Override
-    public SectionResponseDto removeCustomIngredient(Long sectionId, Long customIngredientId) {
+    public SectionResponseDto removeCustomIngredient(UUID sectionId, UUID customIngredientId) {
         Section section = findModelById(sectionId);
 
 
         Seasoning ingredient = section.getSeasonings().stream()
-                .filter(i -> i.equals(customIngredientId))
+                .filter(i -> i.getPublicId().equals(customIngredientId))
                 .findFirst()
-                .orElseThrow(() -> new CustomIngredientNotFoundException(customIngredientId));
+                .orElseThrow(() -> new SeasoningNotFoundException(customIngredientId));
 
         section.getSeasonings().remove(ingredient);
 
@@ -235,7 +232,7 @@ public class SectionServiceImpl implements SectionService {
 //Steps
 
     @Override
-    public SectionResponseDto addStepToRecipe(Long sectionId, StepRequestDto stepRequestDto) {
+    public SectionResponseDto addStepToRecipe(UUID sectionId, StepRequestDto stepRequestDto) {
         Section section = findModelById(sectionId);
 
         section.getSteps().add(
@@ -245,7 +242,7 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public SectionResponseDto updateStepInRecipe(Long sectionId, Integer stepNumber, StepRequestDto stepRequestDto) {
+    public SectionResponseDto updateStepInRecipe(UUID sectionId, Integer stepNumber, StepRequestDto stepRequestDto) {
         Section section = findModelById(sectionId);
 
         Optional<Step> optionalStep = section.getSteps()
@@ -263,11 +260,17 @@ public class SectionServiceImpl implements SectionService {
     }
 
     @Override
-    public SectionResponseDto removeStepFromSection(Long sectionId, String stepDescription) {
+    public SectionResponseDto removeStepFromSection(UUID sectionId, Integer stepNumber) {
+
         Section section = findModelById(sectionId);
 
+        Step step = section.getSteps().stream()
+                .filter(s -> s.getStepNumber().equals(stepNumber))
+                .findFirst()
+                .orElseThrow(() -> new StepNotFoundException("Step not found"));
 
-        if (section.getSteps().remove(stepDescription)) {
+
+        if (section.getSteps().remove(step)) {
             return sectionDtoMapper.toDto(saveSection(section));
 
         } else {

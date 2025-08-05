@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 
     // Excepciones de tipo "NO ENCONTRADO"
     @ExceptionHandler({
-            CustomIngredientNotFoundException.class,
+            SeasoningNotFoundException.class,
             FoodNotFoundException.class,
             IngredientNotFoundException.class,
             RecipeNotFoundException.class,

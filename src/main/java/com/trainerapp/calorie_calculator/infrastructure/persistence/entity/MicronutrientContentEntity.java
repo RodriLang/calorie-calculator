@@ -9,12 +9,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Embeddable
 public class MicronutrientContentEntity {
+
+    @Column(nullable = false, unique = true)
+    private UUID publicId;
 
     @ManyToOne
     @JoinColumn(name = "micronutrient_id", nullable = false)

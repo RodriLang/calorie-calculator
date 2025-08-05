@@ -20,5 +20,6 @@ public record MicronutrientRequestDto(
 
         @NotNull(message = "El tipo de micronutriente no puede ser nulo.")
         MicronutrientType type
-) {}
+) {
+}
 

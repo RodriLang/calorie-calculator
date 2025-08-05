@@ -14,7 +14,7 @@ public record SectionRequestDto(
         String name,
 
         @NotNull(message = "La lista de ingredientes no puede ser nula.")
-        @Size (min = 1, message = "Debe contener al menos un ingrediente.")
+        @Size(min = 1, message = "Debe contener al menos un ingrediente.")
         List<IngredientRequestDto> ingredients,
 
         List<SeasoningRequestDto> seasonings,
@@ -30,4 +30,5 @@ public record SectionRequestDto(
 
         @NotNull(message = "La dificultad no puede ser nula.")
         DifficultyType difficulty
-) {}
+) {
+}

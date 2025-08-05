@@ -5,11 +5,14 @@ import com.trainerapp.calorie_calculator.domain.enums.NutritionalFunctionType;
 import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Builder(toBuilder = true)
 @AllArgsConstructor
 public class Food {
+
+    private UUID publicId;
 
     private String name;
 

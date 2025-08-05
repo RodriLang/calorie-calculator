@@ -6,13 +6,14 @@ import com.trainerapp.calorie_calculator.web.dto.request.MeasurementUnitRequestD
 import com.trainerapp.calorie_calculator.web.dto.response.MeasurementUnitResponseDto;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface MeasurementUnitService {
-    MeasurementUnitEntity findOrCreateByDataDto(Long foodId, MeasurementUnitRequestDto measurementUnit);
-    MeasurementUnitResponseDto findById(Long id);
-    MeasurementUnitEntity findEntityById(Long id);
-    MeasurementUnit findModelById(Long id);
-    List<MeasurementUnitResponseDto> findByFood(Long foodId);
+    MeasurementUnitEntity findOrCreateByDataDto(UUID foodId, MeasurementUnitRequestDto measurementUnit);
+    MeasurementUnitResponseDto findById(UUID id);
+    MeasurementUnitEntity findEntityById(UUID id);
+    MeasurementUnit findModelById(UUID id);
+    List<MeasurementUnitResponseDto> findByFood(UUID foodId);
     List<MeasurementUnitEntity> getAll();
-    void deleteMeasurementUnit(Long measurementUnitId);
+    void deleteMeasurementUnit(UUID measurementUnitId);
 }

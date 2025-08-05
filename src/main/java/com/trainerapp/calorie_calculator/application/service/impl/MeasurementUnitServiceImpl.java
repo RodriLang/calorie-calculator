@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -24,34 +25,34 @@ public class MeasurementUnitServiceImpl implements MeasurementUnitService { // I
 
 
     @Override
-    public MeasurementUnitEntity findOrCreateByDataDto(Long foodId, MeasurementUnitRequestDto measurementUnitRequestDto) {
+    public MeasurementUnitEntity findOrCreateByDataDto(UUID foodId, MeasurementUnitRequestDto measurementUnitRequestDto) {
 
-        return measurementUnitRepository.findByUnitAndFood_Id(measurementUnitRequestDto.unit(), foodId)
+        return measurementUnitRepository.findByUnitAndFood_PublicId(measurementUnitRequestDto.unit(), foodId)
                 .orElseGet(() -> measurementUnitRepository
                         .save(measurementUnitEntityMapper.toEntity(
                                 measurementUnitDtoMapper.toModel(measurementUnitRequestDto))));
     }
 
     @Override
-    public MeasurementUnitResponseDto findById(Long id) {
+    public MeasurementUnitResponseDto findById(UUID id) {
         return measurementUnitDtoMapper.toDto(
                 measurementUnitEntityMapper.toModel(findEntityById(id)));
     }
 
     @Override
-    public MeasurementUnitEntity findEntityById(Long id) {
-        return measurementUnitRepository.findById(id)
+    public MeasurementUnitEntity findEntityById(UUID id) {
+        return measurementUnitRepository.findByPublicId(id)
                 .orElseThrow(() -> new MeasurementUnitNotFoundException(id));
     }
 
     @Override
-    public MeasurementUnit findModelById(Long id) {
+    public MeasurementUnit findModelById(UUID id) {
         return measurementUnitEntityMapper.toModel(findEntityById(id));
     }
 
     @Override
-    public List<MeasurementUnitResponseDto> findByFood(Long foodId) {
-        return measurementUnitRepository.findByFood_Id(foodId)
+    public List<MeasurementUnitResponseDto> findByFood(UUID foodId) {
+        return measurementUnitRepository.findByFood_PublicId(foodId)
                 .stream()
                 .map(measurementUnitEntityMapper::toModel)
                 .map(measurementUnitDtoMapper::toDto)
@@ -64,7 +65,7 @@ public class MeasurementUnitServiceImpl implements MeasurementUnitService { // I
     }
 
     @Override
-    public void deleteMeasurementUnit(Long measurementUnitId) {
+    public void deleteMeasurementUnit(UUID measurementUnitId) {
         MeasurementUnitEntity measurementUnit = this.findEntityById(measurementUnitId);
         measurementUnitRepository.delete(measurementUnit);
     }

@@ -7,12 +7,15 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface MeasurementUnitRepository extends JpaRepository<MeasurementUnitEntity, Long> {
 
-    public Optional<MeasurementUnitEntity> findByUnitAndFood_Id(UnitType unit, Long foodId);
+    Optional<MeasurementUnitEntity> findByPublicId(UUID id);
 
-    public List<MeasurementUnitEntity> findByFood_Id(Long foodId);
+    Optional<MeasurementUnitEntity> findByUnitAndFood_PublicId(UnitType unit, UUID foodId);
+
+    List<MeasurementUnitEntity> findByFood_PublicId(UUID foodId);
 }
 

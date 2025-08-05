@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,15 +20,15 @@ public class RecipeTagController {
 
     @PutMapping("/{recipeId}/tags")
     public ResponseEntity<RecipeResponseDto> addTags(
-            @PathVariable Long recipeId,
+            @PathVariable UUID recipeId,
             @RequestBody List<TagRequestDto> tags) {
         return ResponseEntity.ok(recipeService.addTags(recipeId, tags));
     }
 
     @DeleteMapping("/{recipeId}/tags")
     public ResponseEntity<RecipeResponseDto> removeTags(
-            @PathVariable Long recipeId,
-            @RequestBody List<Long> tagIds) {
+            @PathVariable UUID recipeId,
+            @RequestBody List<UUID> tagIds) {
         return ResponseEntity.ok(recipeService.removeTags(recipeId, tagIds));
     }
 

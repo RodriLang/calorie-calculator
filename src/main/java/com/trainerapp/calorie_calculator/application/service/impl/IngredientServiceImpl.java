@@ -5,7 +5,6 @@ import com.trainerapp.calorie_calculator.application.service.MeasurementUnitServ
 import com.trainerapp.calorie_calculator.domain.model.Food;
 import com.trainerapp.calorie_calculator.domain.model.Ingredient;
 import com.trainerapp.calorie_calculator.domain.model.MeasurementUnit;
-import com.trainerapp.calorie_calculator.infrastructure.persistence.entity.MeasurementUnitEntity;
 import com.trainerapp.calorie_calculator.infrastructure.persistence.mapper.IngredientEntityMapper;
 import com.trainerapp.calorie_calculator.web.dto.request.IngredientRequestDto;
 import com.trainerapp.calorie_calculator.domain.repository.IngredientRepository;
@@ -13,6 +12,8 @@ import com.trainerapp.calorie_calculator.application.service.IngredientService; 
 import com.trainerapp.calorie_calculator.web.mapper.IngredientDtoMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -35,8 +36,8 @@ public class IngredientServiceImpl implements IngredientService { // Implementar
     }
 
     @Override
-    public Ingredient getModelById(Long id) {
-        return ingredientEntityMapper.toModel(ingredientRepository.findById(id)
+    public Ingredient getModelById(UUID id) {
+        return ingredientEntityMapper.toModel(ingredientRepository.findByPublicId(id)
                 .orElseThrow(() -> new IngredientNotFoundException(id)));
     }
 

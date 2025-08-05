@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -40,14 +41,14 @@ public class MicronutrientServiceImpl implements MicronutrientService { // Imple
     }
 
     @Override
-    public MicronutrientResponseDto getMicronutrientById(Long id) {
+    public MicronutrientResponseDto getMicronutrientById(UUID id) {
         return micronutrientDtoMapper.toDto(this.getModelById(id));
 
     }
 
     @Override
-    public MicronutrientEntity getEntityById(Long id) {
-        return micronutrientRepository.findById(id)
+    public MicronutrientEntity getEntityById(UUID id) {
+        return micronutrientRepository.findByPublicId(id)
                 .orElseThrow(() -> new MicronutrientNotFoundException(id));
     }
 
@@ -61,16 +62,15 @@ public class MicronutrientServiceImpl implements MicronutrientService { // Imple
     }
 
     @Override
-    public void deleteMicronutrientById(Long id) {
-        if (micronutrientRepository.existsById(id)) {
-            micronutrientRepository.deleteById(id);
-        } else {
-            throw new MicronutrientNotFoundException(id);
-        }
+    public void deleteMicronutrientById(UUID id) {
+
+        MicronutrientEntity micronutrientEntity = getEntityById(id);
+
+        micronutrientRepository.delete(micronutrientEntity);
     }
 
     @Override
-    public MicronutrientResponseDto update(Long id, MicronutrientRequestDto micronutrientRequestDto) {
+    public MicronutrientResponseDto update(UUID id, MicronutrientRequestDto micronutrientRequestDto) {
         Micronutrient existingMicronutrient = getModelById(id);
 
         micronutrientDtoMapper.updateFromDto(micronutrientRequestDto, existingMicronutrient.toBuilder());
@@ -84,8 +84,8 @@ public class MicronutrientServiceImpl implements MicronutrientService { // Imple
     }
 
     @Override
-    public Micronutrient getModelById(Long id) {
-        MicronutrientEntity existingMicronutrient = micronutrientRepository.findById(id)
+    public Micronutrient getModelById(UUID id) {
+        MicronutrientEntity existingMicronutrient = micronutrientRepository.findByPublicId(id)
                 .orElseThrow(() -> new MicronutrientNotFoundException(id));
         return micronutrientEntityMapper.toModel(existingMicronutrient);
     }

@@ -9,47 +9,48 @@ import com.trainerapp.calorie_calculator.web.dto.request.StepRequestDto;
 import com.trainerapp.calorie_calculator.web.dto.response.SectionResponseDto;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface SectionService {
 
 
     List<SectionResponseDto> getSections();
 
-    SectionResponseDto findById(Long sectionId);
+    SectionResponseDto findById(UUID sectionId);
 
-    SectionEntity findEntityById(Long sectionId);
+    SectionEntity findEntityById(UUID sectionId);
 
-    Section findModelById(Long sectionId);
+    Section findModelById(UUID sectionId);
 
     SectionResponseDto createSection(SectionRequestDto sectionRequestDto);
 
-    SectionResponseDto updateSection(Long sectionId, SectionRequestDto sectionRequestDto);
+    SectionResponseDto updateSection(UUID sectionId, SectionRequestDto sectionRequestDto);
 
-    void deleteSection(Long sectionId);
+    void deleteSection(UUID sectionId);
 
-    SectionResponseDto addIngredientToSection(Long sectionId, IngredientRequestDto ingredientRequestDto);
+    SectionResponseDto addIngredientToSection(UUID sectionId, IngredientRequestDto ingredientRequestDto);
 
-    SectionResponseDto removeIngredientFromSection(Long sectionId, Long ingredientId);
+    SectionResponseDto removeIngredientFromSection(UUID sectionId, UUID ingredientId);
 
 
-    SectionResponseDto updateIngredientInSection(Long recipeId, Long ingredientId, IngredientRequestDto newIngredientData);
+    SectionResponseDto updateIngredientInSection(UUID recipeId, UUID ingredientId, IngredientRequestDto newIngredientData);
 
 
 //Seasonings
 
-    SectionResponseDto addSeasoningToSection(Long recipeId, Long sectionId, SeasoningRequestDto seasoningRequestDto);
+    SectionResponseDto addSeasoningToSection(UUID recipeId, UUID sectionId, SeasoningRequestDto seasoningRequestDto);
 
-    SectionResponseDto updateSeasoning(Long recipeId, Long customIngredientId, SeasoningRequestDto updatedData);
+    SectionResponseDto updateSeasoning(UUID recipeId, UUID customIngredientId, SeasoningRequestDto updatedData);
 
-    SectionResponseDto removeCustomIngredient(Long recipeId, Long customIngredientId);
+    SectionResponseDto removeCustomIngredient(UUID recipeId, UUID customIngredientId);
 
 
 //Steps
 
-    SectionResponseDto addStepToRecipe(Long sectionId, StepRequestDto stepRequestDto);
+    SectionResponseDto addStepToRecipe(UUID sectionId, StepRequestDto stepRequestDto);
 
-    SectionResponseDto updateStepInRecipe(Long sectionId, Integer stepNumber, StepRequestDto stepRequestDto);
+    SectionResponseDto updateStepInRecipe(UUID sectionId, Integer stepNumber, StepRequestDto stepRequestDto);
 
-    SectionResponseDto removeStepFromSection(Long recipeId, String stepDescription);
+    SectionResponseDto removeStepFromSection(UUID recipeId, Integer stepNumber);
 
 }

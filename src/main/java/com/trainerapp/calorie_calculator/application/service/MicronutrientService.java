@@ -6,15 +6,16 @@ import com.trainerapp.calorie_calculator.web.dto.request.MicronutrientRequestDto
 import com.trainerapp.calorie_calculator.web.dto.response.MicronutrientResponseDto;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface MicronutrientService {
     Micronutrient getModelByName(String name);
-    Micronutrient getModelById(Long id);
+    Micronutrient getModelById(UUID id);
     List<MicronutrientEntity> getMicronutrients();
     MicronutrientResponseDto createMicronutrient(MicronutrientRequestDto micronutrientRequestDto);
-    MicronutrientResponseDto getMicronutrientById(Long id);
-    MicronutrientEntity getEntityById(Long id);
+    MicronutrientResponseDto getMicronutrientById(UUID id);
+    MicronutrientEntity getEntityById(UUID id);
     List<MicronutrientResponseDto> getAllMicronutrients();
-    void deleteMicronutrientById(Long id);
-    MicronutrientResponseDto update(Long id, MicronutrientRequestDto micronutrientRequestDto);
+    void deleteMicronutrientById(UUID id);
+    MicronutrientResponseDto update(UUID id, MicronutrientRequestDto micronutrientRequestDto);
 }

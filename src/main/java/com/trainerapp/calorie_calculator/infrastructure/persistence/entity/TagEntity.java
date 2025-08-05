@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,11 +16,17 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "tags")
 public class TagEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private UUID publicId;
+
     @Column(unique = true, nullable = false)
     private String label;
+
     @Enumerated(EnumType.STRING)
     private TagType tagType;
 }

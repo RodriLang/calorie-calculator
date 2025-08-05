@@ -2,10 +2,14 @@ package com.trainerapp.calorie_calculator.domain.model;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @Getter
 @Builder(toBuilder = true)
 @AllArgsConstructor
 public class Ingredient {
+
+    private UUID publicId;
 
     private Food food;
 

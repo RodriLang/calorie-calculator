@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/recipes")
@@ -21,7 +22,7 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}")
-    public RecipeResponseDto getRecipeById(@PathVariable Long id) {
+    public RecipeResponseDto getRecipeById(@PathVariable UUID id) {
         return recipeService.getRecipeById(id);
     }
 
@@ -31,12 +32,12 @@ public class RecipeController {
     }
 
     @PutMapping("/{id}")
-    public RecipeResponseDto updateRecipe(@PathVariable Long id, @RequestBody RecipeRequestDto recipeRequestDto) {
+    public RecipeResponseDto updateRecipe(@PathVariable UUID id, @RequestBody RecipeRequestDto recipeRequestDto) {
         return recipeService.updateRecipe(id, recipeRequestDto);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteRecipe(@PathVariable Long id) {
+    public void deleteRecipe(@PathVariable UUID id) {
         recipeService.deleteRecipe(id);
     }
 }

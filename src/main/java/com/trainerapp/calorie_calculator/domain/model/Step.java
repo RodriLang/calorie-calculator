@@ -8,6 +8,8 @@ import lombok.*;
 public class Step {
 
     private Integer stepNumber;
+
     private String label;
+
     private String instructions;
 }

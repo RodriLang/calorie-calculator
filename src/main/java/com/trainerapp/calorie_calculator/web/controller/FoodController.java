@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/calorie-calculator/foods")
@@ -34,7 +35,7 @@ public class FoodController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FoodResponseDto> getById(@PathVariable Long id) {
+    public ResponseEntity<FoodResponseDto> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(foodService.getById(id));
     }
 
@@ -53,13 +54,13 @@ public class FoodController {
     @PutMapping("/{id}")
     public ResponseEntity<FoodResponseDto> update(
             @Validated(OnUpdate.class)
-            @PathVariable Long id,
+            @PathVariable UUID id,
             @RequestBody FoodRequestDto foodRequestDto) {
         return ResponseEntity.ok(foodService.update(id, foodRequestDto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         foodService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

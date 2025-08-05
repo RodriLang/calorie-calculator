@@ -1,8 +1,15 @@
 package com.trainerapp.calorie_calculator.web.dto.response;
 
+import java.util.UUID;
+
 public record MeasurementUnitResponseDto(
-        Long id,
+
+        UUID id,
+
         Long foodId,
+
         String unit,
-        Double gramsPerUnit) {
+
+        Double gramsPerUnit
+) {
 }

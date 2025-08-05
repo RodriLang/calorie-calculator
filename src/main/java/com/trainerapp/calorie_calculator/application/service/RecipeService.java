@@ -7,25 +7,27 @@ import com.trainerapp.calorie_calculator.web.dto.request.TagRequestDto;
 import com.trainerapp.calorie_calculator.web.dto.response.RecipeResponseDto;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface RecipeService {
+
     List<RecipeResponseDto> getAllRecipes();
 
-    Recipe getModelById(Long id);
+    Recipe getModelById(UUID id);
 
-    RecipeResponseDto getRecipeById(Long id);
+    RecipeResponseDto getRecipeById(UUID id);
 
     RecipeResponseDto createRecipe(RecipeRequestDto recipeRequestDto);
 
-    RecipeResponseDto updateRecipe(Long recipeId, RecipeRequestDto recipeRequestDto);
+    RecipeResponseDto updateRecipe(UUID recipeId, RecipeRequestDto recipeRequestDto);
 
-    void deleteRecipe(Long recipeId);
+    void deleteRecipe(UUID recipeId);
 
-    RecipeResponseDto addSectionToRecipe(Long recipeId, SectionRequestDto sectionRequestDto);
+    RecipeResponseDto addSectionToRecipe(UUID recipeId, SectionRequestDto sectionRequestDto);
 
-    RecipeResponseDto removeSectionFromRecipe(Long recipeId, Long sectionId);
+    RecipeResponseDto removeSectionFromRecipe(UUID recipeId, UUID sectionId);
 
-    RecipeResponseDto addTags(Long recipeId, List<TagRequestDto> tagsData);
+    RecipeResponseDto addTags(UUID recipeId, List<TagRequestDto> tagsData);
 
-    RecipeResponseDto removeTags(Long recipeId, List<Long> tagIds);
+    RecipeResponseDto removeTags(UUID recipeId, List<UUID> tagIds);
 }

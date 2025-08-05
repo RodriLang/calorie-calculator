@@ -9,22 +9,39 @@ import com.trainerapp.calorie_calculator.web.dto.request.MicronutrientContentReq
 import com.trainerapp.calorie_calculator.domain.enums.FoodOriginType;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface FoodService {
+
     List<FoodResponseDto> getAll();
-    FoodResponseDto getById(long id);
+
+    FoodResponseDto getById(UUID id);
+
     FoodResponseDto create(FoodRequestDto food);
-    void deleteById(long id);
-    FoodResponseDto update(Long id, FoodRequestDto updatedFood);
+
+    void deleteById(UUID id);
+
+    FoodResponseDto update(UUID id, FoodRequestDto updatedFood);
+
     List<FoodResponseDto> findByCaloriesBetween(Integer calories1, Integer calories2);
+
     List<FoodResponseDto> findByFoodOrigin(FoodOriginType foodOriginType);
-    FoodResponseDto addMicronutrient(Long id, MicronutrientContentRequestDto micronutrientContent);
-    FoodResponseDto addOrUpdateMicronutrients(Long id, List<MicronutrientContentRequestDto> micronutrientContents);
-    void removeMicronutrient(Long foodId, Long micronutrientId);
-    void removeMicronutrients(Long foodId, List<Long> micronutrientIds);
+
+    FoodResponseDto addMicronutrient(UUID id, MicronutrientContentRequestDto micronutrientContent);
+
+    FoodResponseDto addOrUpdateMicronutrients(UUID id, List<MicronutrientContentRequestDto> micronutrientContents);
+
+    void removeMicronutrient(UUID foodId, UUID micronutrientId);
+
+    void removeMicronutrients(UUID foodId, List<UUID> micronutrientIds);
+
     FoodResponseDto addMeasurementUnit(MeasurementUnitRequestDto unitDto);
-    FoodResponseDto addTags(Long foodId, List<TagRequestDto> tagsData);
-    FoodResponseDto removeTags(Long foodId, List<Long> tagIds);
-    FoodResponseDto removeMeasurementUnit(Long unitId);
-    Food findModelById(Long id);
+
+    FoodResponseDto addTags(UUID foodId, List<TagRequestDto> tagsData);
+
+    FoodResponseDto removeTags(UUID foodId, List<UUID> tagIds);
+
+    FoodResponseDto removeMeasurementUnit(UUID unitId);
+
+    Food findModelById(UUID id);
 }

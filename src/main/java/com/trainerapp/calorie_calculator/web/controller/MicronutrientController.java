@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,18 +28,18 @@ public class MicronutrientController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<MicronutrientResponseDto> getById(@PathVariable Long id) {
+    public ResponseEntity<MicronutrientResponseDto> getById(@PathVariable UUID id) {
         return ResponseEntity.ok(micronutrientService.getMicronutrientById(id));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<MicronutrientResponseDto> update(@PathVariable Long id,
+    public ResponseEntity<MicronutrientResponseDto> update(@PathVariable UUID id,
                                                            @RequestBody MicronutrientRequestDto micronutrientData) {
         return ResponseEntity.ok(micronutrientService.update(id, micronutrientData));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
         micronutrientService.deleteMicronutrientById(id);
         return ResponseEntity.noContent().build();
     }
