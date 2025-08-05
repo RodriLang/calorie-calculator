@@ -1,0 +1,53 @@
+package com.trainerapp.calorie_calculator.infrastructure.persistence.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
+@Table(name = "recipes")
+public class RecipeEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column
+    private String description;
+
+    @Column
+    private String imageUrl;
+
+    @Column
+    private String preparationTime;
+
+    @Column
+    private Integer servings;
+
+    @ManyToMany
+    @JoinTable(
+            name = "recipes_sections",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "section_id")
+    )
+    private List<SectionEntity> sections;
+
+    @ManyToMany
+    @JoinTable(
+            name = "recipes_tags",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private List<TagEntity> tagList;
+
+}

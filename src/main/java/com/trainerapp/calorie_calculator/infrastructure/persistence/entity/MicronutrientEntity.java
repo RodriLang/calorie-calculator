@@ -1,0 +1,35 @@
+package com.trainerapp.calorie_calculator.infrastructure.persistence.entity;
+
+import com.trainerapp.calorie_calculator.domain.enums.MicronutrientType;
+import com.trainerapp.calorie_calculator.domain.enums.UnitType;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "micronutrients") // Especifica el nombre de la tabla
+public class MicronutrientEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String name;
+
+    @Column
+    private Double dailyAmount;
+
+    @Enumerated(EnumType.STRING)
+    private UnitType unit;
+
+    @Enumerated(EnumType.STRING)
+    private MicronutrientType type;
+
+}
